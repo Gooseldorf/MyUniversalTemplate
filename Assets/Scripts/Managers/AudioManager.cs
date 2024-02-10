@@ -159,17 +159,17 @@ public class AudioManager : MonoBehaviour
     
     private void CheckSources()
     {
-        if (menuSource == null) Debug.LogError($"{name} Menu source is null!");
-        if (gameSource == null) Debug.LogError($"{name} Game source is null!");
-        if (ambientSource == null) Debug.LogError($"{name} Ambient source is null!");
-        if (backgroundSource == null) Debug.LogError($"{name} Background source is null!");
+        if (menuSource == null) Debug.LogWarning($"{name} Menu source is null!");
+        if (gameSource == null) Debug.LogWarning($"{name} Game source is null!");
+        if (ambientSource == null) Debug.LogWarning($"{name} Ambient source is null!");
+        if (backgroundSource == null) Debug.LogWarning($"{name} Background source is null!");
     }
 
     private void CheckSounds()
     {
         if (menuSounds.Count == 0) Debug.LogWarning($"{name} No audio in menuSounds!");
-        if (menuSounds.Count == 0) Debug.LogError($"{name} No audio in gameSounds!");
-        if (ambientSounds.Count == 0) Debug.LogError($"{name} No audio in ambientSounds!");
-        if (menuSounds.Count == 0) Debug.LogError($"{name} No audio in backgroundSounds!");
+        if (menuSounds.Count == 0) Debug.LogWarning($"{name} No audio in gameSounds!");
+        if (ambientSounds.Count == 0) Debug.LogWarning($"{name} No audio in ambientSounds!");
+        if (menuSounds.Count == 0) Debug.LogWarning($"{name} No audio in backgroundSounds!");
     }
 }
