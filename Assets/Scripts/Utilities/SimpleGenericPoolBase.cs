@@ -3,13 +3,12 @@ using UnityEngine.Pool;
 
 namespace Utilities
 {
-    public class SimpleGenericPool<T>: MonoBehaviour where T: Component
+    public class SimpleGenericPoolBase<T>: MonoBehaviour where T: Component
     {
         [SerializeField] private protected T prefab;
         [SerializeField] private protected int poolSize;
 
         public ObjectPool<T> ObjPool { get; private set; }
-
 
         private void Awake()
         {

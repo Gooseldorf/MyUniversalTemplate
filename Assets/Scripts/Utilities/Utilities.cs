@@ -10,38 +10,13 @@ namespace Utilities
 {
     public static class Utilities
     {
-        static float spare;
-        static bool hasSpare;
+        private static float spare;
+        private static bool hasSpare;
+        private static readonly System.Random rnd = new System.Random();
+        
+        public static float NextGaussian(float mean, float stdDev) => mean + GetNormalDistribution() * stdDev;
 
-        public static float NextGaussian(float mean, float stdDev)
-        {
-            return mean + GetNormalDistribution() * stdDev;
-        }
-
-        private static System.Random rng = new System.Random();
-
-        public static void Shuffle<T>(this IList<T> list)
-        {
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                (list[k], list[n]) = (list[n], list[k]);
-            }
-        }
-        public static List<T> GetFlagValues<T>(T f) where T : Enum
-        {
-            List<T> flags = new List<T>();
-            foreach (T flag in Enum.GetValues(typeof(T)))
-            {
-                if (f.HasFlag(flag))
-                    flags.Add(flag);
-            }
-            return flags;
-        }
-
-        public static float GetNormalDistribution()
+        private static float GetNormalDistribution()
         {
             if (hasSpare)
             {
@@ -55,12 +30,34 @@ namespace Utilities
                 v1 = 2 * Random.value - 1;
                 v2 = 2 * Random.value - 1;
                 s = v1 * v1 + v2 * v2;
-            } while (s >= 1 || s == 0);
+            } while (s is >= 1 or 0);
 
             s = Mathf.Sqrt((-2.0f * Mathf.Log(s)) / s);
             spare = v2 * s;
             hasSpare = true;
             return v1 * s;
+        }
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rnd.Next(n + 1);
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+        }
+
+        public static List<T> GetFlagValues<T>(T f) where T : Enum
+        {
+            List<T> flags = new List<T>();
+            foreach (T flag in Enum.GetValues(typeof(T)))
+            {
+                if (f.HasFlag(flag))
+                    flags.Add(flag);
+            }
+            return flags;
         }
 
         public static float3 ToFloat3(this float2 source) => new float3(source, 0);
@@ -169,7 +166,7 @@ namespace Utilities
         /// <param name="endPoint"></param>
         /// <param name="t"> normalized arc part 0.3 => 30% of arc  (0;1) </param>
         /// <returns></returns>
-        public static float GetBezierLength(float2 start, float2 offset, float2 endPoint, float t = 1) // get arclength from parameter t=<0,1>
+        public static float GetBezierLength(float2 start, float2 offset, float2 endPoint, float t = 1) 
         {
             float bigA, bigB, bigC, b, c, u, k, length;
             float2 aPoint = start - 2 * offset + endPoint;

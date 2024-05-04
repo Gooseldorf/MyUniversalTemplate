@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure
+﻿namespace Infrastructure.States
 {
     public class LoadLevelState : IStateWithArg<string>
     {

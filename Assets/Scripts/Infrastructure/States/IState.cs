@@ -1,4 +1,4 @@
-﻿namespace Infrastructure
+﻿namespace Infrastructure.States
 {
     public interface IState
     {
@@ -14,5 +14,4 @@
     {
         void Enter(TArg arg);
     }
-    
 }
