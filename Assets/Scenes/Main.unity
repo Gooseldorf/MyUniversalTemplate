@@ -1028,6 +1028,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MobileInputUI
       objectReference: {fileID: 0}
+    - target: {fileID: 538721343233393714, guid: a984c2bfb23b47742b6f7197ac8132b3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4101528192197862011, guid: a984c2bfb23b47742b6f7197ac8132b3,
         type: 3}
       propertyPath: m_Pivot.x
