@@ -1,13 +1,13 @@
-﻿namespace Infrastructure.States
+﻿using Zenject;
+
+namespace Infrastructure.States
 {
     public class LoadLevelState : IStateWithArg<string>
     {
-        private readonly GameStateMachine stateMachine;
         private readonly SceneLoader sceneLoader;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public LoadLevelState(SceneLoader sceneLoader)
         {
-            this.stateMachine = stateMachine;
             this.sceneLoader = sceneLoader;
         }
 

@@ -1,5 +1,6 @@
 ﻿using Infrastructure.AssetManagement;
 using UnityEngine;
+using Zenject;
 
 namespace Infrastructure.Factories
 {
@@ -7,9 +8,10 @@ namespace Infrastructure.Factories
     {
         private readonly IAssetProvider assets;
 
-        public GameFactory(IAssetProvider assets)
+        [Inject]
+        public GameFactory(IAssetProvider assetProvider)
         {
-            this.assets = assets;
+            assets = assetProvider;
         }
 
         public GameObject CreatePlayer(GameObject at) => assets.Instantiate(AssetPaths.PlayerPath, at.transform.position);

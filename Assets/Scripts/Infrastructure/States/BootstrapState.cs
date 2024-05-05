@@ -1,17 +1,11 @@
-﻿using Infrastructure.AssetManagement;
-using Infrastructure.Factories;
-using Infrastructure.Services;
-using Infrastructure.Services.Input;
-
-namespace Infrastructure.States
+﻿namespace Infrastructure.States
 {
     public class BootstrapState : IStateNoArg
     {
-        private const string BootstrapSceneName = "Initial";
+        private const string BootstrapSceneName = "Bootstrap";
         
         private readonly GameStateMachine stateMachine;
         private readonly SceneLoader sceneLoader;
-        private AllServices container;
         
         public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
         {
@@ -21,24 +15,13 @@ namespace Infrastructure.States
         
         public void Enter()
         {
-            container = AllServices.Container;
-            RegisterServices();
-            sceneLoader.Load(BootstrapSceneName, EnterLoadLevel);
+            sceneLoader.Load(BootstrapSceneName, EnterLoadMenu);
         }
         public void Exit()
         {
             
         }
-        
-        private void RegisterServices()
-        {
-            container.RegisterSingle(new InputService());
-            container.RegisterSingle(new AssetProvider());
-            container.RegisterSingle(new GameFactory(container.Single<AssetProvider>()));
-            
-            //TODO: Register input service
-        }
-        
-        private void EnterLoadLevel() => stateMachine.Enter<LoadLevelState, string>("Main");
+
+        private void EnterLoadMenu() => stateMachine.Enter<LoadMenuState>();
     }
 }
