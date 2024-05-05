@@ -1,7 +1,6 @@
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
-using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.DI
@@ -10,9 +9,9 @@ namespace Infrastructure.DI
     {
         public override void InstallBindings()
         {
-            Container.Bind<IInputService>().To<InputService>().AsSingle().NonLazy();
-            Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
             Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
+            Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
+            Container.Bind<IInputService>().To<InputService>().AsSingle();
         }
     }
 }

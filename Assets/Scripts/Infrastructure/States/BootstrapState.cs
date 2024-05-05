@@ -2,7 +2,7 @@
 {
     public class BootstrapState : IStateNoArg
     {
-        private const string BootstrapSceneName = "Initial";
+        private const string BootstrapSceneName = "Bootstrap";
         
         private readonly GameStateMachine stateMachine;
         private readonly SceneLoader sceneLoader;
@@ -15,13 +15,13 @@
         
         public void Enter()
         {
-            sceneLoader.Load(BootstrapSceneName, EnterLoadLevel);
+            sceneLoader.Load(BootstrapSceneName, EnterLoadMenu);
         }
         public void Exit()
         {
             
         }
-        
-        private void EnterLoadLevel() => stateMachine.Enter<LoadLevelState, string>("Main");
+
+        private void EnterLoadMenu() => stateMachine.Enter<LoadMenuState>();
     }
 }
