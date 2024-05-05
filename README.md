@@ -2,6 +2,8 @@ Hello and welcome to my Template Repository!
 
 This repository serves as a hub for various test assignments and freelance projects. Each project is organized into branches, making it easy to navigate and explore different tasks and assignments.
 
+Please note that this repository is continuously being improved through rework and refactoring!
+
 Thank you for visiting! Don't hesitate to reach out if you have any questions or collaboration ideas. 
 
 [LinkedIn](https://www.linkedin.com/in/gooseldorf/)
