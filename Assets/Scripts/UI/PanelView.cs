@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Views
+namespace UI
 {
-    public class PanelView: MonoBehaviour
+    public class PanelViewBase : MonoBehaviour
     {
         
     }
