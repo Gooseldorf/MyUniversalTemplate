@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Infrastructure
 {
-    public class Bootstraper: MonoBehaviour, ICoroutineRunner
+    public class Bootstraper: MonoBehaviour
     {
         private Game game;
 
         private void Awake()
         {
-            game = new Game(this);
+            game = new Game();
             game.StateMachine.Enter<BootstrapState>();
             
             DontDestroyOnLoad(this);

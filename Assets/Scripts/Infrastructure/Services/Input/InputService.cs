@@ -12,8 +12,6 @@ namespace Infrastructure.Services.Input
         {
             controls = new Controls();
             controls.Enable();
-
-            Subscribe();
         }
 
         public float Move1DValue => controls.Game.Movement1D.ReadValue<float>();
