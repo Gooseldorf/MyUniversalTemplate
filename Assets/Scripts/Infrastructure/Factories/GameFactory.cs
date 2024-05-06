@@ -14,7 +14,7 @@ namespace Infrastructure.Factories
             assets = assetProvider;
         }
 
-        public GameObject CreatePlayer(GameObject at) => assets.Instantiate(AssetPaths.PlayerPath, at.transform.position);
+        public GameObject CreatePlayer(GameObject at) => assets.Instantiate(AssetPaths.PlayerPath);
         public void InstantiateHUD() => assets.Instantiate(AssetPaths.HUDPath);
     }
 }

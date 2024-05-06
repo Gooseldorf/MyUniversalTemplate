@@ -9,9 +9,7 @@ namespace Infrastructure.DI
     {
         public override void InstallBindings()
         {
-            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
             Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
-            Container.Bind<IInputService>().To<InputService>().AsSingle();
         }
     }
 }

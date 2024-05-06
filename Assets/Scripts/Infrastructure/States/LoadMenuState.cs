@@ -1,32 +1,36 @@
-﻿using UnityEngine;
+﻿using Infrastructure.Factories;
+using UI;
 
 namespace Infrastructure.States
 {
     public class LoadMenuState: IStateNoArg
     {
-        private const string MenuSceneName = "Menu";
-        
         private readonly SceneLoader sceneLoader;
-        
-        public LoadMenuState(SceneLoader sceneLoader)
+        private readonly MainStateMachine stateMachine;
+        private readonly MenuFactory menuFactory;
+            
+        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, MenuFactory menuFactory)
         {
             this.sceneLoader = sceneLoader;
+            this.stateMachine = stateMachine;
+            this.menuFactory = menuFactory;
         }
 
         public void Enter()
         {
-            sceneLoader.Load(MenuSceneName, OnLoad);
-            Debug.Log($"{nameof(LoadMenuState)} Enter");
+            sceneLoader.Load(Constants.MENU_SCENE_NAME, OnLoad);
         }
 
-        private void OnLoad()
+        private async void OnLoad()
         {
-            Debug.Log($"{nameof(LoadMenuState)} OnLoad");
+            MenuPanelView menuView = await menuFactory.CreateMenu();
+            MenuController controller = new MenuController(stateMachine, menuView);
+            
+            stateMachine.Enter<MenuState, IMenuController>(controller);
         }
 
         public void Exit()
         {
-            Debug.Log($"{nameof(LoadMenuState)} Exit");
         }
     }
 }

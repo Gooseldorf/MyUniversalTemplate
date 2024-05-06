@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class ButtonViewBase: MonoBehaviour
+    public abstract class ButtonViewBase: MonoBehaviour
     {
         [SerializeField] private protected Button Button;
         
@@ -15,7 +15,10 @@ namespace UI
 
         private void Start()
         {
-            Button.OnClickAsObservable().Subscribe(_ => onClickSubject.OnNext(Unit.Default)).AddTo(this);
+            if(Button!=null) 
+                Button.OnClickAsObservable().Subscribe(_ => onClickSubject.OnNext(Unit.Default)).AddTo(this);
+            else
+                Debug.LogError($"{GetType()} no button component!");
         }
     }
 }

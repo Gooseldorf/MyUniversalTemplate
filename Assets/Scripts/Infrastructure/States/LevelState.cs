@@ -4,12 +4,12 @@
     {
         public void Enter(string arg)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

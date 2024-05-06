@@ -2,7 +2,7 @@
 
 namespace UI
 {
-    public class WindowView: MonoBehaviour
+    public abstract class WindowViewBase: MonoBehaviour
     {
         
     }

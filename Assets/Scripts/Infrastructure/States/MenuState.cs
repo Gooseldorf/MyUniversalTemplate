@@ -1,15 +1,26 @@
-﻿namespace Infrastructure.States
+﻿using UI;
+
+namespace Infrastructure.States
 {
-    public class MenuState : IStateNoArg
+    public class MenuState : IStateWithArg<IMenuController>
     {
-        public void Enter()
+        private readonly MainStateMachine stateMachine;
+        private IMenuController menuController;
+
+        public MenuState(MainStateMachine mainStateMachine)
         {
-            throw new System.NotImplementedException();
+            stateMachine = mainStateMachine;
+        }
+
+        public void Enter(IMenuController menuController)
+        {
+            this.menuController = menuController;
+            menuController.Init();
         }
 
         public void Exit()
         {
-            throw new System.NotImplementedException();
+            menuController.Dispose();
         }
     }
 }

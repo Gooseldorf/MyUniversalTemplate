@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using Infrastructure.AssetManagement;
+using Infrastructure.Factories;
 using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.States
 {
-    public class GameStateMachine
+    public class MainStateMachine
     {
         private readonly Dictionary<Type, IState> states;
         private IState currentState;
 
         [Inject]
-        public GameStateMachine(SceneLoader sceneLoader)
+        public MainStateMachine(SceneLoader sceneLoader, IAssetProvider assetProvider)
         {
             states = new Dictionary<Type, IState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadMenuState)] = new LoadMenuState(sceneLoader),
-                [typeof(MenuState)] = new MenuState(),
+                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, new MenuFactory(assetProvider)),
+                [typeof(MenuState)] = new MenuState(this),
                 [typeof(LoadLevelState)] = new LoadLevelState(sceneLoader),
-                [typeof(LevelState)] = new LevelState()
+                [typeof(LevelState)] = new LevelState(),
+                [typeof(QuitState)] = new QuitState()
             };
         }
 

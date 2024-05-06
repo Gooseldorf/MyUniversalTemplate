@@ -2,7 +2,7 @@
 
 namespace UI
 {
-    public class PanelViewBase : MonoBehaviour
+    public abstract class PanelViewBase : MonoBehaviour
     {
         
     }

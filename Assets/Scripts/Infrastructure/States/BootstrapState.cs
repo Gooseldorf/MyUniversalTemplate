@@ -2,12 +2,10 @@
 {
     public class BootstrapState : IStateNoArg
     {
-        private const string BootstrapSceneName = "Bootstrap";
-        
-        private readonly GameStateMachine stateMachine;
+        private readonly MainStateMachine stateMachine;
         private readonly SceneLoader sceneLoader;
         
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(MainStateMachine stateMachine, SceneLoader sceneLoader)
         {
             this.stateMachine = stateMachine;
             this.sceneLoader = sceneLoader;
@@ -15,7 +13,7 @@
         
         public void Enter()
         {
-            sceneLoader.Load(BootstrapSceneName, EnterLoadMenu);
+            sceneLoader.Load(Constants.BOOTSTRAP_SCENE_NAME, EnterLoadMenu);
         }
         public void Exit()
         {

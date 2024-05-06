@@ -7,21 +7,16 @@ using UI;
 public class MenuButtonView : ButtonViewBase
 {
     public TextMeshProUGUI Text;
+    public new IObservable<Unit> OnClickAsObservable => onClickSubject;
     
     private readonly Subject<Unit> onClickSubject = new Subject<Unit>();
-    public new IObservable<Unit> OnClickAsObservable => onClickSubject;
 
     private void Start()
     {
-        // Here we subscribe our button's onClick event to our subject.
         Button.OnClickAsObservable().Subscribe(_ => onClickSubject.OnNext(Unit.Default)).AddTo(this);
-        OnClickAsObservable.Subscribe(_ => Debug.Log("Button was clicked"));
     }
     
-    public void SetText()
-    {
-        
-    }
+    public void SetText(string text) => Text.text = text;
 
     public void Init()
     {
