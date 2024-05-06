@@ -16,6 +16,7 @@ namespace Infrastructure.Services.Input
         public IObservable<bool> AttackStream { get; private set;}
         public IObservable<bool> InteractStream { get; private set;}
         public IObservable<bool> TestStream { get; private set;}
+        public IObservable<bool> PauseStream { get; private set; }
 
         public InputService()
         {
@@ -38,6 +39,7 @@ namespace Infrastructure.Services.Input
             CrouchStream = controls.Game.Crouch.GeneratePerformObservable((ctx) => controls.Game.Crouch.ReadValue<float>() > 0);
             InteractStream = controls.Game.Interact.GeneratePerformObservable((ctx) => controls.Game.Interact.ReadValue<float>() > 0);
             TestStream = controls.Game.TEST.GeneratePerformObservable((ctx) => controls.Game.TEST.ReadValue<float>() > 0);
+            PauseStream = controls.Game.Pause.GeneratePerformObservable((ctx) => controls.Game.Pause.ReadValue<float>() > 0);
         }
         
         public void Dispose() => controls?.Dispose();

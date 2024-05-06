@@ -1,20 +1,21 @@
-﻿using UnityEditor;
+﻿using Infrastructure;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 
 public static class SceneMenu
 {
-    private const string BOOTSTRAP_SCENE_PATH = "Assets/Scenes/Bootstrap.unity";
-    private const string MAIN_MENU_PATH =  "Assets/Scenes/Menu.unity";
-    private const string GAME_SCENE_PATH = "Assets/Scenes/Level.unity";
+    private static readonly string BootstrapScenePath = $"Assets/Scenes/{Constants.BOOTSTRAP_SCENE_NAME}.unity";
+    private static readonly string MainMenuPath =  $"Assets/Scenes/{Constants.MENU_SCENE_NAME}.unity";
+    private static readonly string GameScenePath = $"Assets/Scenes/{Constants.GAME_SCENE_NAME}.unity";
 
     [MenuItem("Scene/Open Menu Scene")]
-    private static void OpenMainMenuScene() => OpenScene(MAIN_MENU_PATH);
+    private static void OpenMainMenuScene() => OpenScene(MainMenuPath);
 
     [MenuItem("Scene/Open Game Scene")]
-    private static void OpenGameScene() => OpenScene(GAME_SCENE_PATH);
+    private static void OpenGameScene() => OpenScene(GameScenePath);
         
     [MenuItem("Scene/Open Bootstrap Scene")]
-    private static void OpenRoguelikeGameScene() => OpenScene(BOOTSTRAP_SCENE_PATH);
+    private static void OpenRoguelikeGameScene() => OpenScene(BootstrapScenePath);
 
     private static void OpenScene(string sceneName)
     {

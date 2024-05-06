@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using UI;
+using UI.Menu;
 using UnityEngine;
 using Zenject;
 

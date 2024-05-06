@@ -14,6 +14,7 @@ namespace Infrastructure.Services.Input
         IObservable<bool> AttackStream { get; }
         IObservable<bool> InteractStream { get; }
         IObservable<bool> TestStream { get; }
+        IObservable<bool> PauseStream { get; }
         
         void Dispose();
     }

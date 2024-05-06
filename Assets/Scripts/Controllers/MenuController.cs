@@ -1,8 +1,11 @@
 ﻿using Infrastructure;
 using Infrastructure.States;
+using UI;
+using UI.Menu;
 using UniRx;
+using UnityEngine;
 
-namespace UI
+namespace Controllers
 {
     public class MenuController : IMenuController
     {
@@ -37,14 +40,14 @@ namespace UI
 
         private void StartGame()
         {
-            mainStateMachine.Enter<LoadLevelState, string>(Constants.LEVEL_SCENE_NAME);
+            mainStateMachine.Enter<LoadLevelState, string>(Constants.GAME_SCENE_NAME);
         }
 
         private void OnSettingsClick(Unit unit) => OpenSettings();
 
         private void OpenSettings()
         {
-            
+            Debug.Log("Settings");
         }
 
         private void OnExitClick(Unit unit) => Exit();

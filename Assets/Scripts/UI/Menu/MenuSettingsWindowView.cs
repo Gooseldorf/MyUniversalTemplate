@@ -1,6 +1,4 @@
-﻿using UI;
-
-namespace Infrastructure.DI
+﻿namespace UI.Menu
 {
     public class MenuSettingsWindowView : WindowViewBase
     {

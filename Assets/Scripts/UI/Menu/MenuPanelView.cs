@@ -1,4 +1,4 @@
-﻿namespace UI
+﻿namespace UI.Menu
 {
     public class MenuPanelView: PanelViewBase
     {
