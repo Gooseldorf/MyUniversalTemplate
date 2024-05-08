@@ -11,14 +11,14 @@ namespace Infrastructure.States
         private readonly Dictionary<Type, IState> states;
         private IState currentState;
         
-        public MainStateMachine(SceneLoader sceneLoader, IAssetProvider assetProvider, IInputService inputService)
+        public MainStateMachine(SceneLoader sceneLoader)
         {
             states = new Dictionary<Type, IState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, new MenuFactory(assetProvider)),
+                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader),
                 [typeof(MenuState)] = new MenuState(this),
-                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, new GameFactory(assetProvider), inputService),
+                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader),
                 [typeof(GameState)] = new GameState(),
                 [typeof(QuitState)] = new QuitState()
             };

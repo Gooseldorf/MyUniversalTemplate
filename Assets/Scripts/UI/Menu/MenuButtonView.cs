@@ -7,7 +7,7 @@ namespace UI.Menu
     public class MenuButtonView : ButtonViewBase
     {
         public TextMeshProUGUI Text;
-        public new IObservable<Unit> OnClickAsObservable => onClickSubject;
+        public IObservable<Unit> OnClickAsObservable => onClickSubject;
     
         private readonly Subject<Unit> onClickSubject = new Subject<Unit>();
 

@@ -1,7 +1,9 @@
 ﻿using Controllers;
+using Infrastructure.DI;
 using Infrastructure.Factories;
 using UI;
 using UI.Menu;
+using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.States
@@ -10,14 +12,12 @@ namespace Infrastructure.States
     {
         private readonly SceneLoader sceneLoader;
         private readonly MainStateMachine stateMachine;
-        private readonly MenuFactory menuFactory;
             
         [Inject]
-        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, MenuFactory menuFactory)
+        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader)
         {
             this.sceneLoader = sceneLoader;
             this.stateMachine = stateMachine;
-            this.menuFactory = menuFactory;
         }
 
         public void Enter()
@@ -27,6 +27,10 @@ namespace Infrastructure.States
 
         private async void OnLoad()
         {
+            MenuInstaller menuInstaller = Object.FindObjectOfType<MenuInstaller>();
+            
+            IMenuFactory menuFactory = menuInstaller.Resolve<IMenuFactory>();
+            
             MenuPanelView menuView = await menuFactory.CreateMenu();
             MenuController controller = new MenuController(stateMachine, menuView);
             

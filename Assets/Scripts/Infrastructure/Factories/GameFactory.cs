@@ -1,17 +1,14 @@
 ﻿using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using UI.Game;
-using UI.Menu;
 using UnityEngine;
-using Zenject;
 
 namespace Infrastructure.Factories
 {
     public class GameFactory : IGameFactory
     {
         private readonly IAssetProvider assetProvider;
-
-        [Inject]
+        
         public GameFactory(IAssetProvider assetProvider)
         {
             this.assetProvider = assetProvider;
@@ -22,6 +19,13 @@ namespace Infrastructure.Factories
             GameObject player =  await assetProvider.InstantiateAddressable("Player");
             player.TryGetComponent(out PlayerView playerView);
             return playerView;
+        }
+
+        public async UniTask<Canvas> CreateMainCanvas()
+        {
+            GameObject canvas =  await assetProvider.InstantiateAddressable("MainCanvas");
+            canvas.TryGetComponent(out Canvas canvasComponent);
+            return canvasComponent;
         }
 
         public async UniTask<HUDView> CreateHUD()
