@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services.Input;
+﻿using System.Threading.Tasks;
+using Infrastructure.Services.Input;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,15 +13,10 @@ public class PlayerView: MonoBehaviour
     [SerializeField] private PlayerInput input;
     private IInputService inputService;
 
-    [Inject]
-    public void Construct(IInputService inputService)
+    public void Init(IInputService inputService)
     {
         this.inputService = inputService;
-    }
-
-    private void Start()
-    {
-        inputService.Move2DStream.Subscribe(Move);
+        this.inputService.Move2DStream.Subscribe(Move);
     }
 
     private void OnDestroy()
@@ -29,5 +25,4 @@ public class PlayerView: MonoBehaviour
     }
 
     private void Move(Vector2 moveVector) => controller.Move(new Vector3(moveVector.x, 0, moveVector.y) * 10 * Time.deltaTime);
-    
 }

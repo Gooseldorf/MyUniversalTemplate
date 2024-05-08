@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.States
 {
-    public class LevelState: IStateWithArg<string>
+    public class GameState: IStateWithArg<string>
     {
         public void Enter(string arg)
         {

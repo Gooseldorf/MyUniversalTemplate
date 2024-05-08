@@ -1,5 +1,7 @@
 ﻿using Infrastructure.AssetManagement;
+using Infrastructure.Services.Input;
 using Infrastructure.States;
+using Zenject;
 
 namespace Infrastructure
 {
@@ -7,9 +9,10 @@ namespace Infrastructure
     {
         public readonly MainStateMachine StateMachine;
         
-        public Main(IAssetProvider assetProvider)
+        [Inject]
+        public Main(IAssetProvider assetProvider, IInputService input)
         {
-            StateMachine = new MainStateMachine(new SceneLoader(), assetProvider);
+            StateMachine = new MainStateMachine(new SceneLoader(), assetProvider, input);
         }
     }
 }

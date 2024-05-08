@@ -1,11 +1,13 @@
-﻿using Infrastructure.Services;
+﻿using Cysharp.Threading.Tasks;
+using Infrastructure.Services;
+using UI.Game;
 using UnityEngine;
 
 namespace Infrastructure.Factories
 {
     public interface IGameFactory : IService
     {
-        GameObject CreatePlayer(GameObject at);
-        void InstantiateHUD();
+        UniTask<PlayerView> CreatePlayer();
+        UniTask<HUDView> CreateHUD();
     }
 }

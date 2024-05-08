@@ -32,14 +32,16 @@ namespace Infrastructure.Services.Input
             Move1DStream = controls.Game.Movement1D.GenerateContinuousObservable(() => controls.Game.Movement1D.ReadValue<float>());
             Move2DStream = controls.Game.Movement2D.GenerateContinuousObservable(() => controls.Game.Movement2D.ReadValue<Vector2>());
             LookStream = controls.Game.Look.GenerateContinuousObservable(() => controls.Game.Look.ReadValue<Vector2>());
-            //Perform & Cancel
+            //Perform
             AttackStream = controls.Game.Attack.GeneratePerformObservable((ctx) => controls.Game.Attack.ReadValue<float>() > 0);
             JumpStream = controls.Game.Jump.GeneratePerformObservable((ctx) => controls.Game.Jump.ReadValue<float>() > 0);
+            InteractStream = controls.Game.Interact.GeneratePerformObservable((ctx) => controls.Game.Interact.ReadValue<float>() > 0);
+            PauseStream = controls.Game.Pause.GeneratePerformObservable((ctx) => controls.Game.Pause.ReadValue<float>() > 0);
+            //Perform & Cancel
             SprintStream = controls.Game.Sprint.GeneratePerformObservable((ctx) => controls.Game.Sprint.ReadValue<float>() > 0);
             CrouchStream = controls.Game.Crouch.GeneratePerformObservable((ctx) => controls.Game.Crouch.ReadValue<float>() > 0);
-            InteractStream = controls.Game.Interact.GeneratePerformObservable((ctx) => controls.Game.Interact.ReadValue<float>() > 0);
+            //Test
             TestStream = controls.Game.TEST.GeneratePerformObservable((ctx) => controls.Game.TEST.ReadValue<float>() > 0);
-            PauseStream = controls.Game.Pause.GeneratePerformObservable((ctx) => controls.Game.Pause.ReadValue<float>() > 0);
         }
         
         public void Dispose() => controls?.Dispose();

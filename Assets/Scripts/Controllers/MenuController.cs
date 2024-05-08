@@ -40,7 +40,7 @@ namespace Controllers
 
         private void StartGame()
         {
-            mainStateMachine.Enter<LoadLevelState, string>(Constants.GAME_SCENE_NAME);
+            mainStateMachine.Enter<LoadGameState, string>(Constants.GAME_SCENE_NAME);
         }
 
         private void OnSettingsClick(Unit unit) => OpenSettings();

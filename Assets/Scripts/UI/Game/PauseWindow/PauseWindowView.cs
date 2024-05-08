@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+using System;
 using DG.Tweening;
 using UI.Menu;
 using UnityEngine;
@@ -12,28 +12,27 @@ namespace UI.Game
         public MenuButtonView ContinueButton;
         public MenuButtonView SettingsButton;
         public MenuButtonView ExitButton;
-        
-        public void Show()
+
+        public void Show(Action onComplete)
         {
-            CanvasGroup.alpha = 1;
-            Canvas.enabled = true;
+            DOTween.Kill(this);
+            Canvas.gameObject.SetActive(true);
             CanvasGroup.DOFade(1, 1).OnComplete(() =>
             {
                 CanvasGroup.interactable = true;
-            });
+                onComplete?.Invoke();
+            }).SetUpdate(true).SetTarget(this);
         }
-        public UniTask Hide()
+        
+        public void Hide(Action onComplete)
         {
-            var taskCompletionSource = new UniTaskCompletionSource();
-            
+            DOTween.Kill(this);
             CanvasGroup.interactable = false;
             CanvasGroup.DOFade(0, 1).OnComplete(() =>
             {
-                Canvas.enabled = false;
-                taskCompletionSource.TrySetResult();
-            });
-            
-            return taskCompletionSource.Task;
+                Canvas.gameObject.SetActive(false);
+                onComplete?.Invoke();
+            }).SetUpdate(true).SetTarget(this);
         }
     }
 }

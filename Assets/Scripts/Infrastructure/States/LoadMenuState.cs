@@ -2,6 +2,7 @@
 using Infrastructure.Factories;
 using UI;
 using UI.Menu;
+using Zenject;
 
 namespace Infrastructure.States
 {
@@ -11,6 +12,7 @@ namespace Infrastructure.States
         private readonly MainStateMachine stateMachine;
         private readonly MenuFactory menuFactory;
             
+        [Inject]
         public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, MenuFactory menuFactory)
         {
             this.sceneLoader = sceneLoader;

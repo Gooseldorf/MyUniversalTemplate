@@ -1,4 +1,6 @@
-﻿namespace Interfaces
+﻿using UniRx;
+
+namespace Interfaces
 {
     public interface IDispose
     {

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
-using UnityEngine;
-using Zenject;
+using Infrastructure.Services.Input;
 
 namespace Infrastructure.States
 {
@@ -11,33 +10,32 @@ namespace Infrastructure.States
     {
         private readonly Dictionary<Type, IState> states;
         private IState currentState;
-
-        [Inject]
-        public MainStateMachine(SceneLoader sceneLoader, IAssetProvider assetProvider)
+        
+        public MainStateMachine(SceneLoader sceneLoader, IAssetProvider assetProvider, IInputService inputService)
         {
             states = new Dictionary<Type, IState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
                 [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, new MenuFactory(assetProvider)),
                 [typeof(MenuState)] = new MenuState(this),
-                [typeof(LoadLevelState)] = new LoadLevelState(sceneLoader),
-                [typeof(LevelState)] = new LevelState(),
+                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, new GameFactory(assetProvider), inputService),
+                [typeof(GameState)] = new GameState(),
                 [typeof(QuitState)] = new QuitState()
             };
         }
 
         public void Enter<TState>() where TState : class, IStateNoArg
         {
+            //Debug.Log($"{typeof(TState)}");
             TState state = ChangeState<TState>();
             state.Enter();
-            Debug.Log($"{typeof(TState)} entered");
         }
 
         public void Enter<TState, TArg>(TArg arg) where TState : class, IStateWithArg<TArg>
         {
+            //Debug.Log($"{typeof(TState)}");
             TState state = ChangeState<TState>();
             state.Enter(arg);
-            Debug.Log($"{typeof(TState)} entered");
         }
         
         private TState ChangeState<TState>() where TState : class, IState
