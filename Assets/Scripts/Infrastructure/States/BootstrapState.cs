@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.States
+﻿namespace Infrastructure.States
 {
     public class BootstrapState : IStateNoArg
     {
@@ -14,8 +13,14 @@ namespace Infrastructure.States
         
         public void Enter()
         {
-            sceneLoader.Load(Constants.BOOTSTRAP_SCENE_NAME, EnterLoadMenu);
+            sceneLoader.Load(Constants.BOOTSTRAP_SCENE_NAME, OnLoad);
         }
+
+        private void OnLoad()
+        {
+            EnterLoadMenu();
+        }
+
         public void Exit()
         {
             

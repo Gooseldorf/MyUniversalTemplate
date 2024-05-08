@@ -2,6 +2,7 @@
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
+using UI;
 
 namespace Infrastructure.DI
 {

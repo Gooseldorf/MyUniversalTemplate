@@ -1,5 +1,6 @@
 ﻿using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
+using UI;
 
 namespace Infrastructure.DI
 {

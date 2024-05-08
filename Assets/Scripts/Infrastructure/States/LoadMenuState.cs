@@ -4,7 +4,6 @@ using Infrastructure.Factories;
 using UI;
 using UI.Menu;
 using UnityEngine;
-using Zenject;
 
 namespace Infrastructure.States
 {
@@ -12,16 +11,18 @@ namespace Infrastructure.States
     {
         private readonly SceneLoader sceneLoader;
         private readonly MainStateMachine stateMachine;
+        private readonly LoadingScreenController loadingScreenController;
             
-        [Inject]
-        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader)
+        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreenController loadingScreenController)
         {
             this.sceneLoader = sceneLoader;
             this.stateMachine = stateMachine;
+            this.loadingScreenController = loadingScreenController;
         }
 
         public void Enter()
         {
+            loadingScreenController?.ShowLoadingScreen(null);
             sceneLoader.Load(Constants.MENU_SCENE_NAME, OnLoad);
         }
 
@@ -39,6 +40,7 @@ namespace Infrastructure.States
 
         public void Exit()
         {
+            loadingScreenController.HideLoadingScreen(null);
         }
     }
 }

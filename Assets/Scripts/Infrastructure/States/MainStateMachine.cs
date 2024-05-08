@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.AssetManagement;
-using Infrastructure.Factories;
-using Infrastructure.Services.Input;
+using UI;
 
 namespace Infrastructure.States
 {
@@ -11,14 +9,14 @@ namespace Infrastructure.States
         private readonly Dictionary<Type, IState> states;
         private IState currentState;
         
-        public MainStateMachine(SceneLoader sceneLoader)
+        public MainStateMachine(SceneLoader sceneLoader, LoadingScreenController loadingScreenController)
         {
             states = new Dictionary<Type, IState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader),
+                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController),
                 [typeof(MenuState)] = new MenuState(this),
-                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader),
+                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController),
                 [typeof(GameState)] = new GameState(),
                 [typeof(QuitState)] = new QuitState()
             };
@@ -26,14 +24,12 @@ namespace Infrastructure.States
 
         public void Enter<TState>() where TState : class, IStateNoArg
         {
-            //Debug.Log($"{typeof(TState)}");
             TState state = ChangeState<TState>();
             state.Enter();
         }
 
         public void Enter<TState, TArg>(TArg arg) where TState : class, IStateWithArg<TArg>
         {
-            //Debug.Log($"{typeof(TState)}");
             TState state = ChangeState<TState>();
             state.Enter(arg);
         }

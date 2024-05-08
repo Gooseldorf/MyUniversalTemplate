@@ -1,21 +1,23 @@
 using System;
 using DG.Tweening;
-using UI.Menu;
+using NaughtyAttributes;
 using UnityEngine;
 
-namespace UI.Game
+namespace UI
 {
-    public class PauseWindowView : WindowViewBase
+    public class LoadingScreenView : PanelViewBase
     {
         private const float FADE_DURATION = 0.5f; //TODO: UIAnimationDataHolder
-
+        
         public Canvas Canvas;
         public CanvasGroup CanvasGroup;
-        public MenuButtonView ContinueButton;
-        public MenuButtonView SettingsButton;
-        public MenuButtonView ExitButton;
 
-        public void Show(Action onComplete)
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
+
+        public void ShowLoadingScreen(Action onComplete)
         {
             DOTween.Kill(this);
             Canvas.gameObject.SetActive(true);
@@ -26,7 +28,7 @@ namespace UI.Game
             }).SetUpdate(true).SetTarget(this);
         }
         
-        public void Hide(Action onComplete)
+        public void HideLoadingScreen(Action onComplete)
         {
             DOTween.Kill(this);
             CanvasGroup.interactable = false;

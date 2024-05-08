@@ -4,6 +4,7 @@ using Infrastructure.DI;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
 using Interfaces;
+using UI;
 using UI.Game;
 using UnityEngine;
 
@@ -13,21 +14,27 @@ namespace Infrastructure.States
     {
         private readonly SceneLoader sceneLoader;
         private readonly MainStateMachine stateMachine;
+        private LoadingScreenController loadingScreenController;
 
         private List<IDispose> disposables;
 
-        public LoadGameState(MainStateMachine stateMachine, SceneLoader sceneLoader)
+        public LoadGameState(MainStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreenController loadingScreenController)
         {
             this.stateMachine = stateMachine;
             this.sceneLoader = sceneLoader;
+            this.loadingScreenController = loadingScreenController;
         }
 
-        public void Enter(string sceneName) => sceneLoader.Load(sceneName, OnLoad);
-        
+        public void Enter(string sceneName)
+        {
+            loadingScreenController?.ShowLoadingScreen(null);
+            sceneLoader.Load(sceneName, OnLoad);
+        }
+
         private async void OnLoad()
         {
             GameInstaller gameInstaller = Object.FindObjectOfType<GameInstaller>();
-            
+
             IGameFactory gameFactory = gameInstaller.Resolve<IGameFactory>();
             IInputService inputService = gameInstaller.Resolve<IInputService>();
             
@@ -55,6 +62,8 @@ namespace Infrastructure.States
         }
 
         public void Exit()
-        { }
+        {
+            loadingScreenController.HideLoadingScreen(null);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.States;
+using UI;
 using Zenject;
 
 namespace Infrastructure
@@ -7,9 +8,9 @@ namespace Infrastructure
     {
         public readonly MainStateMachine StateMachine;
         
-        public Main()
+        public Main(LoadingScreenController loadingScreenController)
         {
-            StateMachine = new MainStateMachine(new SceneLoader());
+            StateMachine = new MainStateMachine(new SceneLoader(), loadingScreenController);
         }
     }
 }
