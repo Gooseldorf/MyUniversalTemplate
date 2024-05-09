@@ -1,6 +1,8 @@
-﻿using Infrastructure.DI;
+﻿using Data;
+using Infrastructure.DI;
 using Infrastructure.Factories;
 using Infrastructure.States;
+using Managers;
 using UI;
 using UnityEngine;
 
@@ -17,8 +19,10 @@ namespace Infrastructure
 
             LoadingScreenView loadingScreenView = await bootstrapFactory.CreateLoadingScreen();
             LoadingScreenController loadingScreenController = new LoadingScreenController(loadingScreenView);
+
+            AudioManager audioManager = await bootstrapFactory.CreateAudioManager();
             
-            main = new Main(loadingScreenController);
+            main = new Main(loadingScreenController, audioManager);
             main.StateMachine.Enter<BootstrapState>();
             
             DontDestroyOnLoad(this);

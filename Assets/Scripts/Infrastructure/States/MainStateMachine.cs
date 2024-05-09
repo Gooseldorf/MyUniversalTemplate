@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 using UI;
 
 namespace Infrastructure.States
@@ -9,15 +10,15 @@ namespace Infrastructure.States
         private readonly Dictionary<Type, IState> states;
         private IState currentState;
         
-        public MainStateMachine(SceneLoader sceneLoader, LoadingScreenController loadingScreenController)
+        public MainStateMachine(SceneLoader sceneLoader, LoadingScreenController loadingScreenController, AudioManager audioManager)
         {
             states = new Dictionary<Type, IState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController),
-                [typeof(MenuState)] = new MenuState(this),
-                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController),
-                [typeof(GameState)] = new GameState(),
+                [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController, audioManager),
+                [typeof(MenuState)] = new MenuState(this, audioManager),
+                [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController, audioManager),
+                [typeof(GameState)] = new GameState(audioManager),
                 [typeof(QuitState)] = new QuitState()
             };
         }

@@ -1,7 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
-using UI;
+﻿using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UnityEditor.AddressableAssets;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.AssetManagement
 {
@@ -35,6 +38,67 @@ namespace Infrastructure.AssetManagement
                 Debug.LogError($"Failed to load {address}.");
                 return null;
             }
+        }
+
+        public async UniTask<AudioClip> LoadAudioAddressable(string address)
+        {
+            var loadOp = Addressables.LoadAssetAsync<AudioClip>(address);
+
+            await UniTask.WaitUntil(() => loadOp.IsDone);
+    
+            if (loadOp.Result != null)
+            {
+                var menu = loadOp.Result;
+                return menu;
+            }
+            else
+            {
+                Debug.LogError($"Failed to load {address}.");
+                return null;
+            }
+        }
+
+        public async UniTask<List<T>> LoadAddressableGroup<T>(string groupName)
+        {
+            List<T> loadedAssets = new List<T>();
+
+            var group = AddressableAssetSettingsDefaultObject.Settings.FindGroup(g => g.name == groupName);
+
+            if(group != null)
+            {
+                var tasks = new List<UniTask<T>>();
+
+                foreach (var entry in group.entries)
+                {
+                    string key = entry.address;
+                    tasks.Add(Addressables.LoadAssetAsync<T>(key).ToUniTask());
+                }
+
+                try 
+                {
+                    var results = await UniTask.WhenAll(tasks);
+                    loadedAssets.AddRange(results);
+                }
+                catch (Exception e) 
+                {
+                    Debug.LogError($"Error loading addressables group with name {groupName}: {e}");
+                }
+            }
+            else
+            {
+                Debug.Log($"Could not find group with name {groupName}");
+            }
+
+            return loadedAssets;
+        }
+
+        public void UnloadAddressables<T>(List<T> addressablesToUnload)
+        {
+            foreach (var addressable in addressablesToUnload)
+            {
+                Addressables.Release(addressable);
+            }
+            addressablesToUnload.Clear();
         }
     }
 }

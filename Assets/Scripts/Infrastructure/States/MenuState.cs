@@ -1,4 +1,5 @@
 ﻿using Controllers;
+using Managers;
 using UI;
 
 namespace Infrastructure.States
@@ -8,7 +9,7 @@ namespace Infrastructure.States
         private readonly MainStateMachine stateMachine;
         private IMenuController menuController;
 
-        public MenuState(MainStateMachine mainStateMachine)
+        public MenuState(MainStateMachine mainStateMachine, AudioManager audioManager)
         {
             stateMachine = mainStateMachine;
         }

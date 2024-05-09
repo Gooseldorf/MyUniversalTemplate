@@ -1,6 +1,8 @@
 ﻿using Controllers;
+using Enums;
 using Infrastructure.DI;
 using Infrastructure.Factories;
+using Managers;
 using UI;
 using UI.Menu;
 using UnityEngine;
@@ -12,12 +14,15 @@ namespace Infrastructure.States
         private readonly SceneLoader sceneLoader;
         private readonly MainStateMachine stateMachine;
         private readonly LoadingScreenController loadingScreenController;
-            
-        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreenController loadingScreenController)
+        private readonly AudioManager audioManager;
+
+
+        public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreenController loadingScreenController, AudioManager audioManager)
         {
             this.sceneLoader = sceneLoader;
             this.stateMachine = stateMachine;
             this.loadingScreenController = loadingScreenController;
+            this.audioManager = audioManager;
         }
 
         public void Enter()
@@ -28,6 +33,7 @@ namespace Infrastructure.States
 
         private async void OnLoad()
         {
+            await audioManager.WarmUpMenu();
             MenuInstaller menuInstaller = Object.FindObjectOfType<MenuInstaller>();
             
             IMenuFactory menuFactory = menuInstaller.Resolve<IMenuFactory>();
@@ -40,7 +46,9 @@ namespace Infrastructure.States
 
         public void Exit()
         {
+            audioManager.PlayBackground2DSound(AudioSources.Background, "MenuBackground", 3, true);
             loadingScreenController.HideLoadingScreen(null);
+            Resources.UnloadUnusedAssets();
         }
     }
 }
