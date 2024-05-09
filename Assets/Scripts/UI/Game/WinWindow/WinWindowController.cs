@@ -1,22 +1,17 @@
 ﻿using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
-using Infrastructure.StateMachines.Main;
-using Infrastructure.StateMachines.Main.States;
 using UI.Base;
 using UniRx;
-
 
 namespace UI.Game.WinWindow
 {
     public class WinWindowController : WindowControllerBase
     {
-        private readonly MainStateMachine mainStateMachine;
         private readonly GameStateMachine gameStateMachine;
         private readonly WinWindowView winWindowView;
         
-        public WinWindowController(MainStateMachine mainStateMachine, GameStateMachine gameStateMachine, WinWindowView winWindowView)
+        public WinWindowController(GameStateMachine gameStateMachine, WinWindowView winWindowView)
         {
-            this.mainStateMachine = mainStateMachine;
             this.gameStateMachine = gameStateMachine;
             this.winWindowView = winWindowView;
         }
@@ -43,7 +38,7 @@ namespace UI.Game.WinWindow
 
         private void Exit()
         {
-            mainStateMachine.Enter<LoadMenuState>();
+            gameStateMachine.Enter<QuitToMenuState>();
         }
 
         private void SubscribeToClicks()

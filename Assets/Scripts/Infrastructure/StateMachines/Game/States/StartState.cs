@@ -2,12 +2,19 @@
 {
     public class StartState : IStateNoArg
     {
-        public void Exit()
+        private readonly GameStateMachine gameStateMachine;
+
+        public StartState(GameStateMachine gameStateMachine)
         {
-            
+            this.gameStateMachine = gameStateMachine;
+        }
+        
+        public void Enter()
+        {
+            gameStateMachine.Enter<LevelState>();
         }
 
-        public void Enter()
+        public void Exit()
         {
             
         }

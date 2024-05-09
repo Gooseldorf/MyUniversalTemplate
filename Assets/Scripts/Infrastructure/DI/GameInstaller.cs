@@ -12,10 +12,15 @@ namespace Infrastructure.DI
             Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
             Container.Bind<IInputService>().To<InputService>().AsSingle();
             Container.Bind<ITimeController>().To<TimeController>().AsSingle();
-            Container.Bind<IGameFactory>().To<GameFactory>().AsSingle();
+            
+            BindFactories();
+        }
+
+        private void BindFactories()
+        {
+            Container.Bind<IGameUIFactory>().To<GameUIFactory>().AsSingle();
             Container.Bind<ILevelFactory>().To<LevelFactory>().AsSingle();
             Container.Bind<IPlayerFactory>().To<PlayerFactory>().AsSingle();
-            Container.Bind<IGameUIFactory>().To<GameUIFactory>().AsSingle();
         }
     }
 }

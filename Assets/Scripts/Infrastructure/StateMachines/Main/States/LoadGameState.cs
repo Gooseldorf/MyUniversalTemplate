@@ -43,39 +43,8 @@ namespace Infrastructure.StateMachines.Main.States
         private async void OnLoad()
         {
             await audioManager.WarmUpGame();
-            GameInstaller gameInstaller = Object.FindObjectOfType<GameInstaller>();
-
-            IGameFactory gameFactory = gameInstaller.Resolve<IGameFactory>();
-            IInputService inputService = gameInstaller.Resolve<IInputService>();
             
-            TimeController timeController = new TimeController();
-            
-             //TODO: to LevelFactory
-            
-            PlayerView playerView = await gameFactory.CreatePlayer();
-            playerView.transform.position = GameObject.Find("InitialPoint").transform.position; //TODO: not here
-            PlayerController playerController = new PlayerController(inputService);
-            playerView.Init(inputService);
-            
-            Canvas mainCanvas = await gameFactory.CreateMainCanvas();
-            
-            HUDView hudView = await gameFactory.CreateHUD(mainCanvas);
-            hudView.transform.SetParent(mainCanvas.transform, false);
-            HUDController hudController = new HUDController(hudView);
-            
-            PauseWindowView pauseWindowView = await gameFactory.CreatePauseWindow(mainCanvas);
-            PauseWindowController pauseWindowController = new PauseWindowController(timeController, stateMachine, inputService, pauseWindowView);
-            pauseWindowController.Init();
-            
-            WinWindowView winWindowView = await gameFactory.CreateWinWindow(mainCanvas);
-            //WinWindowController winWindowController = new WinWindowController(stateMachine, , winWindowView);
-            //winWindowController.Init();
-            
-            LoseWindowView loseWindowView = await gameFactory.CreateLoseWindow(mainCanvas);
-            //LoseWindowController loseWindowController = new LoseWindowController(stateMachine, , loseWindowView);
-            //loseWindowController.Init();
-            
-            stateMachine.Enter<GameState, string>("Level_1");
+            stateMachine.Enter<GameState>();
         }
 
         public void Exit()

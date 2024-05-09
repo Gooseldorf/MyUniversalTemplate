@@ -2,6 +2,13 @@
 {
     public class LoseState : IStateNoArg
     {
+        private readonly GameStateMachine gameStateMachine;
+
+        public LoseState(GameStateMachine gameStateMachine)
+        {
+            this.gameStateMachine = gameStateMachine;
+        }
+
         public void Exit()
         {
             

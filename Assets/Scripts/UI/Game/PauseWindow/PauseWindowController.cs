@@ -1,7 +1,7 @@
 ﻿using Controllers;
 using Infrastructure.Services.Input;
-using Infrastructure.StateMachines.Main;
-using Infrastructure.StateMachines.Main.States;
+using Infrastructure.StateMachines.Game;
+using Infrastructure.StateMachines.Game.States;
 using UI.Base;
 using UniRx;
 
@@ -9,15 +9,15 @@ namespace UI.Game.PauseWindow
 {
     public class PauseWindowController : WindowControllerBase
     {
+        private readonly GameStateMachine gameStateMachine;
         private readonly TimeController timeController;
-        private readonly MainStateMachine mainStateMachine;
         private readonly IInputService inputService;
         private readonly PauseWindowView pauseWindowView;
         
-        public PauseWindowController(TimeController timeController, MainStateMachine mainStateMachine, IInputService inputService, PauseWindowView pauseWindowView)
+        public PauseWindowController(GameStateMachine gameStateMachine, TimeController timeController, IInputService inputService, PauseWindowView pauseWindowView)
         {
+            this.gameStateMachine = gameStateMachine;
             this.timeController = timeController;
-            this.mainStateMachine = mainStateMachine;
             this.inputService = inputService;
             this.pauseWindowView = pauseWindowView;
         }
@@ -54,7 +54,7 @@ namespace UI.Game.PauseWindow
         private void Exit()
         {
             timeController.Unpause();
-            mainStateMachine.Enter<LoadMenuState>();
+            gameStateMachine.Enter<QuitToMenuState>();
         }
 
         private void SubscribeToClicks()

@@ -1,7 +1,5 @@
 ﻿using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
-using Infrastructure.StateMachines.Main;
-using Infrastructure.StateMachines.Main.States;
 using UI.Base;
 using UniRx;
 
@@ -9,13 +7,11 @@ namespace UI.Game.LoseWindow
 {
     public class LoseWindowController: WindowControllerBase
     {
-        private readonly MainStateMachine mainStateMachine;
         private readonly GameStateMachine gameStateMachine;
         private readonly LoseWindowView loseWindowView;
         
-        public LoseWindowController(MainStateMachine mainStateMachine, GameStateMachine gameStateMachine, LoseWindowView loseWindowView)
+        public LoseWindowController(GameStateMachine gameStateMachine, LoseWindowView loseWindowView)
         {
-            this.mainStateMachine = mainStateMachine;
             this.gameStateMachine = gameStateMachine;
             this.loseWindowView = loseWindowView;
         }
@@ -36,7 +32,7 @@ namespace UI.Game.LoseWindow
 
         private void Exit()
         {
-            mainStateMachine.Enter<LoadMenuState>();
+            gameStateMachine.Enter<QuitToMenuState>();
         }
 
         private void SubscribeToClicks()

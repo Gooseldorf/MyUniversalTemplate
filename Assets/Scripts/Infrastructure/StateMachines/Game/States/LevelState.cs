@@ -1,8 +1,15 @@
 ﻿namespace Infrastructure.StateMachines.Game.States
 {
-    public class LevelState : IStateWithArg<int>
+    public class LevelState : IStateNoArg
     {
-        public void Enter(int arg)
+        private readonly GameStateMachine gameStateMachine;
+
+        public LevelState(GameStateMachine gameStateMachine)
+        {
+            this.gameStateMachine = gameStateMachine;
+        }
+
+        public void Enter()
         {
             
         }
