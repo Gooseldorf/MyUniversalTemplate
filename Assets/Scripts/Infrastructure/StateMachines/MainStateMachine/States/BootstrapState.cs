@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.States
+﻿using Infrastructure.StateMachines.MainStateMachine;
+
+namespace Infrastructure.States
 {
     public class BootstrapState : IStateNoArg
     {

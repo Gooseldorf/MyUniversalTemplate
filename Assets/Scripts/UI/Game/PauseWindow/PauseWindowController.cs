@@ -1,19 +1,18 @@
 ﻿using Controllers;
 using Infrastructure.Services.Input;
+using Infrastructure.StateMachines.MainStateMachine;
 using Infrastructure.States;
 using Interfaces;
 using UniRx;
 
 namespace UI.Game
 {
-    public class PauseWindowController : IInit, IDispose
+    public class PauseWindowController : WindowControllerBase
     {
         private readonly TimeController timeController;
         private readonly MainStateMachine mainStateMachine;
         private readonly IInputService inputService;
         private readonly PauseWindowView pauseWindowView;
-        
-        private readonly CompositeDisposable disposables = new CompositeDisposable();
         
         public PauseWindowController(TimeController timeController, MainStateMachine mainStateMachine, IInputService inputService, PauseWindowView pauseWindowView)
         {
@@ -23,13 +22,19 @@ namespace UI.Game
             this.pauseWindowView = pauseWindowView;
         }
 
-        public void Init()
+        public override void Init()
         {
             SubscribeToClicks();
             inputService.PauseStream.Subscribe(OnPauseInput).AddTo(disposables);
         }
 
-        public void Dispose() => disposables.Dispose();
+        public override void Show()
+        {
+            timeController.Pause();
+            pauseWindowView.AnimateShow(null);
+        }
+
+        public override void Hide() => pauseWindowView.AnimateHide(timeController.Unpause);
 
         private void OnPauseInput(bool performed)
         {
@@ -38,14 +43,6 @@ namespace UI.Game
             else
                 Hide();
         }
-
-        private void Show()
-        {
-            timeController.Pause();
-            pauseWindowView.Show(null);
-        }
-
-        private void Hide() => pauseWindowView.Hide(timeController.Unpause);
 
         private void Continue() => Hide();
 

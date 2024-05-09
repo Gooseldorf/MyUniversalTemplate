@@ -4,10 +4,13 @@ using Enums;
 using Infrastructure.DI;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
+using Infrastructure.StateMachines.MainStateMachine;
 using Interfaces;
 using Managers;
 using UI;
 using UI.Game;
+using UI.Game.LoseWindow;
+using UI.Game.WinWindow;
 using UnityEngine;
 
 namespace Infrastructure.States
@@ -54,14 +57,21 @@ namespace Infrastructure.States
             
             Canvas mainCanvas = await gameFactory.CreateMainCanvas();
             
-            HUDView hudView = await gameFactory.CreateHUD();
+            HUDView hudView = await gameFactory.CreateHUD(mainCanvas);
             hudView.transform.SetParent(mainCanvas.transform, false);
             HUDController hudController = new HUDController(hudView);
             
-            PauseWindowView pauseWindowView = await gameFactory.CreatePauseWindow();
-            pauseWindowView.transform.SetParent(mainCanvas.transform, false);
+            PauseWindowView pauseWindowView = await gameFactory.CreatePauseWindow(mainCanvas);
             PauseWindowController pauseWindowController = new PauseWindowController(timeController, stateMachine, inputService, pauseWindowView);
             pauseWindowController.Init();
+            
+            WinWindowView winWindowView = await gameFactory.CreateWinWindow(mainCanvas);
+            //WinWindowController winWindowController = new WinWindowController(stateMachine, , winWindowView);
+            //winWindowController.Init();
+            
+            LoseWindowView loseWindowView = await gameFactory.CreateLoseWindow(mainCanvas);
+            //LoseWindowController loseWindowController = new LoseWindowController(stateMachine, , loseWindowView);
+            //loseWindowController.Init();
             
             stateMachine.Enter<GameState, string>("Level_1");
         }

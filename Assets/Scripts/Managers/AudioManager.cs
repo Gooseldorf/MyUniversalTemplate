@@ -36,7 +36,7 @@ namespace Managers
             DontDestroyOnLoad(this);
         }
 
-        public async UniTask WarmUpMenu()
+        public async UniTask WarmUpMenu() //TODO: Separate logic
         {
             gameSource.Stop();
             gameSource.clip = null;
@@ -46,7 +46,7 @@ namespace Managers
             await audioHolder.LoadMenuSounds(assetProvider);
         }
 
-        public async UniTask WarmUpGame()
+        public async UniTask WarmUpGame()//TODO: Separate logic
         {
             menuSource.Stop();
             menuSource.clip = null;
@@ -54,6 +54,8 @@ namespace Managers
             await audioHolder.LoadGameSounds(assetProvider);
         }
 
+        //TODO: Make Play3DSound method with dynamic sound groups
+        
         public void Play2DSound(AudioSources source, string soundName)
         {
             if(TryGetAudioSource(source, out AudioSource targetSource) && audioHolder.TryGetSound(soundName, out AudioClip clip))
@@ -73,7 +75,7 @@ namespace Managers
             {
                 Debug.LogError($"Can't play {soundName} on {targetSource} source!");
             }
-        }
+        } //TODO: Separate logic, add public methods to menu and ingame background
 
         public void SetVolume(AudioSources source, float value)
         {
