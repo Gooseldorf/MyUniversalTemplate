@@ -1,7 +1,6 @@
-﻿using Infrastructure.StateMachines.MainStateMachine;
-using Infrastructure.States;
-using Managers;
+﻿using Managers;
 using UI;
+using MainStateMachine = Infrastructure.StateMachines.Main.MainStateMachine;
 
 namespace Infrastructure
 {

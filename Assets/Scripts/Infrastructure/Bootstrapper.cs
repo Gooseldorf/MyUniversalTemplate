@@ -1,7 +1,6 @@
-﻿using Data;
-using Infrastructure.DI;
+﻿using Infrastructure.DI;
 using Infrastructure.Factories;
-using Infrastructure.States;
+using Infrastructure.StateMachines.Main.States;
 using Managers;
 using UI;
 using UnityEngine;

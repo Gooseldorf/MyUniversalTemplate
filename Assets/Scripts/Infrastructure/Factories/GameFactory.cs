@@ -1,7 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
+using Game.Player;
 using Infrastructure.AssetManagement;
 using UI.Game;
+using UI.Game.HUD;
 using UI.Game.LoseWindow;
+using UI.Game.PauseWindow;
 using UI.Game.WinWindow;
 using UnityEngine;
 
@@ -62,12 +65,6 @@ namespace Infrastructure.Factories
             loseWindow.TryGetComponent(out LoseWindowView loseWindowView);
             loseWindowView.Hide();
             return loseWindowView;
-        }
-        
-        public async UniTask<GameObject> CreateEnvironment()
-        {
-            GameObject environment = await assetProvider.InstantiateAddressable("Environment");
-            return environment;
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
 
-namespace Infrastructure.States
+namespace Infrastructure.StateMachines.Main.States
 {
     public class QuitState: IStateNoArg
     {
@@ -11,14 +11,13 @@ namespace Infrastructure.States
 
         private void CleanUp()
         {
-            Debug.Log("Cleaning up..");
             Exit();
         }
 
         public void Exit()
         {
     #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+            EditorApplication.isPlaying = false;
     #else
             UnityEngine.Application.Quit();
     #endif

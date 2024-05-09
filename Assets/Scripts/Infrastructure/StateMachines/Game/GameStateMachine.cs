@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.StateMachines.GameStateMachine.States;
-using Infrastructure.States;
+using Infrastructure.StateMachines.Game.States;
 
-namespace Infrastructure.StateMachines.GameStateMachine
+namespace Infrastructure.StateMachines.Game
 {
     public class GameStateMachine : StateMachineBase
     {
@@ -19,6 +18,7 @@ namespace Infrastructure.StateMachines.GameStateMachine
                 [typeof(LevelState)] = new LevelState(),
                 [typeof(WinState)] = new WinState(),
                 [typeof(LoseState)] = new LoseState(),
+                [typeof(QuitToMenuState)] = new QuitToMenuState()
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using Infrastructure.StateMachines.MainStateMachine;
+﻿using Infrastructure.StateMachines.Game;
+using Infrastructure.StateMachines.Main;
 using Interfaces;
 
 namespace Controllers
@@ -6,10 +7,12 @@ namespace Controllers
     public class GameController : IGameController
     {
         private readonly MainStateMachine mainStateMachine;
-
-        public GameController(MainStateMachine mainStateMachine)
+        private GameStateMachine gameStateMachine;
+        
+        public GameController(MainStateMachine mainStateMachine, GameStateMachine gameStateMachine)
         {
             this.mainStateMachine = mainStateMachine;
+            this.gameStateMachine = gameStateMachine;
         }
 
         public void Init()

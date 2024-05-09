@@ -1,4 +1,5 @@
-﻿using UI.Menu;
+﻿using UI.Base;
+using UI.Menu;
 
 namespace UI.Game.LoseWindow
 {

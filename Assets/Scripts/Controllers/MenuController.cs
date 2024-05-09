@@ -1,7 +1,6 @@
 ﻿using Infrastructure;
-using Infrastructure.StateMachines.MainStateMachine;
-using Infrastructure.States;
-using UI;
+using Infrastructure.StateMachines.Main;
+using Infrastructure.StateMachines.Main.States;
 using UI.Menu;
 using UniRx;
 using UnityEngine;

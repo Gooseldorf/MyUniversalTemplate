@@ -1,6 +1,7 @@
+using UI.Base;
 using UI.Menu;
 
-namespace UI.Game
+namespace UI.Game.PauseWindow
 {
     public class PauseWindowView : WindowViewBase
     {

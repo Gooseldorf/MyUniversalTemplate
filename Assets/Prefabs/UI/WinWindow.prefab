@@ -368,7 +368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2904054179256914198}
-  - component: {fileID: 2704191930819192410}
+  - component: {fileID: 5671885831378695211}
   m_Layer: 5
   m_Name: WinWindow
   m_TagString: Untagged
@@ -396,7 +396,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -1000, y: -400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2704191930819192410
+--- !u!114 &5671885831378695211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -405,13 +405,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1999519924248147149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99a7f7dad8ba1a74faeff0c97b999fce, type: 3}
+  m_Script: {fileID: 11500000, guid: d760699bc7c7469eb2c22ac6f4c5722e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 5212339150401729746}
   CanvasGroup: {fileID: 4943039058100475241}
-  ContinueButton: {fileID: 2210249711613120592}
-  SettingsButton: {fileID: 0}
+  NextLevelButton: {fileID: 2210249711613120592}
+  RestartButton: {fileID: 4497481464131504589}
   ExitButton: {fileID: 8102962551684679806}
 --- !u!1 &3725669733363112227
 GameObject:
@@ -945,6 +945,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5092643597762286850}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4497481464131504589 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8702915797720210639, guid: bfd77c7d2420e0f48b4c7bfe106c30a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5092643597762286850}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cae59fde966f7f478e1a9ac6d0d76bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7379875488801721503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -956,7 +968,7 @@ PrefabInstance:
     - target: {fileID: 1944076167597855781, guid: bfd77c7d2420e0f48b4c7bfe106c30a7,
         type: 3}
       propertyPath: m_Name
-      value: Continue
+      value: NextLevel
       objectReference: {fileID: 0}
     - target: {fileID: 4904556272294337185, guid: bfd77c7d2420e0f48b4c7bfe106c30a7,
         type: 3}

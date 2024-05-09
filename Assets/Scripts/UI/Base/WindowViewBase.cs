@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace UI
+namespace UI.Base
 {
     public abstract class WindowViewBase: MonoBehaviour
     {

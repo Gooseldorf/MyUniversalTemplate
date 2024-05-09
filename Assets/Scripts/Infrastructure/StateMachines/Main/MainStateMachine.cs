@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.States;
+using Infrastructure.StateMachines.Main.States;
 using Managers;
 using UI;
 
-namespace Infrastructure.StateMachines.MainStateMachine
+namespace Infrastructure.StateMachines.Main
 {
     public class MainStateMachine : StateMachineBase
     {
@@ -16,7 +16,7 @@ namespace Infrastructure.StateMachines.MainStateMachine
                 [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController, audioManager),
                 [typeof(MenuState)] = new MenuState(this, audioManager),
                 [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController, audioManager),
-                [typeof(GameState)] = new GameState(audioManager),
+                [typeof(GameState)] = new GameState(),
                 [typeof(QuitState)] = new QuitState()
             };
         }

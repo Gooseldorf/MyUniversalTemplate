@@ -1,7 +1,8 @@
-﻿using Infrastructure.StateMachines.GameStateMachine;
-using Infrastructure.StateMachines.GameStateMachine.States;
-using Infrastructure.StateMachines.MainStateMachine;
-using Infrastructure.States;
+﻿using Infrastructure.StateMachines.Game;
+using Infrastructure.StateMachines.Game.States;
+using Infrastructure.StateMachines.Main;
+using Infrastructure.StateMachines.Main.States;
+using UI.Base;
 using UniRx;
 
 namespace UI.Game.LoseWindow

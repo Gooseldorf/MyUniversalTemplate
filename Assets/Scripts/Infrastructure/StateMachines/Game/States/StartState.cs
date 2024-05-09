@@ -1,6 +1,4 @@
-﻿using Infrastructure.States;
-
-namespace Infrastructure.StateMachines.GameStateMachine.States
+﻿namespace Infrastructure.StateMachines.Game.States
 {
     public class StartState : IStateNoArg
     {

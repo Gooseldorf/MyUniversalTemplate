@@ -1,9 +1,7 @@
 ﻿using Controllers;
-using Infrastructure.StateMachines.MainStateMachine;
 using Managers;
-using UI;
 
-namespace Infrastructure.States
+namespace Infrastructure.StateMachines.Main.States
 {
     public class MenuState : IStateWithArg<IMenuController>
     {

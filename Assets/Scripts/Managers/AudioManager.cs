@@ -5,9 +5,7 @@ using Enums;
 using Infrastructure.AssetManagement;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
-using Zenject;
 using AudioSettings = Data.AudioSettings;
 
 namespace Managers

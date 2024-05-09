@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Services.Input;
 
-namespace Controllers
+namespace Game.Player
 {
     public class PlayerController
     {

@@ -1,4 +1,4 @@
-﻿namespace UI.Game
+﻿namespace UI.Game.HUD
 {
     public class HUDController : IHUDController 
     {

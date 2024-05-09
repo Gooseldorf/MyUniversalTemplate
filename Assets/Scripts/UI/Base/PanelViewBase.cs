@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI
+namespace UI.Base
 {
     public abstract class PanelViewBase : MonoBehaviour
     {

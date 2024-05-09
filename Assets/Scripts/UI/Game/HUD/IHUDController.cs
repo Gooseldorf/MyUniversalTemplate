@@ -1,6 +1,6 @@
 ﻿using Interfaces;
 
-namespace UI.Game
+namespace UI.Game.HUD
 {
     public interface IHUDController : IInit, IDispose
     {

@@ -1,6 +1,6 @@
 using System;
 using DG.Tweening;
-using NaughtyAttributes;
+using UI.Base;
 using UnityEngine;
 
 namespace UI

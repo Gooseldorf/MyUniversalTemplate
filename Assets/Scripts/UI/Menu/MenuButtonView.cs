@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UI.Base;
 using UniRx;
 
 namespace UI.Menu

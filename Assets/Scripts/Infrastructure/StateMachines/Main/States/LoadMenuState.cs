@@ -2,13 +2,12 @@
 using Enums;
 using Infrastructure.DI;
 using Infrastructure.Factories;
-using Infrastructure.StateMachines.MainStateMachine;
 using Managers;
 using UI;
 using UI.Menu;
 using UnityEngine;
 
-namespace Infrastructure.States
+namespace Infrastructure.StateMachines.Main.States
 {
     public class LoadMenuState: IStateNoArg
     {

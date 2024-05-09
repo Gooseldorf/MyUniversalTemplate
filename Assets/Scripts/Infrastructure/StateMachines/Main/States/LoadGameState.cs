@@ -1,25 +1,27 @@
 ﻿using System.Collections.Generic;
 using Controllers;
 using Enums;
+using Game.Player;
 using Infrastructure.DI;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
-using Infrastructure.StateMachines.MainStateMachine;
 using Interfaces;
 using Managers;
 using UI;
 using UI.Game;
+using UI.Game.HUD;
 using UI.Game.LoseWindow;
+using UI.Game.PauseWindow;
 using UI.Game.WinWindow;
 using UnityEngine;
 
-namespace Infrastructure.States
+namespace Infrastructure.StateMachines.Main.States
 {
     public class LoadGameState : IStateWithArg<string>
     {
         private readonly SceneLoader sceneLoader;
         private readonly MainStateMachine stateMachine;
-        private LoadingScreenController loadingScreenController;
+        private readonly LoadingScreenController loadingScreenController;
         private readonly AudioManager audioManager;
 
         private List<IDispose> disposables;
@@ -48,7 +50,7 @@ namespace Infrastructure.States
             
             TimeController timeController = new TimeController();
             
-            GameObject environment = await gameFactory.CreateEnvironment();
+             //TODO: to LevelFactory
             
             PlayerView playerView = await gameFactory.CreatePlayer();
             playerView.transform.position = GameObject.Find("InitialPoint").transform.position; //TODO: not here

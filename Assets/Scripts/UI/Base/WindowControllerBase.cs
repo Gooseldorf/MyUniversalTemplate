@@ -1,7 +1,7 @@
 ﻿using Interfaces;
 using UniRx;
 
-namespace UI
+namespace UI.Base
 {
     public abstract class WindowControllerBase : IInit, IDispose
     {

@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Base
 {
     public abstract class ButtonViewBase: MonoBehaviour
     {

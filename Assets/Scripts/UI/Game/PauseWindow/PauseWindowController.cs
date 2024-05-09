@@ -1,11 +1,11 @@
 ﻿using Controllers;
 using Infrastructure.Services.Input;
-using Infrastructure.StateMachines.MainStateMachine;
-using Infrastructure.States;
-using Interfaces;
+using Infrastructure.StateMachines.Main;
+using Infrastructure.StateMachines.Main.States;
+using UI.Base;
 using UniRx;
 
-namespace UI.Game
+namespace UI.Game.PauseWindow
 {
     public class PauseWindowController : WindowControllerBase
     {
