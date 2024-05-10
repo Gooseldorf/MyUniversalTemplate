@@ -2,6 +2,8 @@
 using Cysharp.Threading.Tasks;
 using Data;
 using Game.Player;
+using Game.Weapon;
+using Game.Weapon.Laser;
 using Infrastructure.AssetManagement;
 using Infrastructure.DI;
 using Infrastructure.Factories;
@@ -35,15 +37,23 @@ namespace Infrastructure.StateMachines.Game.States
             
             
             //CreateEnvironment
-            ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
-            GameObject environment = await levelFactory.CreateEnvironment(levelData);
+            /*ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
+            GameObject environment = await levelFactory.CreateEnvironment(levelData);*/
             
             
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
             IPlayerFactory playerFactory = gameInstaller.Resolve<IPlayerFactory>();
             PlayerView playerView = await playerFactory.CreatePlayer(levelData);
-            PlayerController playerController = new PlayerController(playerView, inputService);
+
+            IWeaponFactory weaponFactory = gameInstaller.Resolve<IWeaponFactory>();
+            LaserWeaponView laserWeaponView = await weaponFactory.CreateLaserWeapon();
+            laserWeaponView.transform.SetParent(playerView.transform);
+            laserWeaponView.transform.localPosition = Vector3.zero;
+            LaserWeaponController laserWeaponController = new LaserWeaponController(laserWeaponView, assetProvider);
+            laserWeaponController.Init();
+            
+            PlayerController playerController = new PlayerController(playerView, laserWeaponController, inputService);
             playerController.Init();
             
             //CreateGameUI

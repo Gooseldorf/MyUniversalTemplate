@@ -5,7 +5,7 @@ namespace Game.Player
 {
     [RequireComponent(typeof(CharacterController))] 
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerMove : MonoBehaviour
+    public class PlayerMoveWithCCComponent : MonoBehaviour
     {
         [SerializeField] private CharacterController controller;
         

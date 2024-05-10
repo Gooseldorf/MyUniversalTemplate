@@ -1,4 +1,5 @@
 ﻿using Controllers;
+using Game.Weapon;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
@@ -20,6 +21,7 @@ namespace Infrastructure.DI
         {
             Container.Bind<IGameUIFactory>().To<GameUIFactory>().AsSingle();
             Container.Bind<ILevelFactory>().To<LevelFactory>().AsSingle();
+            Container.Bind<IWeaponFactory>().To<WeaponFactory>().AsSingle();
             Container.Bind<IPlayerFactory>().To<PlayerFactory>().AsSingle();
         }
     }

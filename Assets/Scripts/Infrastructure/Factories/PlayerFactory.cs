@@ -20,7 +20,7 @@ namespace Infrastructure.Factories
             GameObject player =  await assetProvider.InstantiateAddressable(levelData.PlayerAddress);
             player.transform.position = levelData.PlayerPosition;
             player.TryGetComponent(out PlayerView playerView);
-            
+            playerView.PlayerMove.SetSpeed(levelData.PlayerSpeed);
             return playerView;
         }
     }
