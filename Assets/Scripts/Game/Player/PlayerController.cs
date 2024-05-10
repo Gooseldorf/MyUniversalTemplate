@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Services.Input;
-using Interfaces;
 using UniRx;
 using UnityEngine;
 
@@ -25,9 +24,5 @@ namespace Game.Player
         public void Dispose() => disposes.Dispose();
         
         private void Move(Vector2 moveVector) => playerView.PlayerMove.Move(moveVector);
-    }
-
-    public interface IPlayerController : IInit, IDispose
-    {
     }
 }

@@ -1,17 +1,13 @@
 ﻿using Infrastructure.StateMachines.Game;
-using Infrastructure.StateMachines.Main;
-using Interfaces;
 
 namespace Controllers
 {
     public class GameController : IGameController
     {
-        private readonly MainStateMachine mainStateMachine;
         private GameStateMachine gameStateMachine;
         
-        public GameController(MainStateMachine mainStateMachine, GameStateMachine gameStateMachine)
+        public GameController(GameStateMachine gameStateMachine)
         {
-            this.mainStateMachine = mainStateMachine;
             this.gameStateMachine = gameStateMachine;
         }
 
@@ -24,10 +20,5 @@ namespace Controllers
         {
             
         }
-    }
-
-    public interface IGameController : IInit, IDispose
-    {
-        
     }
 }
