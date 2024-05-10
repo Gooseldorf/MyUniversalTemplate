@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: GameBackgroundSounds
+  m_EditorClassIdentifier: 
+  m_GroupName: GameBackgroundSounds
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0462f6df793085448a3fb768bab0ba10
+  m_SerializeEntries:
+  - m_GUID: eb42c670a0a9eae49897b2d6f5acc0a6
+    m_Address: Ambient
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e93eab9e0e30514d82aa7156bc22c15
+    m_Address: GameBackground
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e5119dc7b6b3e95408e59d529cff05c3, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d5ac8cdf5b5705840a5abc138c8e1dfb, type: 2}
+    - {fileID: 11400000, guid: 68e0d39a31c3b284a97c22b2165c0fe1, type: 2}
