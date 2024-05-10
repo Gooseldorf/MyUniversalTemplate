@@ -9,10 +9,10 @@ namespace Infrastructure.Factories
 {
     public interface IGameUIFactory
     {
-        UniTask<Canvas> CreateMainCanvas();
-        UniTask<HUDView> CreateHUD(Canvas mainCanvas);
-        UniTask<PauseWindowView> CreatePauseWindow(Canvas mainCanvas);
-        UniTask<WinWindowView> CreateWinWindow(Canvas mainCanvas);
-        UniTask<LoseWindowView> CreateLoseWindow(Canvas mainCanvas);
+        UniTask<Canvas> CreateWindowsCanvas();
+        UniTask<HUDView> CreateHUD();
+        UniTask<PauseWindowView> CreatePauseWindow(Canvas windowsCanvas);
+        UniTask<WinWindowView> CreateWinWindow(Canvas windowsCanvas);
+        UniTask<LoseWindowView> CreateLoseWindow(Canvas windowsCanvas);
     }
 }

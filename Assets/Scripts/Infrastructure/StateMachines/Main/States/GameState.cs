@@ -5,18 +5,14 @@ namespace Infrastructure.StateMachines.Main.States
 {
     public class GameState: IStateNoArg
     {
-        private readonly MainStateMachine mainStateMachine;
-        private GameStateMachine gameStateMachine;
-
-        public GameState(MainStateMachine mainStateMachine)
+        public GameState()
         {
-            this.mainStateMachine = mainStateMachine;
+            
         }
 
         public void Enter()
         {
-            gameStateMachine = new GameStateMachine(mainStateMachine);
-            gameStateMachine.Enter<LoadLevelState, int>(0); //TODO: Get level
+            //TODO: Move to LoadGameState
         }
 
         public void Exit()

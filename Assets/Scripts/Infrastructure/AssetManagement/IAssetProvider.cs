@@ -11,8 +11,8 @@ namespace Infrastructure.AssetManagement
         GameObject Instantiate(string path);
         UniTask<GameObject> InstantiateAddressable(string address);
 
-        UniTask<AudioClip> LoadAudioAddressable(string address);
         UniTask<List<T>> LoadAddressableGroup<T>(string groupName);
         void UnloadAddressables<T>(List<T> addressablesToUnload);
+        UniTask<T> LoadAddressable<T>(string address);
     }
 }

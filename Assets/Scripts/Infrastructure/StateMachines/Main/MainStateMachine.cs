@@ -16,7 +16,7 @@ namespace Infrastructure.StateMachines.Main
                 [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController, audioManager),
                 [typeof(MenuState)] = new MenuState(this, audioManager),
                 [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController, audioManager),
-                [typeof(GameState)] = new GameState(this),
+                [typeof(GameState)] = new GameState(),
                 [typeof(QuitState)] = new QuitState()
             };
         }

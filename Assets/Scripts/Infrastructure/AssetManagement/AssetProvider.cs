@@ -30,8 +30,8 @@ namespace Infrastructure.AssetManagement
     
             if (loadOp.Result != null)
             {
-                var menu = loadOp.Result;
-                return menu;
+                var result = loadOp.Result;
+                return result;
             }
             else
             {
@@ -40,21 +40,21 @@ namespace Infrastructure.AssetManagement
             }
         }
 
-        public async UniTask<AudioClip> LoadAudioAddressable(string address)
+        public async UniTask<T> LoadAddressable<T>(string address)
         {
-            var loadOp = Addressables.LoadAssetAsync<AudioClip>(address);
+            var loadOp = Addressables.LoadAssetAsync<T>(address);
 
             await UniTask.WaitUntil(() => loadOp.IsDone);
     
             if (loadOp.Result != null)
             {
-                var menu = loadOp.Result;
-                return menu;
+                var result = loadOp.Result;
+                return result;
             }
             else
             {
                 Debug.LogError($"Failed to load {address}.");
-                return null;
+                return default;
             }
         }
 

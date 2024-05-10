@@ -5,6 +5,8 @@ using Game.Player;
 using Infrastructure.DI;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
+using Infrastructure.StateMachines.Game;
+using Infrastructure.StateMachines.Game.States;
 using Interfaces;
 using Managers;
 using UI;
@@ -43,8 +45,9 @@ namespace Infrastructure.StateMachines.Main.States
         private async void OnLoad()
         {
             await audioManager.WarmUpGame();
-            
-            stateMachine.Enter<GameState>();
+
+            GameStateMachine gameStateMachine = new GameStateMachine(stateMachine);
+            gameStateMachine.Enter<LoadLevelState, int>(0); //TODO: Get level
         }
 
         public void Exit()

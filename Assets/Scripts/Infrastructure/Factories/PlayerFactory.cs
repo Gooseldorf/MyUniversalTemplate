@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Data;
 using Game.Player;
 using Infrastructure.AssetManagement;
 using UnityEngine;
@@ -14,16 +15,18 @@ namespace Infrastructure.Factories
             this.assetProvider = assetProvider;
         }
         
-        public async UniTask<PlayerView> CreatePlayer()
+        public async UniTask<PlayerView> CreatePlayer(LevelData levelData)
         {
-            GameObject player =  await assetProvider.InstantiateAddressable("Player");
+            GameObject player =  await assetProvider.InstantiateAddressable(levelData.PlayerAddress);
+            player.transform.position = levelData.PlayerPosition;
             player.TryGetComponent(out PlayerView playerView);
+            
             return playerView;
         }
     }
 
     public interface IPlayerFactory
     {
-        UniTask<PlayerView> CreatePlayer();
+        UniTask<PlayerView> CreatePlayer(LevelData levelData);
     }
 }

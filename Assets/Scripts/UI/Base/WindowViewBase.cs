@@ -6,29 +6,29 @@ namespace UI.Base
 {
     public abstract class WindowViewBase: MonoBehaviour
     {
-        protected const float FADE_DURATION = 0.5f; //TODO: UIAnimationDataHolder
+        private const float FADE_DURATION = 0.5f; //TODO: UIAnimationDataHolder
         
-        [SerializeField] private protected Canvas Canvas;
+        [SerializeField] private protected GameObject Container;
         [SerializeField] private protected CanvasGroup CanvasGroup;
 
         public void Show()
         {
             DOTween.Kill(this);
-            Canvas.gameObject.SetActive(true);
+            Container.gameObject.SetActive(true);
             CanvasGroup.interactable = true;
         }
 
         public void Hide()
         {
             DOTween.Kill(this);
-            Canvas.gameObject.SetActive(false);
+            Container.gameObject.SetActive(false);
             CanvasGroup.interactable = false;
         }
 
         public void AnimateShow(Action onComplete)
         {
             DOTween.Kill(this);
-            Canvas.gameObject.SetActive(true);
+            Container.gameObject.SetActive(true);
             CanvasGroup.DOFade(1, FADE_DURATION).OnComplete(() =>
             {
                 CanvasGroup.interactable = true;
@@ -42,7 +42,7 @@ namespace UI.Base
             CanvasGroup.interactable = false;
             CanvasGroup.DOFade(0, FADE_DURATION).OnComplete(() =>
             {
-                Canvas.gameObject.SetActive(false);
+                Container.gameObject.SetActive(false);
                 onComplete?.Invoke();
             }).SetUpdate(true).SetTarget(this);
         }

@@ -15,7 +15,7 @@ namespace Infrastructure.StateMachines.Game
             States = new Dictionary<Type, IState>()
             {
                 [typeof(LoadLevelState)] = new LoadLevelState(this),
-                [typeof(StartState)] = new StartState(this),
+                [typeof(StartState)] = new StartState(this, mainStateMachine),
                 [typeof(LevelState)] = new LevelState(this),
                 [typeof(WinState)] = new WinState(this),
                 [typeof(LoseState)] = new LoseState(this),

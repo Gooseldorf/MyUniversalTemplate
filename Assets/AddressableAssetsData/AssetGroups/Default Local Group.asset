@@ -38,12 +38,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2e3bbe97acb8d6548ab9cc039be53dc0
-    m_Address: MainCanvas
+    m_Address: WindowsCanvas
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d3784ac0a5bc4ae42ad8190544e6563a
-    m_Address: PauseWindow
+  - m_GUID: f4501c8856a7317419644c2e2b005a7f
+    m_Address: LoseWindow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -57,8 +57,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f4501c8856a7317419644c2e2b005a7f
-    m_Address: LoseWindow
+  - m_GUID: d3784ac0a5bc4ae42ad8190544e6563a
+    m_Address: PauseWindow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
