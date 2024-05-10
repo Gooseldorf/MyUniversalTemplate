@@ -9,12 +9,17 @@ namespace Infrastructure
 {
     public class Bootstrapper: MonoBehaviour
     {
-        public BootstrapInstaller BootstrapInstaller;
         private Main main;
         
-        private async void Awake()
+        private void Awake()
         {
-            IBootstrapFactory bootstrapFactory = BootstrapInstaller.Resolve<IBootstrapFactory>();
+            DontDestroyOnLoad(this);
+        }
+
+        private async void Start()
+        {
+            BootstrapInstaller bootstrapInstaller = FindObjectOfType<BootstrapInstaller>();
+            IBootstrapFactory bootstrapFactory = bootstrapInstaller.Resolve<IBootstrapFactory>();
 
             LoadingScreenView loadingScreenView = await bootstrapFactory.CreateLoadingScreen();
             LoadingScreenController loadingScreenController = new LoadingScreenController(loadingScreenView);
@@ -23,8 +28,6 @@ namespace Infrastructure
             
             main = new Main(loadingScreenController, audioManager);
             main.StateMachine.Enter<BootstrapState>();
-            
-            DontDestroyOnLoad(this);
         }
     }
 }
