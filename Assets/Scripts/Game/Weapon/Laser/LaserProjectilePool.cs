@@ -1,6 +1,6 @@
-﻿using Game.Projectiles;
+﻿using Game.Player;
+using Game.Projectiles;
 using Infrastructure;
-using Interfaces;
 using UniRx;
 using UnityEngine;
 
@@ -14,21 +14,32 @@ namespace Game.Weapon.Laser
         public LaserProjectilePool(LaserProjectileFactory factory, ProjectileReleaser releaser, int poolSize) : base(factory, poolSize)
         {
             this.releaser = releaser;
-            releaser.ProjectileStream.Subscribe(OnReleaserTriggered).AddTo(disposes);
         }
-
-        public void OnReleaserTriggered(ProjectileViewBase projectile)
+        
+        public void Dispose()
         {
-            if(projectile is LaserProjectileView laserProjectile)
-                Release(laserProjectile);
-            Debug.Log("ProjectileReleased");
+            disposes.Dispose();
         }
 
         protected override LaserProjectileView Create()
         {
-            LaserProjectileView obj = ((LaserProjectileFactory)Factory).CreateLaserProjectile();
-            obj.gameObject.SetActive(false);
-            return obj;
+            LaserProjectileView projectile = ((LaserProjectileFactory)Factory).CreateLaserProjectile();
+            projectile.Init();
+            projectile.CollisionStream.Subscribe(OnCollision).AddTo(disposes);
+            projectile.gameObject.SetActive(false);
+            return projectile;
+        }
+
+        private void OnCollision((Collision collision, LaserProjectileView view) data)
+        {
+            if (data.collision.transform.parent != null)
+            {
+                if((data.view.IsPlayerProjectile && data.collision.transform.parent.TryGetComponent(out PlayerView player)) || 
+                   !data.view.IsPlayerProjectile && data.collision.transform.parent.TryGetComponent(out EnemyView enemy))
+                    return;
+            }
+
+            Release(data.view);
         }
     }
 }

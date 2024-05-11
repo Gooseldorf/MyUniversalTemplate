@@ -1,8 +1,4 @@
-﻿using Infrastructure.AssetManagement;
-using Interfaces;
-using UniRx;
-
-namespace Game.Weapon.Laser
+﻿namespace Game.Weapon.Laser
 {
     public class LaserWeaponController
     {

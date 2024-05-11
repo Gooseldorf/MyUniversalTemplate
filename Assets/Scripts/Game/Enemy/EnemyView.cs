@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class EnemyView : MonoBehaviour
 {
-    [SerializeField] private Collider enemyCollider;
+    public Collider EnemyCollider;
     public Vector2 Size { get; private set;}
     
     public MoveXYComponent EnemyMove;
@@ -20,17 +20,8 @@ public class EnemyView : MonoBehaviour
 
     private void Start()
     {
-        EnemyMove.SetSpeed(10);
-
-        Size = enemyCollider.bounds.size;
-        
-        enemyCollider.OnTriggerEnterAsObservable()
-            .Where(collision => 
-                transform.parent != null &&
-                collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && 
-                laserProjectile.IsPlayerProjectile)
-            .Subscribe(_ => OnHit())
-            .AddTo(disposables);
+        EnemyMove.SetSpeed(20);
+        Size = EnemyCollider.bounds.size;
     }
     
     private void OnDestroy()

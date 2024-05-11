@@ -45,12 +45,14 @@ namespace Infrastructure.StateMachines.Game.States
             EnvironmentView environmentView = levelFactory.CreateEnvironment();
             environmentView.SetUp();
             Bounds gameFieldBounds = environmentView.GetGameFieldBounds();
+            CityView city = levelFactory.CreateCity();
+            city.Init();
             
             EnemySpawner enemySpawner = new EnemySpawner(environmentView.GetGameFieldBounds());
             IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
             await enemyFactory.WarmUp();
             EnemyPool enemyPool = new EnemyPool(enemyFactory as EnemyFactory, 10);
-            EnemiesController enemiesController = new EnemiesController(enemyPool, gameFieldBounds, enemySpawner);
+            EnemiesController enemiesController = new EnemiesController(enemyPool, enemySpawner);
             
             //TODO: Create GameController(enemyPool)
             
@@ -79,7 +81,7 @@ namespace Infrastructure.StateMachines.Game.States
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
             await CreateGameUI(gameUIFactory, timeController, inputService);
             
-            GameController gameController = new GameController(gameStateMachine, playerController, enemiesController);
+            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController);
             gameController.Init();
             
             gameStateMachine.Enter<StartState, GameController>(gameController);

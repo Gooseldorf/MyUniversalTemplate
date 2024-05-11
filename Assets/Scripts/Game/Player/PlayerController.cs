@@ -29,10 +29,11 @@ namespace Game.Player
         {
             inputService.Move2DStream.Subscribe(Move).AddTo(disposes);
             inputService.AttackStream.Subscribe(Shoot).AddTo(disposes);
-            playerView.PlayerCollider.OnTriggerEnterAsObservable().
+            playerView.PlayerCollider.OnCollisionEnterAsObservable().
                 Where(collision => 
-                    (collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && !laserProjectile.IsPlayerProjectile) || 
-                    collision.transform.parent.TryGetComponent(out EnemyView enemy))
+                    collision.transform.parent != null &&
+                    ((collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && !laserProjectile.IsPlayerProjectile) || 
+                    collision.transform.parent.TryGetComponent(out EnemyView enemy)))
                 .Subscribe(_ => Die())
                 .AddTo(disposes);
         }
@@ -40,6 +41,7 @@ namespace Game.Player
         private void Die()
         {
             Dead?.Invoke();
+            Debug.Log("Dead");
         }
 
         public void Dispose() => disposes.Dispose();

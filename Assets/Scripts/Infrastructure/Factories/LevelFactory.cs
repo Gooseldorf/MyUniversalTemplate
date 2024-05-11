@@ -9,6 +9,7 @@ namespace Infrastructure.Factories
     public class LevelFactory : FactoryBase, ILevelFactory
     {
         private GameObject environmentPrefab;
+        private GameObject cityPrefab;
         public LevelFactory(IAssetProvider assetProvider) : base(assetProvider)
         {
             this.assetProvider = assetProvider;
@@ -17,6 +18,7 @@ namespace Infrastructure.Factories
         public override async UniTask WarmUp()
         {
             environmentPrefab = await CachePrefab("Environment");
+            cityPrefab = await CachePrefab("City");
         }
 
         public EnvironmentView CreateEnvironment()
@@ -25,11 +27,19 @@ namespace Infrastructure.Factories
             environmentObject.TryGetComponent(out EnvironmentView environmentView);
             return environmentView;
         }
+
+        public CityView CreateCity()
+        {
+            GameObject cityObject = CreateGameObject(cityPrefab);
+            cityObject.TryGetComponent(out CityView cityView);
+            return cityView;
+        }
     } 
 
     public interface ILevelFactory
     {
         EnvironmentView CreateEnvironment();
+        CityView CreateCity();
 
         UniTask WarmUp();
     }

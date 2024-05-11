@@ -49,8 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1305467b04da444b9f2f57043ed582f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserWeaponView: {fileID: 5765520963244481235}
-  enemyCollider: {fileID: 2562375986522000035}
+  EnemyCollider: {fileID: 2562375986522000035}
   EnemyMove: {fileID: 3569586686832281886}
   EnemyShoot: {fileID: 1793359760024200067}
 --- !u!114 &3569586686832281886
@@ -90,6 +89,7 @@ GameObject:
   - component: {fileID: 1040479916289727226}
   - component: {fileID: 4602365160559114212}
   - component: {fileID: 2562375986522000035}
+  - component: {fileID: 7338130043631396821}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -177,12 +177,39 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7338130043631396821
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7558706103961126337}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1482670517625325186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -251,18 +278,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1706857134aeea44c80bc137871cceee, type: 3}
---- !u!114 &5765520963244481235 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4940657965481974865, guid: 1706857134aeea44c80bc137871cceee,
-    type: 3}
-  m_PrefabInstance: {fileID: 1482670517625325186}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2763b9d83f094b56a5071fdc0d660d88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &7933753536436718555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8829828463605042521, guid: 1706857134aeea44c80bc137871cceee,

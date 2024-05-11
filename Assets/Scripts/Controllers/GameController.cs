@@ -2,6 +2,8 @@
 using Game.Player;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
+using UniRx;
+using UnityEngine;
 
 namespace Controllers
 {
@@ -9,17 +11,22 @@ namespace Controllers
     {
         private readonly GameStateMachine gameStateMachine;
         private readonly PlayerController playerController;
+        private readonly CityView cityView;
         private readonly EnemiesController enemiesController;
         
-        public GameController(GameStateMachine gameStateMachine, PlayerController playerController, EnemiesController enemiesController)
+        private CompositeDisposable disposes = new CompositeDisposable();
+        
+        public GameController(GameStateMachine gameStateMachine, PlayerController playerController, CityView cityView, EnemiesController enemiesController)
         {
             this.gameStateMachine = gameStateMachine;
             this.playerController = playerController;
+            this.cityView = cityView;
             this.enemiesController = enemiesController;
         }
 
         public void Init()
         {
+            cityView.CityBreachedStream.Subscribe(Breach).AddTo(disposes);
             playerController.Dead += Lose;
             enemiesController.AllDead += Win;
         }
@@ -28,6 +35,7 @@ namespace Controllers
         {
             playerController.Dead -= Lose;
             enemiesController.AllDead -= Win;
+            disposes.Dispose();
         }
 
         public async void Play()
@@ -38,6 +46,12 @@ namespace Controllers
                 enemiesController.SpawnEnemy();
             }
         }
+        
+        private void Breach(Collider collider)
+        {
+            if(collider.transform.parent != null && collider.transform.parent.TryGetComponent(out EnemyView enemy))
+                Lose();
+        }
 
         private void Win()
         {
@@ -47,6 +61,7 @@ namespace Controllers
         private void Lose()
         {
             gameStateMachine.Enter<LoseState>();
+            Debug.Log("Lose");
         }
     }
 }

@@ -183,10 +183,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7714928278967411229}
     m_Modifications:
+    - target: {fileID: 1425567913729381532, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425567913729381532, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425567913729381532, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_ImplicitTensor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425567913729381532, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_InertiaTensor.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425567913729381532, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_InertiaTensor.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425567913729381532, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_InertiaTensor.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4893482018391873410, guid: c12f1b11e0b658346b51817e521752dd,
         type: 3}
       propertyPath: m_Convex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893482018391873410, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893482018391873410, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4947330741167562140, guid: c12f1b11e0b658346b51817e521752dd,
         type: 3}

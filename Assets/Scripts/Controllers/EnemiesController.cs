@@ -12,7 +12,7 @@ namespace Controllers
         private readonly EnemySpawner spawner;
         public event Action AllDead;
         
-        public EnemiesController(EnemyPool enemyPool, Bounds gameFieldBounds, EnemySpawner spawner)
+        public EnemiesController(EnemyPool enemyPool, EnemySpawner spawner)
         {
             this.enemyPool = enemyPool;
             this.spawner = spawner;
@@ -23,6 +23,7 @@ namespace Controllers
             EnemyView enemyView = enemyPool.Pool.Get();
             enemyView.transform.position = spawner.GetSpawnPoint(enemyView.Size);
             EnemyController enemyController = new EnemyController(enemyView);
+            enemyController.Init();
             enemyController.Dead += KillEnemy;
         }
 
