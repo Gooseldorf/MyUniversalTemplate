@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 190050408005389461}
   - component: {fileID: 962612719321651936}
   - component: {fileID: 1986646334632942044}
-  - component: {fileID: 7316609286015742266}
+  - component: {fileID: 2581421362262668996}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerMove: {fileID: 1986646334632942044}
-  PlayerShoot: {fileID: 7316609286015742266}
+  PlayerShoot: {fileID: 2581421362262668996}
 --- !u!114 &1986646334632942044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 7714928278967411229}
---- !u!114 &7316609286015742266
+--- !u!114 &2581421362262668996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

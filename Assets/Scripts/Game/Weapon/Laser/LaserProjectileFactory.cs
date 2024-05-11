@@ -1,36 +1,29 @@
 ﻿using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
+using Infrastructure.Factories;
 using UnityEngine;
 
 namespace Game.Weapon.Laser
 {
-    public class LaserProjectileFactory 
+    public class LaserProjectileFactory : FactoryBase
     {
-        private readonly IAssetProvider assetProvider;
-        private LaserProjectileView projectilePrefab;
-        private GameObject projectilesContainer;
+        private GameObject projectilePrefab;
 
-        public LaserProjectileFactory(IAssetProvider assetProvider)
+        public LaserProjectileFactory(IAssetProvider assetProvider) : base(assetProvider)
         {
             this.assetProvider = assetProvider;
         }
-
-        public async UniTask Init()
+        
+        public override async UniTask WarmUp()
         {
-            projectilesContainer = new GameObject("LaserProjectiles");
-            projectilePrefab = await CacheLaserProjectilePrefab();
-        }
-
-        private async UniTask<LaserProjectileView> CacheLaserProjectilePrefab()
-        {
-            GameObject projectile =  await assetProvider.LoadAddressable<GameObject>("LaserProjectile");
-            projectile.TryGetComponent(out LaserProjectileView projectileView);
-            return projectileView;
+            projectilePrefab = await CachePrefab("LaserProjectile");
         }
 
         public LaserProjectileView CreateLaserProjectile()
         {
-            return Object.Instantiate(projectilePrefab, projectilesContainer.transform);
+            GameObject projectile = CreateGameObject(projectilePrefab);
+            projectile.TryGetComponent(out LaserProjectileView projectileView);
+            return projectileView;
         }
     }
 }

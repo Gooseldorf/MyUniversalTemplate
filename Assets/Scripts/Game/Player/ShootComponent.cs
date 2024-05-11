@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Player
 {
-    public class PlayerShootComponent : MonoBehaviour
+    public class ShootComponent : MonoBehaviour
     {
         public void Shoot(LaserWeaponController laserWeaponController)
         {

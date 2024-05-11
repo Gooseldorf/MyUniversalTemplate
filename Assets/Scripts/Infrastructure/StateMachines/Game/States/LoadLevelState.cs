@@ -1,6 +1,7 @@
 ﻿using Controllers;
 using Cysharp.Threading.Tasks;
 using Data;
+using Game.Enemy;
 using Game.Player;
 using Game.Weapon;
 using Game.Weapon.Laser;
@@ -40,7 +41,6 @@ namespace Infrastructure.StateMachines.Game.States
             /*ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
             GameObject environment = await levelFactory.CreateEnvironment(levelData);*/
             
-            
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
             IPlayerFactory playerFactory = gameInstaller.Resolve<IPlayerFactory>();
@@ -55,6 +55,11 @@ namespace Infrastructure.StateMachines.Game.States
             
             PlayerController playerController = new PlayerController(playerView, laserWeaponController, inputService);
             playerController.Init();
+
+            IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
+            //TODO: Create enemy pool
+            //TODO: Create GameController(enemyPool)
+            
             
             //CreateGameUI
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();

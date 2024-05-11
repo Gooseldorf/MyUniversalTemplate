@@ -18,4 +18,4 @@ MonoBehaviour:
     x: 0
     y: -50
     z: 0
-  PlayerSpeed: 10
+  PlayerSpeed: 30

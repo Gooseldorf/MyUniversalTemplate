@@ -5,7 +5,7 @@ namespace Game.Weapon.Laser
 {
     public class LaserWeaponView : MonoBehaviour
     {
-        [SerializeField] private Transform[] shootPoints;
+        [SerializeField] private ShotPoint[] shootPoints;
         private int lastShootPointIndex;
 
         private void Awake()
@@ -13,12 +13,12 @@ namespace Game.Weapon.Laser
             lastShootPointIndex = 0;
         }
         
-        public Transform[] GetNextShootPoints(int count)
+        public ShotPoint[] GetNextShootPoints(int count)
         {
             if (count > shootPoints.Length)
                 count = shootPoints.Length;
             
-            Transform[] points = new Transform[count];
+            ShotPoint[] points = new ShotPoint[count];
             
             for (int i = 0; i < count; i++)
             {

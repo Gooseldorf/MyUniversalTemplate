@@ -1,11 +1,8 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
 namespace Game.Player
 {    
-    [RequireComponent(typeof(PlayerInput))]
-    public class PlayerMoveXYComponent : MonoBehaviour
+    public class MoveXYComponent : MonoBehaviour
     {
         [SerializeField] private Transform playerTransform;
         private float speed;

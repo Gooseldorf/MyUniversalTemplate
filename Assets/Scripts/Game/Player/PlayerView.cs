@@ -4,7 +4,7 @@ namespace Game.Player
 {
     public class PlayerView: MonoBehaviour
     {
-        public PlayerMoveXYComponent PlayerMove;
-        public PlayerShootComponent PlayerShoot;
+        public MoveXYComponent PlayerMove;
+        public ShootComponent PlayerShoot;
     }
 }

@@ -15,9 +15,8 @@ namespace Game.Weapon.Laser
         {
             this.factory = factory;
         }
-        public async void Init()
+        public void Init()
         {
-            await factory.Init();
             Pool = new ObjectPool<LaserProjectileView>(Create, Get, Release, Destroy, true, poolSize);
         }
 

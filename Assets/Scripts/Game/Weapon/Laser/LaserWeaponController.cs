@@ -1,8 +1,6 @@
 ﻿using Infrastructure.AssetManagement;
-using Infrastructure.Services.Input;
 using Interfaces;
 using UniRx;
-using UnityEngine;
 
 namespace Game.Weapon.Laser
 {
@@ -24,7 +22,7 @@ namespace Game.Weapon.Laser
         public async void Init()
         {
             factory = new LaserProjectileFactory(assetProvider);
-            await factory.Init();
+            await factory.WarmUp();
             pool = new LaserProjectilePool(factory);
             pool.Init();
         }
@@ -36,22 +34,22 @@ namespace Game.Weapon.Laser
 
         public void Shoot()
         {
-            Transform[] shotPoints = view.GetNextShootPoints(1);//TODO: LaserWeaponData
+            ShotPoint[] shotPoints = view.GetNextShootPoints(1);//TODO: LaserWeaponData
 
             foreach (var shotPoint in shotPoints)
             {
                 LaserProjectileView projectile = pool.Pool.Get();
                 var projectileTransform = projectile.transform;
-                projectileTransform.position = shotPoint.position;
-                projectileTransform.rotation = shotPoint.rotation;
-                projectile.Fire(view.transform.up);
-                projectile.OnLifetimeEnd += OnProjectileLideTimeEnd;
+                projectileTransform.position = shotPoint.GetCenterPosition();
+                projectileTransform.rotation = shotPoint.GetRotation();
+                projectile.Fire(shotPoint.GetDirection());
+                projectile.OnLifetimeEnd += OnProjectileLifeTimeEnd;
             }
         }
 
-        private void OnProjectileLideTimeEnd(LaserProjectileView projectile)
+        private void OnProjectileLifeTimeEnd(LaserProjectileView projectile)
         {
-            projectile.OnLifetimeEnd -= OnProjectileLideTimeEnd;
+            projectile.OnLifetimeEnd -= OnProjectileLifeTimeEnd;
             pool.Pool.Release(projectile);
 
         }
