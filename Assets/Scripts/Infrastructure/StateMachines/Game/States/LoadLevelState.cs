@@ -50,7 +50,7 @@ namespace Infrastructure.StateMachines.Game.States
             LaserWeaponView laserWeaponView = await weaponFactory.CreateLaserWeapon();
             laserWeaponView.transform.SetParent(playerView.transform);
             laserWeaponView.transform.localPosition = Vector3.zero;
-            LaserWeaponController laserWeaponController = new LaserWeaponController(laserWeaponView, assetProvider);
+            LaserWeaponController laserWeaponController = new LaserWeaponController(laserWeaponView, assetProvider, true);
             laserWeaponController.Init();
             
             PlayerController playerController = new PlayerController(playerView, laserWeaponController, inputService);

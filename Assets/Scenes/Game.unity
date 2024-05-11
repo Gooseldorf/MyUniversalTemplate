@@ -320,6 +320,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2860518122628631559, guid: a1c72f5adec9684489af101dd15a7cc7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4383804295253411194, guid: a1c72f5adec9684489af101dd15a7cc7,
         type: 3}
       propertyPath: m_Name
@@ -335,6 +340,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c72f5adec9684489af101dd15a7cc7, type: 3}
+--- !u!223 &109092521 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 6725157988466377674, guid: a1c72f5adec9684489af101dd15a7cc7,
+    type: 3}
+  m_PrefabInstance: {fileID: 109092520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +606,7 @@ PrefabInstance:
     - target: {fileID: 136933926214318353, guid: 7ef3ab06db0826e41b784e285c72042b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 80
+      value: 78.9
       objectReference: {fileID: 0}
     - target: {fileID: 136933926214318353, guid: 7ef3ab06db0826e41b784e285c72042b,
         type: 3}
@@ -792,6 +803,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 812714065828749233, guid: 50746cf36a130a149bb4f2d4635deac1,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 109092521}
+    - target: {fileID: 812714065828749233, guid: 50746cf36a130a149bb4f2d4635deac1,
+        type: 3}
+      propertyPath: installer
+      value: 
+      objectReference: {fileID: 628704929}
     - target: {fileID: 3431572947567173453, guid: 50746cf36a130a149bb4f2d4635deac1,
         type: 3}
       propertyPath: m_Name

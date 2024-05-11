@@ -10,13 +10,15 @@ namespace Game.Weapon.Laser
         private readonly IAssetProvider assetProvider;
         private  LaserProjectilePool pool;
         private  LaserProjectileFactory factory;
+        private readonly bool isPlayerWeapon;
 
         private CompositeDisposable disposes = new CompositeDisposable();
 
-        public LaserWeaponController(LaserWeaponView view, IAssetProvider assetProvider)
+        public LaserWeaponController(LaserWeaponView view, IAssetProvider assetProvider, bool isPlayerWeapon)
         {
             this.view = view;
             this.assetProvider = assetProvider;
+            this.isPlayerWeapon = isPlayerWeapon;
         }
 
         public async void Init()
@@ -42,7 +44,7 @@ namespace Game.Weapon.Laser
                 var projectileTransform = projectile.transform;
                 projectileTransform.position = shotPoint.GetCenterPosition();
                 projectileTransform.rotation = shotPoint.GetRotation();
-                projectile.Fire(shotPoint.GetDirection());
+                projectile.Fire(shotPoint.GetDirection(), isPlayerWeapon);
                 projectile.OnLifetimeEnd += OnProjectileLifeTimeEnd;
             }
         }

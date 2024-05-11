@@ -12,13 +12,16 @@ namespace Game.Weapon.Laser
         private bool shouldFly = false;
         private Vector3 direction = Vector3.zero;
 
+        public bool IsPlayerProjectile;
+
         public event Action<LaserProjectileView> OnLifetimeEnd;
         
-        public void Fire(Vector3 direction)
+        public void Fire(Vector3 direction, bool isPlayerProjectile)
         {
             lifeTimer = 0;
             this.direction = direction;
             shouldFly = true;
+            IsPlayerProjectile = isPlayerProjectile;
         }
 
         private void Update()
