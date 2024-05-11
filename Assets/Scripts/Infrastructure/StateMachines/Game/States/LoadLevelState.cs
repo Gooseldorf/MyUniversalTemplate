@@ -6,6 +6,7 @@ using Game.Environment;
 using Game.Player;
 using Game.Projectiles;
 using Game.Spawners;
+using Game.VFX.Explosion;
 using Game.Weapon;
 using Game.Weapon.Laser;
 using Infrastructure.AssetManagement;
@@ -47,12 +48,17 @@ namespace Infrastructure.StateMachines.Game.States
             Bounds gameFieldBounds = environmentView.GetGameFieldBounds();
             CityView city = levelFactory.CreateCity();
             city.Init();
+
+            ExplosionFactory explosionFactory = new ExplosionFactory(assetProvider);
+            await explosionFactory.WarmUp();
+            ExplosionPool explosionPool = new ExplosionPool(explosionFactory, 10);
+            ExplosionController explosionController = new ExplosionController(explosionPool);
             
             EnemySpawner enemySpawner = new EnemySpawner(environmentView.GetGameFieldBounds());
             IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
             await enemyFactory.WarmUp();
             EnemyPool enemyPool = new EnemyPool(enemyFactory as EnemyFactory, 10);
-            EnemiesController enemiesController = new EnemiesController(enemyPool, enemySpawner);
+            EnemiesController enemiesController = new EnemiesController(enemyPool, enemySpawner, explosionController);
             
             //TODO: Create GameController(enemyPool)
             
@@ -79,16 +85,6 @@ namespace Infrastructure.StateMachines.Game.States
             
             //CreateGameUI
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
-            await CreateGameUI(gameUIFactory, timeController, inputService);
-            
-            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController);
-            gameController.Init();
-            
-            gameStateMachine.Enter<StartState, GameController>(gameController);
-        }
-
-        private async UniTask CreateGameUI(IGameUIFactory gameUIFactory, TimeController timeController, IInputService inputService)
-        {
             Canvas windowsCanvas = await gameUIFactory.CreateWindowsCanvas();
             
             HUDView hudView = await gameUIFactory.CreateHUD();
@@ -104,7 +100,17 @@ namespace Infrastructure.StateMachines.Game.States
             
             LoseWindowView loseWindowView = await gameUIFactory.CreateLoseWindow(windowsCanvas);
             LoseWindowController loseWindowController = new LoseWindowController(gameStateMachine, loseWindowView);
-            loseWindowController.Init();
+            loseWindowController.Init();            
+            
+            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController, winWindowController, loseWindowController, timeController);
+            gameController.Init();
+            
+            gameStateMachine.Enter<StartState, GameController>(gameController);
+        }
+
+        private async UniTask CreateGameUI(IGameUIFactory gameUIFactory, TimeController timeController, IInputService inputService)
+        {
+            
         }
         
         public void Exit()

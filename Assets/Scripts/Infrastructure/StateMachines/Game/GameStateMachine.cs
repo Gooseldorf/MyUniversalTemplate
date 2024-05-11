@@ -12,6 +12,8 @@ namespace Infrastructure.StateMachines.Game
         
         public GameStateMachine(MainStateMachine mainStateMachine)
         {
+            CurrentLevelIndex = 0;
+            NextLevelIndex = 0;
             States = new Dictionary<Type, IState>()
             {
                 [typeof(LoadLevelState)] = new LoadLevelState(this),

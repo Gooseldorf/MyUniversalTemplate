@@ -1,7 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Game.Player;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
+using UI.Game.LoseWindow;
+using UI.Game.WinWindow;
 using UniRx;
 using UnityEngine;
 
@@ -13,37 +18,59 @@ namespace Controllers
         private readonly PlayerController playerController;
         private readonly CityView cityView;
         private readonly EnemiesController enemiesController;
-        
+        private readonly WinWindowController winWindowController;
+        private readonly LoseWindowController loseWindowController;
+        private readonly TimeController timeController;
+
+        private UniTask PlayTask;
+        private CancellationTokenSource cts;
+
         private CompositeDisposable disposes = new CompositeDisposable();
         
-        public GameController(GameStateMachine gameStateMachine, PlayerController playerController, CityView cityView, EnemiesController enemiesController)
+        public GameController(GameStateMachine gameStateMachine, PlayerController playerController, CityView cityView, EnemiesController enemiesController, 
+            WinWindowController winWindowController, LoseWindowController loseWindowController, TimeController timeController)
         {
             this.gameStateMachine = gameStateMachine;
             this.playerController = playerController;
             this.cityView = cityView;
             this.enemiesController = enemiesController;
+            this.winWindowController = winWindowController;
+            this.loseWindowController = loseWindowController;
+            this.timeController = timeController;
         }
 
         public void Init()
         {
             cityView.CityBreachedStream.Subscribe(Breach).AddTo(disposes);
             playerController.Dead += Lose;
-            enemiesController.AllDead += Win;
         }
 
         public void Dispose()
         {
             playerController.Dead -= Lose;
-            enemiesController.AllDead -= Win;
             disposes.Dispose();
         }
 
         public async void Play()
         {
-            for (int i = 0; i < 10; i++)
+            cts = new CancellationTokenSource();
+            PlayTask = GetPlayTask(cts.Token);
+            await PlayTask;
+        }
+        
+        private async UniTask GetPlayTask(CancellationToken cancellationToken)
+        {
+            try
             {
-                await Task.Delay(2000);
-                enemiesController.SpawnEnemy();
+                for (int i = 0; i < 10; i++)
+                {
+                    await Task.Delay(2000, cancellationToken);
+                    enemiesController.SpawnEnemy();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("Play task was cancelled");
             }
         }
         
@@ -55,12 +82,18 @@ namespace Controllers
 
         private void Win()
         {
+            cts.Cancel();
             gameStateMachine.Enter<WinState>();
+            timeController.Pause();
+            winWindowController.Show();
         }
 
         private void Lose()
         {
+            cts.Cancel();
+            timeController.Pause();
             gameStateMachine.Enter<LoseState>();
+            loseWindowController.Show();
             Debug.Log("Lose");
         }
     }
