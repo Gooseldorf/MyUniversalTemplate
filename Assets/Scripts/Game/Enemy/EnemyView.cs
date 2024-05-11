@@ -9,26 +9,26 @@ using UnityEngine;
 
 public class EnemyView : MonoBehaviour
 {
-    [SerializeField] private LaserWeaponView laserWeaponView;
     [SerializeField] private Collider enemyCollider;
+    public Vector2 Size { get; private set;}
     
     public MoveXYComponent EnemyMove;
     public ShootComponent EnemyShoot;
     private LaserWeaponController laserWeaponController;
-
-    private float shootTimer = 0;
-    private float shootTime = 3;
+    
     private CompositeDisposable disposables = new CompositeDisposable(); 
 
     private void Start()
     {
-        GameInstaller installer = FindObjectOfType<GameInstaller>();
         EnemyMove.SetSpeed(10);
-        laserWeaponController = new LaserWeaponController(laserWeaponView, installer.Resolve<IAssetProvider>(), false);
-        laserWeaponController.Init();
+
+        Size = enemyCollider.bounds.size;
         
         enemyCollider.OnTriggerEnterAsObservable()
-            .Where(collision => collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && laserProjectile.IsPlayerProjectile)
+            .Where(collision => 
+                transform.parent != null &&
+                collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && 
+                laserProjectile.IsPlayerProjectile)
             .Subscribe(_ => OnHit())
             .AddTo(disposables);
     }
@@ -41,13 +41,6 @@ public class EnemyView : MonoBehaviour
     private void Update()
     {
         EnemyMove.Move(Vector2.down);
-
-        shootTimer += Time.deltaTime;
-        if (shootTimer > shootTime)
-        {
-            shootTimer = 0;
-            EnemyShoot.Shoot(laserWeaponController);
-        }
     }
 
     private void OnHit()

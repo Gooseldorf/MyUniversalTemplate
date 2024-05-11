@@ -6,5 +6,6 @@ namespace Game.Player
     {
         public MoveXYComponent PlayerMove;
         public ShootComponent PlayerShoot;
+        public Collider PlayerCollider;
     }
 }

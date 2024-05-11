@@ -4,34 +4,18 @@ using UniRx;
 
 namespace Game.Weapon.Laser
 {
-    public class LaserWeaponController : IInit, IDispose
+    public class LaserWeaponController
     {
         private readonly LaserWeaponView view;
-        private readonly IAssetProvider assetProvider;
-        private  LaserProjectilePool pool;
+        private readonly LaserProjectilePool projectilePool;
         private  LaserProjectileFactory factory;
         private readonly bool isPlayerWeapon;
-
-        private CompositeDisposable disposes = new CompositeDisposable();
-
-        public LaserWeaponController(LaserWeaponView view, IAssetProvider assetProvider, bool isPlayerWeapon)
+        
+        public LaserWeaponController(LaserWeaponView view, LaserProjectilePool projectilePool, bool isPlayerWeapon)
         {
             this.view = view;
-            this.assetProvider = assetProvider;
+            this.projectilePool = projectilePool;
             this.isPlayerWeapon = isPlayerWeapon;
-        }
-
-        public async void Init()
-        {
-            factory = new LaserProjectileFactory(assetProvider);
-            await factory.WarmUp();
-            pool = new LaserProjectilePool(factory);
-            pool.Init();
-        }
-
-        public void Dispose()
-        {
-            
         }
 
         public void Shoot()
@@ -40,20 +24,12 @@ namespace Game.Weapon.Laser
 
             foreach (var shotPoint in shotPoints)
             {
-                LaserProjectileView projectile = pool.Pool.Get();
+                LaserProjectileView projectile = projectilePool.Pool.Get();
                 var projectileTransform = projectile.transform;
                 projectileTransform.position = shotPoint.GetCenterPosition();
                 projectileTransform.rotation = shotPoint.GetRotation();
                 projectile.Fire(shotPoint.GetDirection(), isPlayerWeapon);
-                projectile.OnLifetimeEnd += OnProjectileLifeTimeEnd;
             }
-        }
-
-        private void OnProjectileLifeTimeEnd(LaserProjectileView projectile)
-        {
-            projectile.OnLifetimeEnd -= OnProjectileLifeTimeEnd;
-            pool.Pool.Release(projectile);
-
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
+using Game.Projectiles;
 using UnityEngine;
 
 namespace Game.Weapon.Laser
 {
-    public class LaserProjectileView : MonoBehaviour
+    public class LaserProjectileView : ProjectileViewBase
     {
-        private const float lifeTime = 2;
-        private float lifeTimer = 0;
+        /*private const float lifeTime = 2;
+        private float lifeTimer = 0;*/
         private const float speed = 80;
 
         private bool shouldFly = false;
@@ -14,11 +15,11 @@ namespace Game.Weapon.Laser
 
         public bool IsPlayerProjectile;
 
-        public event Action<LaserProjectileView> OnLifetimeEnd;
+        //public event Action<LaserProjectileView> OnLifetimeEnd;
         
         public void Fire(Vector3 direction, bool isPlayerProjectile)
         {
-            lifeTimer = 0;
+            //lifeTimer = 0;
             this.direction = direction;
             shouldFly = true;
             IsPlayerProjectile = isPlayerProjectile;
@@ -33,12 +34,12 @@ namespace Game.Weapon.Laser
         private void Fly()
         {
             transform.position += direction.normalized * speed * Time.deltaTime;
-            lifeTimer += Time.deltaTime;
+            /*lifeTimer += Time.deltaTime;
             if (lifeTimer >= lifeTime)
             {
                 OnLifetimeEnd?.Invoke(this);
                 shouldFly = false;
-            }
+            }*/
         }
     }
 }

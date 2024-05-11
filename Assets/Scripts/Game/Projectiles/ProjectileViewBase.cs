@@ -1,6 +1,8 @@
-﻿namespace Game.Projectiles
+﻿using UnityEngine;
+
+namespace Game.Projectiles
 {
-    public class ProjectileViewBase
+    public class ProjectileViewBase : MonoBehaviour
     {
         
     }

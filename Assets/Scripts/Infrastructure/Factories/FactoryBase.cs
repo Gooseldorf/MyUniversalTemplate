@@ -13,7 +13,7 @@ namespace Infrastructure.Factories
         public FactoryBase(IAssetProvider assetProvider)
         {
             this.assetProvider = assetProvider;
-            container = new GameObject(GetType() + "Container");
+            container = new GameObject(GetType().Name + "Container");
         }
 
         public abstract UniTask WarmUp();

@@ -4,6 +4,8 @@ using Data;
 using Game.Enemy;
 using Game.Environment;
 using Game.Player;
+using Game.Projectiles;
+using Game.Spawners;
 using Game.Weapon;
 using Game.Weapon.Laser;
 using Infrastructure.AssetManagement;
@@ -40,7 +42,17 @@ namespace Infrastructure.StateMachines.Game.States
             //CreateEnvironment
             ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
             await levelFactory.WarmUp();
-            EnvironmentView environmentView = levelFactory.CreateEnvironment(levelData);
+            EnvironmentView environmentView = levelFactory.CreateEnvironment();
+            environmentView.SetUp();
+            Bounds gameFieldBounds = environmentView.GetGameFieldBounds();
+            
+            EnemySpawner enemySpawner = new EnemySpawner(environmentView.GetGameFieldBounds());
+            IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
+            await enemyFactory.WarmUp();
+            EnemyPool enemyPool = new EnemyPool(enemyFactory as EnemyFactory, 10);
+            EnemiesController enemiesController = new EnemiesController(enemyPool, gameFieldBounds, enemySpawner);
+            
+            //TODO: Create GameController(enemyPool)
             
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
@@ -51,21 +63,26 @@ namespace Infrastructure.StateMachines.Game.States
             LaserWeaponView laserWeaponView = await weaponFactory.CreateLaserWeapon();
             laserWeaponView.transform.SetParent(playerView.transform);
             laserWeaponView.transform.localPosition = Vector3.zero;
-            LaserWeaponController laserWeaponController = new LaserWeaponController(laserWeaponView, assetProvider, true);
-            laserWeaponController.Init();
             
-            PlayerController playerController = new PlayerController(playerView, laserWeaponController, inputService);
+            LaserProjectileFactory laserProjectileFactory = new LaserProjectileFactory(assetProvider);
+            await laserProjectileFactory.WarmUp();
+            GameObject projectileReleaserObj = await assetProvider.InstantiateAddressable("ProjectileReleaser");
+            ProjectileReleaser projectileReleaser = projectileReleaserObj.GetComponent<ProjectileReleaser>();
+            LaserProjectilePool laserProjectilePool = new LaserProjectilePool(laserProjectileFactory, projectileReleaser, 20);
+            
+            LaserWeaponController laserWeaponController = new LaserWeaponController(laserWeaponView, laserProjectilePool, true);
+            
+            PlayerController playerController = new PlayerController(playerView, gameFieldBounds, laserWeaponController, inputService);
             playerController.Init();
-
-            IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
-            //TODO: Create enemy pool
-            //TODO: Create GameController(enemyPool)
             
             //CreateGameUI
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
             await CreateGameUI(gameUIFactory, timeController, inputService);
             
-            gameStateMachine.Enter<StartState>();
+            GameController gameController = new GameController(gameStateMachine, playerController, enemiesController);
+            gameController.Init();
+            
+            gameStateMachine.Enter<StartState, GameController>(gameController);
         }
 
         private async UniTask CreateGameUI(IGameUIFactory gameUIFactory, TimeController timeController, IInputService inputService)

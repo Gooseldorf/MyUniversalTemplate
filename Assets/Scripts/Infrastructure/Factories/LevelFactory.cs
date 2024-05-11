@@ -19,7 +19,7 @@ namespace Infrastructure.Factories
             environmentPrefab = await CachePrefab("Environment");
         }
 
-        public EnvironmentView CreateEnvironment(LevelData levelData)
+        public EnvironmentView CreateEnvironment()
         {
             GameObject environmentObject = CreateGameObject(environmentPrefab);
             environmentObject.TryGetComponent(out EnvironmentView environmentView);
@@ -29,7 +29,7 @@ namespace Infrastructure.Factories
 
     public interface ILevelFactory
     {
-        EnvironmentView CreateEnvironment(LevelData levelData);
+        EnvironmentView CreateEnvironment();
 
         UniTask WarmUp();
     }

@@ -1,36 +1,34 @@
-﻿using Interfaces;
+﻿using Game.Projectiles;
+using Infrastructure;
+using Interfaces;
+using UniRx;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace Game.Weapon.Laser
 {
-    public class LaserProjectilePool : IInit
+    public class LaserProjectilePool : PoolBase<LaserProjectileView>
     {
-        private readonly LaserProjectileFactory factory;
-        private int poolSize;
-        
-        public ObjectPool<LaserProjectileView> Pool { get; private set; }
+        private readonly ProjectileReleaser releaser;
+        private CompositeDisposable disposes = new CompositeDisposable();
 
-        public LaserProjectilePool(LaserProjectileFactory factory)
+        public LaserProjectilePool(LaserProjectileFactory factory, ProjectileReleaser releaser, int poolSize) : base(factory, poolSize)
         {
-            this.factory = factory;
-        }
-        public void Init()
-        {
-            Pool = new ObjectPool<LaserProjectileView>(Create, Get, Release, Destroy, true, poolSize);
+            this.releaser = releaser;
+            releaser.ProjectileStream.Subscribe(OnReleaserTriggered).AddTo(disposes);
         }
 
-        private LaserProjectileView Create()
+        public void OnReleaserTriggered(ProjectileViewBase projectile)
         {
-            LaserProjectileView obj = factory.CreateLaserProjectile();
+            if(projectile is LaserProjectileView laserProjectile)
+                Release(laserProjectile);
+            Debug.Log("ProjectileReleased");
+        }
+
+        protected override LaserProjectileView Create()
+        {
+            LaserProjectileView obj = ((LaserProjectileFactory)Factory).CreateLaserProjectile();
             obj.gameObject.SetActive(false);
             return obj;
         }
-
-        private void Get(LaserProjectileView obj) => obj.gameObject.SetActive(true);
-
-        private void Release(LaserProjectileView obj) => obj.gameObject.SetActive(false);
-
-        private void Destroy(LaserProjectileView obj) => Object.Destroy(obj);
     }
 }

@@ -1,22 +1,25 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemySpawner
+namespace Game.Spawners
 {
-    public Canvas canvas;
-    public Vector2 GetSpawnPoint(Vector2 objectSize)
+    public class EnemySpawner
     {
-        RectTransform rectTransform = canvas.GetComponent<RectTransform>();
+        private readonly Bounds spawnArea;
 
-        float x = rectTransform.rect.width / 2 - objectSize.x;
-        float y = rectTransform.rect.height / 2 + objectSize.y;
+        public EnemySpawner(Bounds spawnArea)
+        {
+            this.spawnArea = spawnArea;
+        }
+    
+        public Vector2 GetSpawnPoint(Vector2 objectSize)
+        {
+            float x = spawnArea.size.x / 2 - objectSize.x;
+            float y = spawnArea.size.y / 2 + objectSize.y;
         
-        Vector3 spawnPointLocal= new Vector3(Random.Range(-x,x), y ,0);
-        
-        Vector3 spawnPointWorld = rectTransform.TransformPoint(spawnPointLocal);
+            Vector3 spawnPoint = new Vector3(Random.Range(-x, x), y ,0);
 
-        Debug.Log(spawnPointWorld);
-
-        return spawnPointWorld;
+            return spawnPoint;
+        }
     }
 }
