@@ -1,28 +1,36 @@
 ﻿using Cysharp.Threading.Tasks;
 using Data;
+using Game.Environment;
 using Infrastructure.AssetManagement;
 using UnityEngine;
 
 namespace Infrastructure.Factories
 {
-    public class LevelFactory : ILevelFactory
+    public class LevelFactory : FactoryBase, ILevelFactory
     {
-        private readonly IAssetProvider assetProvider;
-
-        public LevelFactory(IAssetProvider assetProvider)
+        private GameObject environmentPrefab;
+        public LevelFactory(IAssetProvider assetProvider) : base(assetProvider)
         {
             this.assetProvider = assetProvider;
         }
-        
-        public async UniTask<GameObject> CreateEnvironment(LevelData levelData)
+
+        public override async UniTask WarmUp()
         {
-            GameObject environment = await assetProvider.InstantiateAddressable(levelData.EnvironmentAddress);
-            return environment;
+            environmentPrefab = await CachePrefab("Environment");
         }
-    }
+
+        public EnvironmentView CreateEnvironment(LevelData levelData)
+        {
+            GameObject environmentObject = CreateGameObject(environmentPrefab);
+            environmentObject.TryGetComponent(out EnvironmentView environmentView);
+            return environmentView;
+        }
+    } 
 
     public interface ILevelFactory
     {
-        UniTask<GameObject> CreateEnvironment(LevelData levelData);
+        EnvironmentView CreateEnvironment(LevelData levelData);
+
+        UniTask WarmUp();
     }
 }

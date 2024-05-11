@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Data;
 using Game.Enemy;
+using Game.Environment;
 using Game.Player;
 using Game.Weapon;
 using Game.Weapon.Laser;
@@ -36,10 +37,10 @@ namespace Infrastructure.StateMachines.Game.States
             IAssetProvider assetProvider = gameInstaller.Resolve<IAssetProvider>();
             LevelData levelData = await assetProvider.LoadAddressable<LevelData>($"Level_{levelIndex}");
             
-            
             //CreateEnvironment
-            /*ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
-            GameObject environment = await levelFactory.CreateEnvironment(levelData);*/
+            ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
+            await levelFactory.WarmUp();
+            EnvironmentView environmentView = levelFactory.CreateEnvironment(levelData);
             
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
@@ -59,7 +60,6 @@ namespace Infrastructure.StateMachines.Game.States
             IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
             //TODO: Create enemy pool
             //TODO: Create GameController(enemyPool)
-            
             
             //CreateGameUI
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
