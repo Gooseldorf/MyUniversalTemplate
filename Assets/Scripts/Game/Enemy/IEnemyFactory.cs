@@ -4,7 +4,7 @@ namespace Game.Enemy
 {
     public interface IEnemyFactory
     {
-        UniTask WarmUp();
+        UniTask WarmUpIfNeeded();
         EnemyView CreateEnemy();
     }
 }

@@ -12,22 +12,22 @@ namespace Controllers
     public class EnemiesController : IDispose
     {
         private readonly EnemyPool enemyPool;
-        private readonly EnemySpawner spawner;
+        private readonly EnemySpawnArea spawnArea;
         private readonly ExplosionController explosionController;
 
         private List<EnemyController> spawnedEnemies = new ();
         
-        public EnemiesController(EnemyPool enemyPool, EnemySpawner spawner, ExplosionController explosionController)
+        public EnemiesController(EnemyPool enemyPool, EnemySpawnArea spawnArea, ExplosionController explosionController)
         {
             this.enemyPool = enemyPool;
-            this.spawner = spawner;
+            this.spawnArea = spawnArea;
             this.explosionController = explosionController;
         }
 
         public void SpawnEnemy()
         {
             EnemyView enemyView = enemyPool.Pool.Get();
-            enemyView.transform.position = spawner.GetSpawnPoint(enemyView.Size);
+            enemyView.transform.position = spawnArea.GetSpawnPoint(enemyView.Size);
             EnemyController enemyController = new EnemyController(enemyView);
             enemyController.Init();
             enemyController.Dead += KillEnemy;

@@ -10,11 +10,11 @@ namespace UI.Game.PauseWindow
     public class PauseWindowController : WindowControllerBase
     {
         private readonly GameStateMachine gameStateMachine;
-        private readonly TimeController timeController;
+        private readonly ITimeController timeController;
         private readonly IInputService inputService;
         private readonly PauseWindowView pauseWindowView;
         
-        public PauseWindowController(GameStateMachine gameStateMachine, TimeController timeController, IInputService inputService, PauseWindowView pauseWindowView)
+        public PauseWindowController(GameStateMachine gameStateMachine, ITimeController timeController, IInputService inputService, PauseWindowView pauseWindowView)
         {
             this.gameStateMachine = gameStateMachine;
             this.timeController = timeController;

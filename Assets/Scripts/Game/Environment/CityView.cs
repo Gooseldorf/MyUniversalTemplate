@@ -1,9 +1,10 @@
 using System;
+using Interfaces;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
-public class CityView : MonoBehaviour
+public class CityView : MonoBehaviour, IInit
 {
     [SerializeField] private Collider cityCollider;
     

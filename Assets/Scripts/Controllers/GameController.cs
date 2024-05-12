@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Game.Player;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
+using Interfaces;
 using UI.Game.LoseWindow;
 using UI.Game.WinWindow;
 using UniRx;
@@ -12,7 +10,7 @@ using UnityEngine;
 
 namespace Controllers
 {
-    public class GameController : IGameController
+    public class GameController : IGameController, IUpdate
     {
         private readonly GameStateMachine gameStateMachine;
         private readonly PlayerController playerController;
@@ -20,15 +18,18 @@ namespace Controllers
         private readonly EnemiesController enemiesController;
         private readonly WinWindowController winWindowController;
         private readonly LoseWindowController loseWindowController;
-        private readonly TimeController timeController;
+        private readonly ITimeController timeController;
+        private readonly Updater updater;
 
-        private UniTask PlayTask;
-        private CancellationTokenSource cts;
+        private bool isPlaying = false;
+        private float spawnDelay = 2; //TODO: Get from levelData
+        private float spawnTimer = 0;
 
-        private CompositeDisposable disposes = new CompositeDisposable();
+        private readonly CompositeDisposable disposes = new CompositeDisposable();
+        private List<IDispose> gameDisposes;
         
         public GameController(GameStateMachine gameStateMachine, PlayerController playerController, CityView cityView, EnemiesController enemiesController, 
-            WinWindowController winWindowController, LoseWindowController loseWindowController, TimeController timeController)
+            WinWindowController winWindowController, LoseWindowController loseWindowController, ITimeController timeController, Updater updater)
         {
             this.gameStateMachine = gameStateMachine;
             this.playerController = playerController;
@@ -37,10 +38,13 @@ namespace Controllers
             this.winWindowController = winWindowController;
             this.loseWindowController = loseWindowController;
             this.timeController = timeController;
+            this.updater = updater;
         }
 
-        public void Init()
+        public void Init(List<IDispose> gameDisposes)
         {
+            this.gameDisposes = gameDisposes;
+            updater.AddUpdatable(this);
             cityView.CityBreachedStream.Subscribe(Breach).AddTo(disposes);
             playerController.Dead += Lose;
         }
@@ -49,31 +53,30 @@ namespace Controllers
         {
             playerController.Dead -= Lose;
             disposes.Dispose();
+            foreach (var dispose in gameDisposes)
+            {
+                dispose.Dispose();
+            }
         }
 
-        public async void Play()
+        public void Play()
         {
-            cts = new CancellationTokenSource();
-            PlayTask = GetPlayTask(cts.Token);
-            await PlayTask;
+            isPlaying = true;
+            timeController.Unpause();
         }
-        
-        private async UniTask GetPlayTask(CancellationToken cancellationToken)
+
+        public void Update() //TODO: MoveToEnemiesController
         {
-            try
+            if(!isPlaying) return;
+            
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= spawnDelay)
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    await Task.Delay(2000, cancellationToken);
-                    enemiesController.SpawnEnemy();
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.Log("Play task was cancelled");
+                enemiesController.SpawnEnemy();
+                spawnTimer = 0;
             }
         }
-        
+
         private void Breach(Collider collider)
         {
             if(collider.transform.parent != null && collider.transform.parent.TryGetComponent(out EnemyView enemy))
@@ -82,7 +85,6 @@ namespace Controllers
 
         private void Win()
         {
-            cts.Cancel();
             gameStateMachine.Enter<WinState>();
             timeController.Pause();
             winWindowController.Show();
@@ -90,7 +92,6 @@ namespace Controllers
 
         private void Lose()
         {
-            cts.Cancel();
             timeController.Pause();
             gameStateMachine.Enter<LoseState>();
             loseWindowController.Show();

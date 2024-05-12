@@ -3,11 +3,11 @@ using Random = UnityEngine.Random;
 
 namespace Game.Spawners
 {
-    public class EnemySpawner
+    public class EnemySpawnArea
     {
         private readonly Bounds spawnArea;
 
-        public EnemySpawner(Bounds spawnArea)
+        public EnemySpawnArea(Bounds spawnArea)
         {
             this.spawnArea = spawnArea;
         }

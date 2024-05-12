@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Interfaces;
+using UnityEngine;
 
 namespace Game.VFX.Explosion
 {
-    public class ExplosionController
+    public class ExplosionController : IDispose
     {
         private readonly ExplosionPool explosionPool;
 
@@ -14,7 +15,12 @@ namespace Game.VFX.Explosion
         public void Explode(Vector3 position)
         {
             ExplosionView explosion = explosionPool.Pool.Get();
-            explosion.transform.position = position + new Vector3(0,0,-3);
+            explosion.transform.position = position + new Vector3(0,0,-5);
+        }
+
+        public void Dispose()
+        {
+            explosionPool.Dispose();
         }
     }
 }

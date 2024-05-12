@@ -4,5 +4,6 @@
     {
         void Pause();
         void Unpause();
+        bool IsPaused { get; }
     }
 }

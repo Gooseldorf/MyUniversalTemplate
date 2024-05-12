@@ -2,7 +2,7 @@
 
 namespace Controllers
 {
-    public interface IGameController : IInit, IDispose
+    public interface IGameController : IDispose
     {
         
     }

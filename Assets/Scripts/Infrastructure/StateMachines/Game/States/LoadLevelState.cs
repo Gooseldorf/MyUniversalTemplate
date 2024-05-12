@@ -1,4 +1,6 @@
-﻿using Controllers;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Controllers;
 using Cysharp.Threading.Tasks;
 using Data;
 using Game.Enemy;
@@ -13,7 +15,7 @@ using Infrastructure.AssetManagement;
 using Infrastructure.DI;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
-using Infrastructure.StateMachines.Main;
+using Interfaces;
 using UI.Game.HUD;
 using UI.Game.LoseWindow;
 using UI.Game.PauseWindow;
@@ -25,6 +27,7 @@ namespace Infrastructure.StateMachines.Game.States
     public class LoadLevelState : IStateWithArg<int>
     {
         private readonly GameStateMachine gameStateMachine;
+        private List<IDispose> disposes = new List<IDispose>();
 
         public LoadLevelState(GameStateMachine gameStateMachine)
         {
@@ -34,7 +37,7 @@ namespace Infrastructure.StateMachines.Game.States
         public async void Enter(int levelIndex)
         {
             GameInstaller gameInstaller = Object.FindObjectOfType<GameInstaller>();
-            TimeController timeController = new TimeController();
+            ITimeController timeController = gameInstaller.Resolve<ITimeController>();
 
             //Load LevelData by index
             IAssetProvider assetProvider = gameInstaller.Resolve<IAssetProvider>();
@@ -42,38 +45,96 @@ namespace Infrastructure.StateMachines.Game.States
             
             //CreateEnvironment
             ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
-            await levelFactory.WarmUp();
-            EnvironmentView environmentView = levelFactory.CreateEnvironment();
-            environmentView.SetUp();
+            await levelFactory.WarmUpIfNeeded();
+            EnvironmentView environmentView = SetupEnvironment(levelFactory);
             Bounds gameFieldBounds = environmentView.GetGameFieldBounds();
-            CityView city = levelFactory.CreateCity();
-            city.Init();
+            
+            CityView city = SetupCity(levelFactory);
+            ExplosionController explosionController = await SetupExplosions(assetProvider);
+            disposes.Add(explosionController);
 
-            ExplosionFactory explosionFactory = new ExplosionFactory(assetProvider);
-            await explosionFactory.WarmUp();
-            ExplosionPool explosionPool = new ExplosionPool(explosionFactory, 10);
-            ExplosionController explosionController = new ExplosionController(explosionPool);
-            
-            EnemySpawner enemySpawner = new EnemySpawner(environmentView.GetGameFieldBounds());
             IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
-            await enemyFactory.WarmUp();
-            EnemyPool enemyPool = new EnemyPool(enemyFactory as EnemyFactory, 10);
-            EnemiesController enemiesController = new EnemiesController(enemyPool, enemySpawner, explosionController);
-            
-            //TODO: Create GameController(enemyPool)
-            
+            await enemyFactory.WarmUpIfNeeded();
+            EnemiesController enemiesController = SetupEnemies(environmentView, enemyFactory, explosionController);
+            disposes.Add(enemiesController);
+
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
             IPlayerFactory playerFactory = gameInstaller.Resolve<IPlayerFactory>();
-            PlayerView playerView = await playerFactory.CreatePlayer(levelData);
-
             IWeaponFactory weaponFactory = gameInstaller.Resolve<IWeaponFactory>();
-            LaserWeaponView laserWeaponView = await weaponFactory.CreateLaserWeapon();
-            laserWeaponView.transform.SetParent(playerView.transform);
-            laserWeaponView.transform.localPosition = Vector3.zero;
+            await weaponFactory.WarmUpIfNeeded();
+            PlayerController playerController = await SetupPlayer(weaponFactory, playerFactory, levelData, assetProvider, gameFieldBounds, inputService);
+            disposes.Add(playerController);
+
+            //CreateGameUI
+            IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
+            Canvas windowsCanvas = await gameUIFactory.CreateWindowsCanvas();
+            
+            HUDController hudController = await SetupHUD(gameUIFactory);
+            disposes.Add(hudController);
+            
+            PauseWindowController pauseWindowController = await SetupPauseWindow(gameUIFactory, windowsCanvas, timeController, inputService);
+            disposes.Add(pauseWindowController);
+            
+            WinWindowController winWindowController = await SetupWinWindow(gameUIFactory, windowsCanvas);
+            disposes.Add(winWindowController);
+            
+            LoseWindowController loseWindowController = await SetupLoseWindow(gameUIFactory, windowsCanvas);
+            disposes.Add(loseWindowController);
+            
+            Updater updater = await CreateUpdater(assetProvider);
+            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController, winWindowController, loseWindowController, timeController, updater);
+            gameController.Init(disposes);
+            gameInstaller.BindAsSingleFromInstance<IGameController, GameController>(gameController);
+            
+            gameStateMachine.Enter<StartState, GameController>(gameController);
+        }
+
+        private static async Task<Updater> CreateUpdater(IAssetProvider assetProvider)
+        {
+            GameObject updaterObj = await assetProvider.InstantiateAddressable("Updater");
+            Updater updater = updaterObj.GetComponent<Updater>();
+            return updater;
+        }
+
+        private async Task<LoseWindowController> SetupLoseWindow(IGameUIFactory gameUIFactory, Canvas windowsCanvas)
+        {
+            LoseWindowView loseWindowView = await gameUIFactory.CreateLoseWindow(windowsCanvas);
+            LoseWindowController loseWindowController = new LoseWindowController(gameStateMachine, loseWindowView);
+            loseWindowController.Init();
+            return loseWindowController;
+        }
+
+        private async Task<WinWindowController> SetupWinWindow(IGameUIFactory gameUIFactory, Canvas windowsCanvas)
+        {
+            WinWindowView winWindowView = await gameUIFactory.CreateWinWindow(windowsCanvas);
+            WinWindowController winWindowController = new WinWindowController(gameStateMachine, winWindowView);
+            winWindowController.Init();
+            return winWindowController;
+        }
+
+        private async Task<PauseWindowController> SetupPauseWindow(IGameUIFactory gameUIFactory, Canvas windowsCanvas, ITimeController timeController, IInputService inputService)
+        {
+            PauseWindowView pauseWindowView = await gameUIFactory.CreatePauseWindow(windowsCanvas);
+            PauseWindowController pauseWindowController = new PauseWindowController(gameStateMachine, timeController, inputService, pauseWindowView);
+            pauseWindowController.Init();
+            return pauseWindowController;
+        }
+
+        private static async Task<HUDController> SetupHUD(IGameUIFactory gameUIFactory)
+        {
+            HUDView hudView = await gameUIFactory.CreateHUD();
+            HUDController hudController = new HUDController(hudView);
+            return hudController;
+        }
+
+        private static async Task<PlayerController> SetupPlayer(IWeaponFactory weaponFactory, IPlayerFactory playerFactory, LevelData levelData, IAssetProvider assetProvider, Bounds gameFieldBounds, IInputService inputService)
+        {
+            PlayerView playerView = await playerFactory.CreatePlayer(levelData);
+            LaserWeaponView laserWeaponView = weaponFactory.CreatePlayerLaserWeapon(playerView.transform);
             
             LaserProjectileFactory laserProjectileFactory = new LaserProjectileFactory(assetProvider);
-            await laserProjectileFactory.WarmUp();
+            await laserProjectileFactory.WarmUpIfNeeded();
             GameObject projectileReleaserObj = await assetProvider.InstantiateAddressable("ProjectileReleaser");
             ProjectileReleaser projectileReleaser = projectileReleaserObj.GetComponent<ProjectileReleaser>();
             LaserProjectilePool laserProjectilePool = new LaserProjectilePool(laserProjectileFactory, projectileReleaser, 20);
@@ -82,37 +143,40 @@ namespace Infrastructure.StateMachines.Game.States
             
             PlayerController playerController = new PlayerController(playerView, gameFieldBounds, laserWeaponController, inputService);
             playerController.Init();
-            
-            //CreateGameUI
-            IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
-            Canvas windowsCanvas = await gameUIFactory.CreateWindowsCanvas();
-            
-            HUDView hudView = await gameUIFactory.CreateHUD();
-            HUDController hudController = new HUDController(hudView);
-            
-            PauseWindowView pauseWindowView = await gameUIFactory.CreatePauseWindow(windowsCanvas);
-            PauseWindowController pauseWindowController = new PauseWindowController(gameStateMachine, timeController, inputService, pauseWindowView);
-            pauseWindowController.Init();
-            
-            WinWindowView winWindowView = await gameUIFactory.CreateWinWindow(windowsCanvas);
-            WinWindowController winWindowController = new WinWindowController(gameStateMachine, winWindowView);
-            winWindowController.Init();
-            
-            LoseWindowView loseWindowView = await gameUIFactory.CreateLoseWindow(windowsCanvas);
-            LoseWindowController loseWindowController = new LoseWindowController(gameStateMachine, loseWindowView);
-            loseWindowController.Init();            
-            
-            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController, winWindowController, loseWindowController, timeController);
-            gameController.Init();
-            
-            gameStateMachine.Enter<StartState, GameController>(gameController);
+            return playerController;
         }
 
-        private async UniTask CreateGameUI(IGameUIFactory gameUIFactory, TimeController timeController, IInputService inputService)
+        private static EnemiesController SetupEnemies(EnvironmentView environmentView, IEnemyFactory enemyFactory, ExplosionController explosionController)
         {
-            
+            EnemySpawnArea enemySpawnArea = new EnemySpawnArea(environmentView.GetGameFieldBounds());
+            EnemyPool enemyPool = new EnemyPool(enemyFactory as EnemyFactory, 10);
+            EnemiesController enemiesController = new EnemiesController(enemyPool, enemySpawnArea, explosionController);
+            return enemiesController;
         }
-        
+
+        private static EnvironmentView SetupEnvironment(ILevelFactory levelFactory)
+        {
+            EnvironmentView environmentView = levelFactory.CreateEnvironment();
+            environmentView.SetUp();
+            return environmentView;
+        }
+
+        private static CityView SetupCity(ILevelFactory levelFactory)
+        {
+            CityView city = levelFactory.CreateCity();
+            city.Init();
+            return city;
+        }
+
+        private async UniTask<ExplosionController> SetupExplosions(IAssetProvider assetProvider)
+        {
+            ExplosionFactory explosionFactory = new ExplosionFactory(assetProvider);
+            await explosionFactory.WarmUpIfNeeded();
+            ExplosionPool explosionPool = new ExplosionPool(explosionFactory, 10);
+            ExplosionController explosionController = new ExplosionController(explosionPool);
+            return explosionController;
+        }
+
         public void Exit()
         {
             

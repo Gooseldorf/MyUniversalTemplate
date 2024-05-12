@@ -26,5 +26,9 @@ namespace Infrastructure.DI
             Container.Bind<IPlayerFactory>().To<PlayerFactory>().AsSingle();
             Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();
         }
+
+        public void BindAsSingle<IT, T>() where T : IT => Container.Bind<IT>().To<T>().AsSingle();
+
+        public void BindAsSingleFromInstance<IT, T>(T instance) where T : IT => Container.Bind<IT>().To<T>().FromInstance(instance).AsSingle();
     }
 }

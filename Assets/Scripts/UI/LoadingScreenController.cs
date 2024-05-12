@@ -5,7 +5,7 @@ namespace UI
     public class LoadingScreenController
     {
         private readonly LoadingScreenView loadingScreenView;
-
+        
         public LoadingScreenController(LoadingScreenView loadingScreenView)
         {
             this.loadingScreenView = loadingScreenView;

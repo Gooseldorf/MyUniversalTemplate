@@ -6,7 +6,7 @@ namespace Controllers
     {
         public bool IsPaused => isPaused;
 
-        private bool isPaused = false;
+        private bool isPaused = true;
 
         public void Pause()
         {

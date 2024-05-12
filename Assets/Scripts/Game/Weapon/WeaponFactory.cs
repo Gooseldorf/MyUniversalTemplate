@@ -1,22 +1,39 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Weapon.Laser;
 using Infrastructure.AssetManagement;
+using Infrastructure.Factories;
 using UnityEngine;
 
 namespace Game.Weapon
 {
-    public class WeaponFactory : IWeaponFactory
+    public class WeaponFactory : FactoryBase, IWeaponFactory
     {
-        private readonly IAssetProvider assetProvider;
-
-        public WeaponFactory(IAssetProvider assetProvider)
-        {
-            this.assetProvider = assetProvider;
-        }
+        private GameObject playerLaserWeaponPrefab;
+        private GameObject enemyLaserWeaponPrefab;
         
-        public async UniTask<LaserWeaponView> CreateLaserWeapon()
+        public WeaponFactory(IAssetProvider assetProvider) : base(assetProvider)
+        { }
+
+        public override async UniTask WarmUpIfNeeded()
         {
-            GameObject laserWeapon = await assetProvider.InstantiateAddressable("LaserWeapon");
+            playerLaserWeaponPrefab = await CachePrefab("PlayerLaserWeapon");
+            enemyLaserWeaponPrefab = await CachePrefab("EnemyLaserWeapon");
+        }
+
+        public LaserWeaponView CreatePlayerLaserWeapon(Transform parent)
+        {
+            GameObject laserWeapon =  CreateGameObject(playerLaserWeaponPrefab);
+            laserWeapon.transform.SetParent(parent.transform);
+            laserWeapon.transform.localPosition = Vector3.zero;
+            laserWeapon.TryGetComponent(out LaserWeaponView laserWeaponView);
+            return laserWeaponView;
+        }
+
+        public LaserWeaponView CreateEnemyLaserWeapon(Transform parent)
+        {
+            GameObject laserWeapon = CreateGameObject(enemyLaserWeaponPrefab);
+            laserWeapon.transform.SetParent(parent.transform);
+            laserWeapon.transform.localPosition = Vector3.zero;
             laserWeapon.TryGetComponent(out LaserWeaponView laserWeaponView);
             return laserWeaponView;
         }
@@ -24,6 +41,8 @@ namespace Game.Weapon
 
     public interface IWeaponFactory
     {
-        UniTask<LaserWeaponView> CreateLaserWeapon();
+        UniTask WarmUpIfNeeded();
+        LaserWeaponView CreatePlayerLaserWeapon(Transform parent);
+        LaserWeaponView CreateEnemyLaserWeapon(Transform parent);
     }
 }

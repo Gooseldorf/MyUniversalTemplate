@@ -14,7 +14,7 @@ namespace Game.Enemy
             this.assetProvider = assetProvider;
         }
 
-        public override async UniTask WarmUp()
+        public override async UniTask WarmUpIfNeeded()
         {
             enemyPrefab =  await CachePrefab("Enemy");
         }
@@ -23,8 +23,6 @@ namespace Game.Enemy
         {
             GameObject enemyObject = CreateGameObject(enemyPrefab);
             enemyObject.TryGetComponent(out EnemyView enemyView);
-            //TODO: SetupEnemy
-            enemyObject.transform.position = new Vector3(0, 80, 0);
             return enemyView;
         }
     }

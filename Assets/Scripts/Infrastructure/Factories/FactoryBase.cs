@@ -16,7 +16,7 @@ namespace Infrastructure.Factories
             container = new GameObject(GetType().Name + "Container");
         }
 
-        public abstract UniTask WarmUp();
+        public abstract UniTask WarmUpIfNeeded();
 
         protected async UniTask<GameObject> CachePrefab(string address) => await assetProvider.LoadAddressable<GameObject>(address);
 

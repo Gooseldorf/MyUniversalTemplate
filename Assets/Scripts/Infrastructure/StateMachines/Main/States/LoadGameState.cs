@@ -1,20 +1,10 @@
 ﻿using System.Collections.Generic;
-using Controllers;
 using Enums;
-using Game.Player;
-using Infrastructure.DI;
-using Infrastructure.Factories;
-using Infrastructure.Services.Input;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using Interfaces;
 using Managers;
 using UI;
-using UI.Game;
-using UI.Game.HUD;
-using UI.Game.LoseWindow;
-using UI.Game.PauseWindow;
-using UI.Game.WinWindow;
 using UnityEngine;
 
 namespace Infrastructure.StateMachines.Main.States
@@ -46,7 +36,7 @@ namespace Infrastructure.StateMachines.Main.States
         {
             await audioManager.WarmUpGame();
 
-            GameStateMachine gameStateMachine = new GameStateMachine(stateMachine);
+            GameStateMachine gameStateMachine = new GameStateMachine(stateMachine, loadingScreenController);
             gameStateMachine.Enter<LoadLevelState, int>(0); //TODO: Get level
         }
 

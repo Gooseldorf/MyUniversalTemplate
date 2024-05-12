@@ -12,9 +12,10 @@ namespace Game.Weapon.Laser
         public LaserProjectileFactory(IAssetProvider assetProvider) : base(assetProvider)
         { }
         
-        public override async UniTask WarmUp()
+        public override async UniTask WarmUpIfNeeded()
         {
-            projectilePrefab = await CachePrefab("LaserProjectile");
+            if(projectilePrefab == null)
+                projectilePrefab = await CachePrefab("LaserProjectile");
         }
 
         public LaserProjectileView CreateLaserProjectile()

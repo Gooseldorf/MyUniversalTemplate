@@ -13,9 +13,10 @@ namespace Game.VFX.Explosion
         {
         }
 
-        public override async UniTask WarmUp()
+        public override async UniTask WarmUpIfNeeded()
         {
-            explosionPrefab = await CachePrefab("Explosion");
+            if(explosionPrefab == null)
+                explosionPrefab = await CachePrefab("Explosion");
         }
         
         public ExplosionView CreateExplosion()

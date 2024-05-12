@@ -15,10 +15,12 @@ namespace Infrastructure.Factories
             this.assetProvider = assetProvider;
         }
 
-        public override async UniTask WarmUp()
+        public override async UniTask WarmUpIfNeeded()
         {
-            environmentPrefab = await CachePrefab("Environment");
-            cityPrefab = await CachePrefab("City");
+            if(environmentPrefab == null)
+                environmentPrefab = await CachePrefab("Environment");
+            if(cityPrefab == null)
+                cityPrefab = await CachePrefab("City");
         }
 
         public EnvironmentView CreateEnvironment()
@@ -41,6 +43,6 @@ namespace Infrastructure.Factories
         EnvironmentView CreateEnvironment();
         CityView CreateCity();
 
-        UniTask WarmUp();
+        UniTask WarmUpIfNeeded();
     }
 }
