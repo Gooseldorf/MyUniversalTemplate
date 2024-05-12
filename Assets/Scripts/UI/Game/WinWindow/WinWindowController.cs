@@ -1,4 +1,5 @@
-﻿using Infrastructure.StateMachines.Game;
+﻿using Controllers;
+using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using UI.Base;
 using UniRx;
@@ -33,7 +34,8 @@ namespace UI.Game.WinWindow
 
         private void Restart()
         {
-            gameStateMachine.Enter<LoadLevelState, int>(gameStateMachine.CurrentLevelIndex);
+            Hide();
+            gameStateMachine.Enter<StartState>();
         }
 
         private void Exit()

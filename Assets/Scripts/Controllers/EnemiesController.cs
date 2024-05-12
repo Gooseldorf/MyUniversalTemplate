@@ -24,6 +24,15 @@ namespace Controllers
             this.explosionController = explosionController;
         }
 
+        public void Reset()
+        {
+            enemyPool.ReleaseEveryone();
+            foreach (var enemy in spawnedEnemies)
+            {
+                enemy.Dispose();
+            }
+        }
+
         public void SpawnEnemy()
         {
             EnemyView enemyView = enemyPool.Pool.Get();
@@ -31,6 +40,7 @@ namespace Controllers
             EnemyController enemyController = new EnemyController(enemyView);
             enemyController.Init();
             enemyController.Dead += KillEnemy;
+            spawnedEnemies.Add(enemyController);
         }
 
         private void KillEnemy(EnemyController controller, EnemyView view)

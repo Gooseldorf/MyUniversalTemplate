@@ -38,6 +38,11 @@ namespace Game.Player
                 .AddTo(disposes);
         }
 
+        public void Reset()
+        {
+            playerView.transform.position = new Vector3(0, -50, 0);
+        }
+
         private void Die()
         {
             Dead?.Invoke();

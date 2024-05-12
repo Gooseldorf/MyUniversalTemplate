@@ -15,6 +15,8 @@ namespace Game.Enemy
         public CompositeDisposable disposes = new CompositeDisposable();
         public event Action<EnemyController, EnemyView> Dead;
 
+        public EnemyView EnemyView => enemyView;
+
         public EnemyController(EnemyView enemyView)
         {
             this.enemyView = enemyView;

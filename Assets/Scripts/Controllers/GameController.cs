@@ -62,6 +62,8 @@ namespace Controllers
         public void Play()
         {
             isPlaying = true;
+            playerController.Reset();
+            enemiesController.Reset();
             timeController.Unpause();
         }
 

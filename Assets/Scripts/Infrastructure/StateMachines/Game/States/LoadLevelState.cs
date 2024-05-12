@@ -87,7 +87,7 @@ namespace Infrastructure.StateMachines.Game.States
             gameController.Init(disposes);
             gameInstaller.BindAsSingleFromInstance<IGameController, GameController>(gameController);
             
-            gameStateMachine.Enter<StartState, GameController>(gameController);
+            gameStateMachine.Enter<StartState>();
         }
 
         private static async Task<Updater> CreateUpdater(IAssetProvider assetProvider)
