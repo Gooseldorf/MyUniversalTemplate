@@ -32,6 +32,7 @@ namespace Game.Enemy
                 .Subscribe(_ => OnHit())
                 .AddTo(disposes);
         }
+        
 
         private void OnHit()
         {

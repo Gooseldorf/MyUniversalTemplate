@@ -28,7 +28,7 @@ namespace Infrastructure.StateMachines.Game.States
     {
         private readonly GameStateMachine gameStateMachine;
         private List<IDispose> disposes = new List<IDispose>();
-
+        
         public LoadLevelState(GameStateMachine gameStateMachine)
         {
             this.gameStateMachine = gameStateMachine;
@@ -42,6 +42,7 @@ namespace Infrastructure.StateMachines.Game.States
             //Load LevelData by index
             IAssetProvider assetProvider = gameInstaller.Resolve<IAssetProvider>();
             LevelData levelData = await assetProvider.LoadAddressable<LevelData>($"Level_{levelIndex}");
+            PlayerData playerData = await assetProvider.LoadAddressable<PlayerData>("PlayerData");
             
             //CreateEnvironment
             ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
@@ -50,10 +51,13 @@ namespace Infrastructure.StateMachines.Game.States
             Bounds gameFieldBounds = environmentView.GetGameFieldBounds();
             
             CityView city = SetupCity(levelFactory);
+            
+            //CreateEnemies
             ExplosionController explosionController = await SetupExplosions(assetProvider);
             disposes.Add(explosionController);
-
             IEnemyFactory enemyFactory = gameInstaller.Resolve<IEnemyFactory>();
+            EnemyData enemyData = await assetProvider.LoadAddressable<EnemyData>("EnemyData");
+            enemyFactory.EnemyData = enemyData;
             await enemyFactory.WarmUpIfNeeded();
             EnemiesController enemiesController = SetupEnemies(environmentView, enemyFactory, explosionController);
             disposes.Add(enemiesController);
@@ -63,7 +67,7 @@ namespace Infrastructure.StateMachines.Game.States
             IPlayerFactory playerFactory = gameInstaller.Resolve<IPlayerFactory>();
             IWeaponFactory weaponFactory = gameInstaller.Resolve<IWeaponFactory>();
             await weaponFactory.WarmUpIfNeeded();
-            PlayerController playerController = await SetupPlayer(weaponFactory, playerFactory, levelData, assetProvider, gameFieldBounds, inputService);
+            PlayerController playerController = await SetupPlayer(weaponFactory, playerFactory, playerData, assetProvider, gameFieldBounds, inputService);
             disposes.Add(playerController);
 
             //CreateGameUI
@@ -82,12 +86,13 @@ namespace Infrastructure.StateMachines.Game.States
             LoseWindowController loseWindowController = await SetupLoseWindow(gameUIFactory, windowsCanvas);
             disposes.Add(loseWindowController);
             
+            //Create GameController
             Updater updater = await CreateUpdater(assetProvider);
             GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController, winWindowController, loseWindowController, timeController, updater);
             gameController.Init(disposes);
             gameInstaller.BindAsSingleFromInstance<IGameController, GameController>(gameController);
             
-            gameStateMachine.Enter<StartState>();
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.CurrentLevelIndex);
         }
 
         private static async Task<Updater> CreateUpdater(IAssetProvider assetProvider)
@@ -128,9 +133,9 @@ namespace Infrastructure.StateMachines.Game.States
             return hudController;
         }
 
-        private static async Task<PlayerController> SetupPlayer(IWeaponFactory weaponFactory, IPlayerFactory playerFactory, LevelData levelData, IAssetProvider assetProvider, Bounds gameFieldBounds, IInputService inputService)
+        private static async Task<PlayerController> SetupPlayer(IWeaponFactory weaponFactory, IPlayerFactory playerFactory, PlayerData playerData, IAssetProvider assetProvider, Bounds gameFieldBounds, IInputService inputService)
         {
-            PlayerView playerView = await playerFactory.CreatePlayer(levelData);
+            PlayerView playerView = await playerFactory.CreatePlayer(playerData);
             LaserWeaponView laserWeaponView = weaponFactory.CreatePlayerLaserWeapon(playerView.transform);
             
             LaserProjectileFactory laserProjectileFactory = new LaserProjectileFactory(assetProvider);

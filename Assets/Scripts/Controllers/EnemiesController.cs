@@ -14,6 +14,7 @@ namespace Controllers
         private readonly EnemyPool enemyPool;
         private readonly EnemySpawnArea spawnArea;
         private readonly ExplosionController explosionController;
+        private float enemySpeedMultiplier; //TODO: SetUpSpeed
 
         private List<EnemyController> spawnedEnemies = new ();
         
@@ -22,6 +23,11 @@ namespace Controllers
             this.enemyPool = enemyPool;
             this.spawnArea = spawnArea;
             this.explosionController = explosionController;
+        }
+
+        public float EnemySpeedMultiplier
+        {
+            set => enemySpeedMultiplier = value;
         }
 
         public void Reset()

@@ -36,7 +36,7 @@ namespace Infrastructure.StateMachines.Main.States
         {
             await audioManager.WarmUpGame();
 
-            GameStateMachine gameStateMachine = new GameStateMachine(stateMachine, loadingScreenController);
+            GameStateMachine gameStateMachine = new GameStateMachine(stateMachine);
             gameStateMachine.Enter<LoadLevelState, int>(0); //TODO: Get level
         }
 

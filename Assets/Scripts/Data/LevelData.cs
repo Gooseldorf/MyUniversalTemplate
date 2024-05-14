@@ -1,5 +1,4 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Data
 {
@@ -8,8 +7,9 @@ namespace Data
     {
         public string EnvironmentAddress;
         
-        public string PlayerAddress;
-        public float3 PlayerPosition;
-        public float PlayerSpeed;
+        public string EnemyDataAddress;
+        public int NumberOfEnemies;
+        public float EnemySpeedMultiplier;
+        public float EnemySpawnDelay;
     }
 }

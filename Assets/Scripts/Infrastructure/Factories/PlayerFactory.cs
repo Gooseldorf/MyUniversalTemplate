@@ -15,18 +15,18 @@ namespace Infrastructure.Factories
             this.assetProvider = assetProvider;
         }
         
-        public async UniTask<PlayerView> CreatePlayer(LevelData levelData)
+        public async UniTask<PlayerView> CreatePlayer(PlayerData playerData)
         {
-            GameObject player =  await assetProvider.InstantiateAddressable(levelData.PlayerAddress);
-            player.transform.position = levelData.PlayerPosition;
+            GameObject player =  await assetProvider.InstantiateAddressable(playerData.PlayerAddress);
             player.TryGetComponent(out PlayerView playerView);
-            playerView.PlayerMove.SetSpeed(levelData.PlayerSpeed);
+            playerView.transform.position = playerData.PlayerStartPosition;
+            playerView.PlayerMove.SetSpeed(playerData.PlayerSpeed);
             return playerView;
         }
     }
 
     public interface IPlayerFactory
     {
-        UniTask<PlayerView> CreatePlayer(LevelData levelData);
+        UniTask<PlayerView> CreatePlayer(PlayerData playerData);
     }
 }

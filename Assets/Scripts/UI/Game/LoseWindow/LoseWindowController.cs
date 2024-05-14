@@ -28,7 +28,7 @@ namespace UI.Game.LoseWindow
         private void Restart()
         {
             Hide();
-            gameStateMachine.Enter<StartState>();
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.CurrentLevelIndex);
         }
 
         private void Exit()

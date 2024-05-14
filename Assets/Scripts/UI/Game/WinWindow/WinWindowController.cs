@@ -29,13 +29,14 @@ namespace UI.Game.WinWindow
 
         private void NextLevel()
         {
-            gameStateMachine.Enter<LoadLevelState, int>(gameStateMachine.NextLevelIndex);
+            Hide();
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.NextLevelIndex);
         }
 
         private void Restart()
         {
             Hide();
-            gameStateMachine.Enter<StartState>();
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.NextLevelIndex);
         }
 
         private void Exit()

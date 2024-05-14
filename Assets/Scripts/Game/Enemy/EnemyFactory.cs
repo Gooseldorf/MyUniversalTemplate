@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Data;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Game.Enemy
 {
     public class EnemyFactory : FactoryBase, IEnemyFactory
     {
+        public EnemyData EnemyData { private get; set; }
         private GameObject enemyPrefab;
         
         public EnemyFactory(IAssetProvider assetProvider) : base(assetProvider)
@@ -16,7 +18,8 @@ namespace Game.Enemy
 
         public override async UniTask WarmUpIfNeeded()
         {
-            enemyPrefab =  await CachePrefab("Enemy");
+            if(enemyPrefab == null)
+                enemyPrefab =  await CachePrefab(EnemyData.Address);
         }
 
         public EnemyView CreateEnemy()

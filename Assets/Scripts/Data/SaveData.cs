@@ -3,7 +3,7 @@
 namespace Data
 {
     [Serializable]
-    public class GameData
+    public class SaveData
     {
                 
     }

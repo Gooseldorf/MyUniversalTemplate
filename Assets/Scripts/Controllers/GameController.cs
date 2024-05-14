@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Data;
 using Game.Player;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
@@ -24,6 +25,7 @@ namespace Controllers
         private bool isPlaying = false;
         private float spawnDelay = 2; //TODO: Get from levelData
         private float spawnTimer = 0;
+        private int enemyCount = 0;
 
         private readonly CompositeDisposable disposes = new CompositeDisposable();
         private List<IDispose> gameDisposes;
@@ -59,8 +61,11 @@ namespace Controllers
             }
         }
 
-        public void Play()
+        public void Play(LevelData levelData)
         {
+            spawnTimer = 0;
+            spawnDelay = levelData.EnemySpawnDelay;
+            enemyCount = levelData.NumberOfEnemies;
             isPlaying = true;
             playerController.Reset();
             enemiesController.Reset();
@@ -72,10 +77,16 @@ namespace Controllers
             if(!isPlaying) return;
             
             spawnTimer += Time.deltaTime;
-            if (spawnTimer >= spawnDelay)
+            if (spawnTimer >= spawnDelay && enemyCount >= 0)
             {
                 enemiesController.SpawnEnemy();
                 spawnTimer = 0;
+                enemyCount--;
+                
+                if (enemyCount < 0)
+                {
+                    Win();
+                }
             }
         }
 
@@ -90,6 +101,7 @@ namespace Controllers
             gameStateMachine.Enter<WinState>();
             timeController.Pause();
             winWindowController.Show();
+            isPlaying = false;
         }
 
         private void Lose()
@@ -97,7 +109,7 @@ namespace Controllers
             timeController.Pause();
             gameStateMachine.Enter<LoseState>();
             loseWindowController.Show();
-            Debug.Log("Lose");
+            isPlaying = false;
         }
     }
 }
