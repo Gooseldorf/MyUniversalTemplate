@@ -74,7 +74,8 @@ namespace Infrastructure.StateMachines.Game.States
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
             Canvas windowsCanvas = await gameUIFactory.CreateWindowsCanvas();
             
-            HUDController hudController = await SetupHUD(gameUIFactory);
+            HUDController hudController = await SetupHUD(gameUIFactory, enemiesController);
+            hudController.Init();
             disposes.Add(hudController);
             
             PauseWindowController pauseWindowController = await SetupPauseWindow(gameUIFactory, windowsCanvas, timeController, inputService);
@@ -88,7 +89,7 @@ namespace Infrastructure.StateMachines.Game.States
             
             //Create GameController
             Updater updater = await CreateUpdater(assetProvider);
-            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController, winWindowController, loseWindowController, timeController, updater);
+            GameController gameController = new GameController(gameStateMachine, playerController, city, enemiesController, winWindowController, loseWindowController, hudController, timeController, updater);
             gameController.Init(disposes);
             gameInstaller.BindAsSingleFromInstance<IGameController, GameController>(gameController);
             
@@ -126,10 +127,10 @@ namespace Infrastructure.StateMachines.Game.States
             return pauseWindowController;
         }
 
-        private static async Task<HUDController> SetupHUD(IGameUIFactory gameUIFactory)
+        private static async Task<HUDController> SetupHUD(IGameUIFactory gameUIFactory, EnemiesController enemiesController)
         {
             HUDView hudView = await gameUIFactory.CreateHUD();
-            HUDController hudController = new HUDController(hudView);
+            HUDController hudController = new HUDController(hudView, enemiesController);
             return hudController;
         }
 

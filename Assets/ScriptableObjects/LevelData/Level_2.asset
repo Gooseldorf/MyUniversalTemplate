@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9d0685d1c884e6f86f67b403a85757f, type: 3}
   m_Name: Level_2
   m_EditorClassIdentifier: 
+  Index: 2
   EnvironmentAddress: Environment
   EnemyDataAddress: Enemy
   NumberOfEnemies: 20

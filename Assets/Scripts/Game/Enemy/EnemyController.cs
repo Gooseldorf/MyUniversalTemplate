@@ -10,13 +10,11 @@ namespace Game.Enemy
     {
         private readonly EnemyView enemyView;
         private LaserProjectileView cachedProjectile;
-        private int health = 5;
+        private int health = 3;
 
         public CompositeDisposable disposes = new CompositeDisposable();
         public event Action<EnemyController, EnemyView> Dead;
-
-        public EnemyView EnemyView => enemyView;
-
+        
         public EnemyController(EnemyView enemyView)
         {
             this.enemyView = enemyView;

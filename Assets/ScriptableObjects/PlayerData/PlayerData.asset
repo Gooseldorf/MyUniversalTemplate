@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerAddress: Player
   PlayerStartPosition: {x: 0, y: -50, z: 0}
-  PlayerSpeed: 80
+  PlayerSpeed: 50

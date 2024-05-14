@@ -36,7 +36,7 @@ namespace UI.Game.WinWindow
         private void Restart()
         {
             Hide();
-            gameStateMachine.Enter<StartState, int>(gameStateMachine.NextLevelIndex);
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.CurrentLevelIndex);
         }
 
         private void Exit()
