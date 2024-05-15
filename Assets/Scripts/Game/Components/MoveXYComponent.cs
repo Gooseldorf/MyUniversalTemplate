@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Player
+namespace Game.Components
 {    
     public class MoveXYComponent : MonoBehaviour
     {

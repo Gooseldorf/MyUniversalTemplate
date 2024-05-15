@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Game.Player
+namespace Game.Components
 {
     [RequireComponent(typeof(CharacterController))] 
-    [RequireComponent(typeof(PlayerInput))]
-    public class PlayerMoveWithCCComponent : MonoBehaviour
+    public class MoveWithCCComponent : MonoBehaviour
     {
         [SerializeField] private CharacterController controller;
         

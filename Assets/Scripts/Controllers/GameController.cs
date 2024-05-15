@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Data;
+using Game.Enemy;
 using Game.Player;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;

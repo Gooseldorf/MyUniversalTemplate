@@ -1,7 +1,7 @@
 ﻿using Game.Weapon.Laser;
 using UnityEngine;
 
-namespace Game.Player
+namespace Game.Components
 {
     public class ShootComponent : MonoBehaviour
     {

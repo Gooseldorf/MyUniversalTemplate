@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.Weapon
+namespace Game.Components
 {
     public class HitComponent : MonoBehaviour
     {

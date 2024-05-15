@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Data;
-using Game.Enemy;
 using Game.Spawners;
 using Game.VFX.Explosion;
 using Game.Weapon.Laser;
@@ -12,7 +11,7 @@ using Managers;
 using UniRx;
 using UnityEngine;
 
-namespace Controllers
+namespace Game.Enemy
 {
     public class EnemiesController : IUpdate, IDispose
     {

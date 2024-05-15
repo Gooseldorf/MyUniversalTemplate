@@ -1,4 +1,5 @@
-﻿using Game.Weapon;
+﻿using Game.Components;
+using Game.Weapon;
 using UnityEngine;
 
 namespace Game.Player

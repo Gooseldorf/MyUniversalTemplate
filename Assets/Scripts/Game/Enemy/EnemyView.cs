@@ -1,3 +1,4 @@
+using Game.Components;
 using Game.Player;
 using Game.Weapon;
 using Game.Weapon.Laser;

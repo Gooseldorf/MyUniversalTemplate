@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Components;
 using Game.Projectiles;
 using UniRx;
 using UniRx.Triggers;
