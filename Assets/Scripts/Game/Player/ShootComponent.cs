@@ -9,6 +9,5 @@ namespace Game.Player
         {
             laserWeaponController.Shoot();
         }
-  
     }
 }

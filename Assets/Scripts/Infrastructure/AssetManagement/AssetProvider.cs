@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿#if UNITY_EDITOR
 using UnityEditor.AddressableAssets;
+#endif
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Object = UnityEngine.Object;
@@ -57,7 +60,31 @@ namespace Infrastructure.AssetManagement
                 return default;
             }
         }
+        
+        public async UniTask<List<T>> LoadAddressableLabel<T>(string labelName)
+        {
+            List<T> loadedAssets = new List<T>();
+            try
+            {
+                var loadOp = Addressables.LoadAssetsAsync<T>(labelName,null);
+                loadedAssets = (List<T>)await loadOp;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error loading addressables with label {labelName}: {e}");
+            }
+            return loadedAssets;
+        }
 
+        public void UnloadAddressables<T>(List<T> addressablesToUnload)
+        {
+            foreach (var addressable in addressablesToUnload)
+            {
+                Addressables.Release(addressable);
+            }
+            addressablesToUnload.Clear();
+        }
+#if UNITY_EDITOR
         public async UniTask<List<T>> LoadAddressableGroup<T>(string groupName)
         {
             List<T> loadedAssets = new List<T>();
@@ -91,14 +118,6 @@ namespace Infrastructure.AssetManagement
 
             return loadedAssets;
         }
-
-        public void UnloadAddressables<T>(List<T> addressablesToUnload)
-        {
-            foreach (var addressable in addressablesToUnload)
-            {
-                Addressables.Release(addressable);
-            }
-            addressablesToUnload.Clear();
-        }
+#endif
     }
 }

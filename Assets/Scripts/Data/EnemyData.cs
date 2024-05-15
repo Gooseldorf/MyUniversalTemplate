@@ -6,6 +6,7 @@ namespace Data
     public class EnemyData : ScriptableObject
     {
         public string Address;
-        public float EnemyHealth;
+        public int Health;
+        public float ShootDelay;
     }
 }

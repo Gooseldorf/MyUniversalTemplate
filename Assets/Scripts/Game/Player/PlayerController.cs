@@ -34,8 +34,9 @@ namespace Game.Player
                     collision.transform.parent != null &&
                     ((collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && !laserProjectile.IsPlayerProjectile) || 
                     collision.transform.parent.TryGetComponent(out EnemyView enemy)))
-                .Subscribe(_ => Die())
+                .Subscribe(_ => OnHit(false))
                 .AddTo(disposes);
+            playerView.Hit.OnHit += OnHit;
         }
 
         public void Reset()
@@ -43,13 +44,18 @@ namespace Game.Player
             playerView.transform.position = new Vector3(0, -50, 0);
         }
 
-        private void Die()
+        private void OnHit(bool isPlayerProjectile)
         {
+            if(isPlayerProjectile) return;
             Dead?.Invoke();
             Debug.Log("Dead");
         }
 
-        public void Dispose() => disposes.Dispose();
+        public void Dispose()
+        {
+            playerView.Hit.OnHit -= OnHit;
+            disposes.Dispose();
+        }
 
         private void Move(Vector2 moveVector)
         {

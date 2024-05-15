@@ -2,17 +2,15 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Infrastructure
+namespace Infrastructure.Pools
 {
-    public abstract class PoolBase <T> where T : Component
+    public abstract class ComponentPoolBase <T> where T : Component
     {
-        private readonly int poolSize;
-        protected FactoryBase Factory;
+        protected GameObjectFactoryBase Factory;
         public ObjectPool<T> Pool { get; private set; }
 
-        protected PoolBase(FactoryBase factory, int poolSize)
+        protected ComponentPoolBase(GameObjectFactoryBase factory, int poolSize)
         {
-            this.poolSize = poolSize;
             Factory = factory;
             Pool = new ObjectPool<T>(Create, Get, Release, Destroy, true, poolSize);
         }

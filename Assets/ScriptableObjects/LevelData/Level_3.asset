@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 3
   EnvironmentAddress: Environment
-  EnemyDataAddress: Enemy
+  EnemyDataAddress: EnemyData
   NumberOfEnemies: 30
   EnemySpeedMultiplier: 1.7
   EnemySpawnDelay: 1.5

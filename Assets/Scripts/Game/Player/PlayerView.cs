@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Weapon;
+using UnityEngine;
 
 namespace Game.Player
 {
@@ -7,5 +8,6 @@ namespace Game.Player
         public MoveXYComponent PlayerMove;
         public ShootComponent PlayerShoot;
         public Collider PlayerCollider;
+        public HitComponent Hit;
     }
 }

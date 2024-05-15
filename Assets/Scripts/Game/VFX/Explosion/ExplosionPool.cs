@@ -1,15 +1,16 @@
 ﻿using Infrastructure;
 using Infrastructure.Factories;
+using Infrastructure.Pools;
 using Interfaces;
 using UniRx;
 
 namespace Game.VFX.Explosion
 {
-    public class ExplosionPool : PoolBase<ExplosionView>, IDispose
+    public class ExplosionPool : ComponentPoolBase<ExplosionView>, IDispose
     {
         private CompositeDisposable disposes = new CompositeDisposable();
 
-        public ExplosionPool(FactoryBase factory, int poolSize) : base(factory, poolSize)
+        public ExplosionPool(GameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
         { }
         
         public void Dispose()

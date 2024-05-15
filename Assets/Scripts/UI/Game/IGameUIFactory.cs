@@ -5,7 +5,7 @@ using UI.Game.PauseWindow;
 using UI.Game.WinWindow;
 using UnityEngine;
 
-namespace Infrastructure.Factories
+namespace UI.Game
 {
     public interface IGameUIFactory
     {

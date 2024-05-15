@@ -20,5 +20,7 @@ namespace UI.Base
             else
                 Debug.LogError($"{GetType()} no button component!");
         }
+
+        public void Toggle(bool enable) => Button.interactable = enable;
     }
 }

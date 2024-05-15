@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using Infrastructure;
 using Infrastructure.Factories;
+using Infrastructure.Pools;
 using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class EnemyPool : PoolBase<EnemyView>
+    public class EnemyPool : ComponentPoolBase<EnemyView>
     {
         private readonly HashSet<EnemyView> activeEnemies;
-        public EnemyPool(FactoryBase factory, int poolSize) : base(factory, poolSize)
+        public EnemyPool(GameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
         {
             activeEnemies = new(poolSize);
         }
@@ -40,7 +41,15 @@ namespace Game.Enemy
         protected override void Get(EnemyView obj)
         {
             base.Get(obj);
-            activeEnemies.Add(obj);
+            if(!activeEnemies.Contains(obj))
+                activeEnemies.Add(obj);
+        }
+
+        protected override void Release(EnemyView obj)
+        {
+            /*if(activeEnemies.Contains(obj))
+                activeEnemies.Remove(obj);*/
+            base.Release(obj);
         }
     }
 }

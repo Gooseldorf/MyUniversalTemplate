@@ -1,5 +1,4 @@
-﻿using Controllers;
-using Infrastructure.StateMachines.Game;
+﻿using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using UI.Base;
 using UniRx;
@@ -8,6 +7,7 @@ namespace UI.Game.WinWindow
 {
     public class WinWindowController : WindowControllerBase
     {
+        private const int maxLevelIndex = 4;
         private readonly GameStateMachine gameStateMachine;
         private readonly WinWindowView winWindowView;
         
@@ -22,7 +22,12 @@ namespace UI.Game.WinWindow
             SubscribeToClicks();
         }
 
-        public override void Show() => winWindowView.AnimateShow(null);
+        public override void Show()
+        {
+            if(gameStateMachine.CurrentLevelIndex >= 4)
+                winWindowView.NextLevelButton.Toggle(false);
+            winWindowView.AnimateShow(null);
+        }
 
         public override void Hide() => winWindowView.AnimateHide(null);
         

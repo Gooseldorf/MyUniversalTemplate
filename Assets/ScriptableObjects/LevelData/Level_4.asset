@@ -15,6 +15,6 @@ MonoBehaviour:
   Index: 4
   EnvironmentAddress: EnvironmentData
   EnemyDataAddress: EnemyData
-  NumberOfEnemies: 10
+  NumberOfEnemies: 30
   EnemySpeedMultiplier: 2
   EnemySpawnDelay: 1

@@ -1,9 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
-using UI.Menu;
 using UnityEngine;
 
-namespace Infrastructure.Factories
+namespace UI.Menu
 {
     /// <summary>
     /// Creates Menu UI Elements

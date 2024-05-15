@@ -1,14 +1,18 @@
-﻿using Game.Player;
+﻿using System;
+using System.Collections.Generic;
+using Game.Player;
 using Game.Projectiles;
 using Infrastructure;
+using Infrastructure.Pools;
 using UniRx;
 using UnityEngine;
 
 namespace Game.Weapon.Laser
 {
-    public class LaserProjectilePool : PoolBase<LaserProjectileView>
+    public class LaserProjectilePool : ComponentPoolBase<LaserProjectileView>
     {
         private readonly ProjectileReleaser releaser;
+        private List<LaserProjectileView> spawnedProjectiles = new();
         private CompositeDisposable disposes = new CompositeDisposable();
 
         public LaserProjectilePool(LaserProjectileFactory factory, ProjectileReleaser releaser, int poolSize) : base(factory, poolSize)
@@ -30,16 +34,46 @@ namespace Game.Weapon.Laser
             return projectile;
         }
 
-        private void OnCollision((Collision collision, LaserProjectileView view) data)
+        protected override void Get(LaserProjectileView obj)
         {
-            if (data.collision.transform.parent != null)
+            base.Get(obj);
+            if(!spawnedProjectiles.Contains(obj))
+                spawnedProjectiles.Add(obj);
+        }
+
+        protected override void Release(LaserProjectileView obj)
+        {
+            /*if(spawnedProjectiles.Contains(obj))
+                spawnedProjectiles.Remove(obj);*/
+            base.Release(obj);
+        }
+
+        private void OnCollision((Collider collider, LaserProjectileView view) data)
+        {
+            if (data.collider.transform.parent != null)
             {
-                if((data.view.IsPlayerProjectile && data.collision.transform.parent.TryGetComponent(out PlayerView player)) || 
-                   !data.view.IsPlayerProjectile && data.collision.transform.parent.TryGetComponent(out EnemyView enemy))
+                if((data.view.IsPlayerProjectile && data.collider.transform.parent.TryGetComponent(out PlayerView player)) || 
+                   !data.view.IsPlayerProjectile && data.collider.transform.parent.TryGetComponent(out EnemyView enemy))
                     return;
             }
 
             Release(data.view);
+        }
+
+        public void ReleaseEveryone()
+        {
+            foreach (var enemy in spawnedProjectiles)
+            {
+                try
+                {
+                    Pool.Release(enemy);
+                }
+                catch (InvalidOperationException exception)
+                {
+                    Debug.Log( $"CATCHED : {exception.Message}");
+                }
+            }
+            spawnedProjectiles.Clear();
         }
     }
 }

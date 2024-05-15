@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using UI.Menu;
 
-namespace Infrastructure.Factories
+namespace UI.Menu
 {
     public interface IMenuFactory
     {

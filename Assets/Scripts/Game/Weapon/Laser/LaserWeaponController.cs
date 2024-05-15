@@ -1,23 +1,29 @@
-﻿namespace Game.Weapon.Laser
+﻿using Enums;
+using Managers;
+using UnityEngine;
+
+namespace Game.Weapon.Laser
 {
     public class LaserWeaponController
     {
         private readonly LaserWeaponView view;
         private readonly LaserProjectilePool projectilePool;
+        private readonly IAudioManager audioManager;
         private  LaserProjectileFactory factory;
         private readonly bool isPlayerWeapon;
         
-        public LaserWeaponController(LaserWeaponView view, LaserProjectilePool projectilePool, bool isPlayerWeapon)
+        public LaserWeaponController(LaserWeaponView view, LaserProjectilePool projectilePool, IAudioManager audioManager, bool isPlayerWeapon)
         {
             this.view = view;
             this.projectilePool = projectilePool;
+            this.audioManager = audioManager;
             this.isPlayerWeapon = isPlayerWeapon;
         }
 
         public void Shoot()
         {
-            ShotPoint[] shotPoints = view.GetNextShootPoints(1);//TODO: LaserWeaponData
-
+            ShotPoint[] shotPoints = view.GetNextShootPoints(1);
+            
             foreach (var shotPoint in shotPoints)
             {
                 LaserProjectileView projectile = projectilePool.Pool.Get();
@@ -25,6 +31,7 @@
                 projectileTransform.position = shotPoint.GetCenterPosition();
                 projectileTransform.rotation = shotPoint.GetRotation();
                 projectile.Fire(shotPoint.GetDirection(), isPlayerWeapon);
+                audioManager.Play2DSound(AudioSources.Game, "LaserGun");
             }
         }
     }

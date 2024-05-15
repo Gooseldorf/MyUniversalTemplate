@@ -34,28 +34,44 @@ namespace Data
         {
             if(loadedSoundsList.Count > 0)
                 assetProvider.UnloadAddressables(loadedSoundsList);
+#if UNITY_EDITOR
             loadedSoundsList = await assetProvider.LoadAddressableGroup<AudioClip>(menuSoundGroupName);
+#else
+            loadedSoundsList = await assetProvider.LoadAddressableLabel<AudioClip>(menuSoundGroupName);
+#endif
         }
 
         public async UniTask LoadGameSounds(IAssetProvider assetProvider)
         {
             if(loadedSoundsList.Count > 0)
                 assetProvider.UnloadAddressables(loadedSoundsList);
+#if UNITY_EDITOR
             loadedSoundsList = await assetProvider.LoadAddressableGroup<AudioClip>(gameSoundGroupName);
+#else
+            loadedSoundsList = await assetProvider.LoadAddressableLabel<AudioClip>(gameSoundGroupName);
+#endif
         }
 
         public async UniTask LoadMenuBackgroundMusic(IAssetProvider assetProvider)
         {
             if(loadedBackgroundSoundsList.Count > 0)
                 assetProvider.UnloadAddressables(loadedBackgroundSoundsList);
+#if UNITY_EDITOR
             loadedBackgroundSoundsList = await assetProvider.LoadAddressableGroup<AudioClip>(menuBackgroundMusicGroupName);
+#else
+            loadedBackgroundSoundsList = await assetProvider.LoadAddressableLabel<AudioClip>(menuBackgroundMusicGroupName);
+#endif
         } 
         
         public async UniTask LoadGameBackgroundMusic(IAssetProvider assetProvider)
         {
             if(loadedBackgroundSoundsList.Count > 0)
                 assetProvider.UnloadAddressables(loadedBackgroundSoundsList);
+#if UNITY_EDITOR
             loadedBackgroundSoundsList = await assetProvider.LoadAddressableGroup<AudioClip>(gameBackgroundMusicGroupName);
+#else
+            loadedBackgroundSoundsList = await assetProvider.LoadAddressableLabel<AudioClip>(gameBackgroundMusicGroupName);
+#endif
         }
     }
 }

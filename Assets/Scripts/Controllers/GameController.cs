@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Controllers
 {
-    public class GameController : IGameController, IUpdate
+    public class GameController : IGameController
     {
         private readonly GameStateMachine gameStateMachine;
         private readonly PlayerController playerController;
@@ -22,19 +22,12 @@ namespace Controllers
         private readonly LoseWindowController loseWindowController;
         private readonly HUDController hudController;
         private readonly ITimeController timeController;
-        private readonly Updater updater;
-
-        private bool isCanGenerateEnemies = false;
-        private float spawnDelay = 2; //TODO: Get from levelData
-        private float spawnTimer = 0;
-        private int generatedEnemyCount = 0;
-        private int killEnemyCount = 0;
 
         private readonly CompositeDisposable disposes = new CompositeDisposable();
         private List<IDispose> gameDisposes;
         
         public GameController(GameStateMachine gameStateMachine, PlayerController playerController, CityView cityView, EnemiesController enemiesController, 
-            WinWindowController winWindowController, LoseWindowController loseWindowController, HUDController hudController, ITimeController timeController, Updater updater)
+            WinWindowController winWindowController, LoseWindowController loseWindowController, HUDController hudController, ITimeController timeController)
         {
             this.gameStateMachine = gameStateMachine;
             this.playerController = playerController;
@@ -44,15 +37,13 @@ namespace Controllers
             this.loseWindowController = loseWindowController;
             this.hudController = hudController;
             this.timeController = timeController;
-            this.updater = updater;
         }
 
         public void Init(List<IDispose> gameDisposes)
         {
             this.gameDisposes = gameDisposes;
-            updater.AddUpdatable(this);
             cityView.CityBreachedStream.Subscribe(Breach).AddTo(disposes);
-            enemiesController.EnemyKilledStream.Subscribe(CheckWinCondition).AddTo(disposes);
+            enemiesController.AllEnemiesKilledStream.Subscribe(OnAllEnemiesDestroyed).AddTo(disposes);
             playerController.Dead += Lose;
         }
 
@@ -60,42 +51,21 @@ namespace Controllers
         {
             playerController.Dead -= Lose;
             disposes.Dispose();
+            enemiesController.Dispose();
             foreach (var dispose in gameDisposes)
             {
                 dispose.Dispose();
             }
         }
 
-        public void Play(LevelData levelData)
+        public async void Play(LevelData levelData)
         {
-            spawnTimer = 0;
-            spawnDelay = levelData.EnemySpawnDelay;
-            generatedEnemyCount = levelData.NumberOfEnemies;
-            killEnemyCount = levelData.NumberOfEnemies;
-            isCanGenerateEnemies = true;
             playerController.Reset();
             enemiesController.Reset();
+            await enemiesController.SetupEnemies(levelData);
             hudController.Reset();
             hudController.SetLevel(levelData.Index);
             timeController.Unpause();
-        }
-
-        public void Update() //TODO: MoveToEnemiesController
-        {
-            if(!isCanGenerateEnemies) return;
-            
-            spawnTimer += Time.deltaTime;
-            if (spawnTimer >= spawnDelay && generatedEnemyCount >= 0)
-            {
-                enemiesController.SpawnEnemy();
-                spawnTimer = 0;
-                generatedEnemyCount--;
-                
-                if (generatedEnemyCount <= 0)
-                {
-                    isCanGenerateEnemies = false;
-                }
-            }
         }
 
         private void Breach(Collider collider)
@@ -104,19 +74,13 @@ namespace Controllers
                 Lose();
         }
 
-        private void CheckWinCondition(Unit unit)
-        {
-            killEnemyCount--;
-            if(killEnemyCount <= 0)
-                Win();
-        }
-        
+        private void OnAllEnemiesDestroyed(Unit unit) => Win();
+
         private void Win()
         {
             gameStateMachine.Enter<WinState>();
             timeController.Pause();
             winWindowController.Show();
-            isCanGenerateEnemies = false;
         }
 
         private void Lose()
@@ -124,7 +88,6 @@ namespace Controllers
             timeController.Pause();
             gameStateMachine.Enter<LoseState>();
             loseWindowController.Show();
-            isCanGenerateEnemies = false;
         }
     }
 }

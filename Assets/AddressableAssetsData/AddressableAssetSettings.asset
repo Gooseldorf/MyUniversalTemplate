@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: da13f07fc22b97b4db45682bfc88f34a
   m_currentHash:
     serializedVersion: 2
-    Hash: deb658a9cb98a01e6ede34ee0b917c6e
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c7b9184168d5f3546b5065e08194316b, type: 2}
   - {fileID: 11400000, guid: 17e72ecf011fb67448a6d5d678e552a8, type: 2}
   - {fileID: 11400000, guid: 8d67611634489244f8ddcee57a936b32, type: 2}
+  - {fileID: 11400000, guid: 2f45c3c39427e2d4cb29d5b24f6b7fe5, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -92,6 +93,10 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - GameSounds
+    - MenuSounds
+    - MenuBackgroundSounds
+    - GameBackgroundSounds
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 5e095eb807776134091f7b3006ea73e9, type: 2}

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: EnemyData
   m_EditorClassIdentifier: 
   Address: Enemy
-  EnemyHealth: 5
+  Health: 3
+  ShootDelay: 2

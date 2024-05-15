@@ -1,10 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using Data;
-using Game.Player;
 using Infrastructure.AssetManagement;
 using UnityEngine;
 
-namespace Infrastructure.Factories
+namespace Game.Player
 {
     public class PlayerFactory : IPlayerFactory
     {

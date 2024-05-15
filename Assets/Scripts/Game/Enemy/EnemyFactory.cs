@@ -1,12 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using Data;
+using Game.Weapon;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class EnemyFactory : FactoryBase, IEnemyFactory
+    public class EnemyFactory : GameObjectFactoryBase, IEnemyFactory
     {
         public EnemyData EnemyData { private get; set; }
         private GameObject enemyPrefab;

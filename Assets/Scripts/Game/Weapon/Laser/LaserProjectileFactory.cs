@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Weapon.Laser
 {
-    public class LaserProjectileFactory : FactoryBase
+    public class LaserProjectileFactory : GameObjectFactoryBase
     {
         private GameObject projectilePrefab;
 

@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 7d70cbf226533844192ddc40adbf8527
     m_Address: MenuBackground
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - MenuBackgroundSounds
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e5119dc7b6b3e95408e59d529cff05c3, type: 2}

@@ -150,6 +150,7 @@ MonoBehaviour:
   PlayerMove: {fileID: 1986646334632942044}
   PlayerShoot: {fileID: 2581421362262668996}
   PlayerCollider: {fileID: 9185308735497493852}
+  Hit: {fileID: 8734361854880967586}
 --- !u!114 &1986646334632942044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,8 +312,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7584369034610151607, guid: c12f1b11e0b658346b51817e521752dd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8734361854880967586}
   m_SourcePrefab: {fileID: 100100000, guid: c12f1b11e0b658346b51817e521752dd, type: 3}
+--- !u!1 &6183707464223267433 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7584369034610151607, guid: c12f1b11e0b658346b51817e521752dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4364522783936121566}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8734361854880967586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183707464223267433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd5c9347f53e427ebc67e04c7747056f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6817079301394251987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7064678698491398669, guid: c12f1b11e0b658346b51817e521752dd,

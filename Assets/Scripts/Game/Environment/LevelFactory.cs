@@ -1,12 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
-using Data;
-using Game.Environment;
 using Infrastructure.AssetManagement;
+using Infrastructure.Factories;
 using UnityEngine;
 
-namespace Infrastructure.Factories
+namespace Game.Environment
 {
-    public class LevelFactory : FactoryBase, ILevelFactory
+    public class LevelFactory : GameObjectFactoryBase, ILevelFactory
     {
         private GameObject environmentPrefab;
         private GameObject cityPrefab;

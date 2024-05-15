@@ -1,13 +1,14 @@
 ﻿using Infrastructure;
 using Infrastructure.Factories;
+using Infrastructure.Pools;
 
 namespace Game.Projectiles
 {
-    public class ProjectilePool : PoolBase<ProjectileViewBase>
+    public class ProjectilePool : ComponentPoolBase<ProjectileViewBase>
     {
         private readonly ProjectileReleaser releaser;
 
-        public ProjectilePool(FactoryBase factory, int poolSize) : base(factory, poolSize)
+        public ProjectilePool(GameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
         {
             
         }
