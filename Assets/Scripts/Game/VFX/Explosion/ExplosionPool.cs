@@ -1,5 +1,4 @@
-﻿using Infrastructure;
-using Infrastructure.Factories;
+﻿using Infrastructure.Factories;
 using Infrastructure.Pools;
 using Interfaces;
 using UniRx;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Data
   m_EditorClassIdentifier: 
-  m_GroupName: LevelData
+  m_GroupName: Data
   m_Data:
     m_SerializedData: []
   m_GUID: a59b86f26bf453b4c947a9380b7c86b5
@@ -39,6 +39,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 673a378fefb8d004fa6eb3331dc9abaa
     m_Address: Level_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0bef73630e4d47e439b04f06e09d1294
+    m_Address: EnemyData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c78497f87576add4fbca52220cb29984
+    m_Address: PlayerData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

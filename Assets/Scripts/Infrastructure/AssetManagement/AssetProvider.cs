@@ -7,6 +7,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace Infrastructure.AssetManagement
@@ -84,6 +85,7 @@ namespace Infrastructure.AssetManagement
             }
             addressablesToUnload.Clear();
         }
+        
 #if UNITY_EDITOR
         public async UniTask<List<T>> LoadAddressableGroup<T>(string groupName)
         {

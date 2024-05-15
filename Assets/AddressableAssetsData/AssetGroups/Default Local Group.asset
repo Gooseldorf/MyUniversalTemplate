@@ -17,16 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: da13f07fc22b97b4db45682bfc88f34a
   m_SerializeEntries:
-  - m_GUID: a693be649d423004f95d6d177a1f7b64
-    m_Address: Menu
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f34c471583d952b438bbbbb653ce2a2f
-    m_Address: HUD
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 35a03b7de2318d34594eabe29b322bb1
     m_Address: Player
     m_ReadOnly: 0
@@ -37,33 +27,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2e3bbe97acb8d6548ab9cc039be53dc0
-    m_Address: WindowsCanvas
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f4501c8856a7317419644c2e2b005a7f
-    m_Address: LoseWindow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0ef90b17d0f7c6849b01a7a1f399c9a1
-    m_Address: LoadingScreen
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52b832ae2b33c7946b2ae018b3860de7
     m_Address: AudioManager
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d3784ac0a5bc4ae42ad8190544e6563a
-    m_Address: PauseWindow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3643144107a336c43bb4de1546709152
-    m_Address: WinWindow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -104,41 +69,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1706857134aeea44c80bc137871cceee
     m_Address: EnemyLaserWeapon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 08ffd191b363b024eac9a5381d51acf2
-    m_Address: Level_0
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 212c4deeb448dc24cb655ae2ea9386cf
-    m_Address: Level_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1fcae7c730ccccf4ea74151f6506d2fb
-    m_Address: Level_2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1800dfaa4f8eeac4fab02f01e5ca7884
-    m_Address: Level_3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 673a378fefb8d004fa6eb3331dc9abaa
-    m_Address: Level_4
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0bef73630e4d47e439b04f06e09d1294
-    m_Address: EnemyData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c78497f87576add4fbca52220cb29984
-    m_Address: PlayerData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
