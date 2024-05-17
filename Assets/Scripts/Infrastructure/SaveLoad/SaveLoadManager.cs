@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Data;
 using UnityEngine;
 
-namespace Managers
+namespace Infrastructure.SaveLoad
 {
     public static class SaveLoadManager
     {

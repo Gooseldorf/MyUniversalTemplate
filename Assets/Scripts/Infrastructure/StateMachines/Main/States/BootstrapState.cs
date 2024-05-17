@@ -1,31 +1,26 @@
 ﻿namespace Infrastructure.StateMachines.Main.States
 {
-    public class BootstrapState : IStateNoArg
+    /// <summary>
+    /// Initiates loading of a first game scene
+    /// </summary>
+    public class BootstrapState : IStateWithArg<bool>
     {
         private readonly MainStateMachine stateMachine;
         private readonly SceneLoader sceneLoader;
         
-        public BootstrapState(MainStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(MainStateMachine stateMachine)
         {
             this.stateMachine = stateMachine;
-            this.sceneLoader = sceneLoader;
         }
         
-        public void Enter()
+        public void Enter(bool loadMainMenu)
         {
-            sceneLoader.Load(Constants.BOOTSTRAP_SCENE_NAME, OnLoad);
+            if(loadMainMenu)
+                stateMachine.Enter<LoadMenuState>();
+            else
+                stateMachine.Enter<LoadGameState, string>(Constants.GAME_SCENE_NAME);
         }
 
-        private void OnLoad()
-        {
-            EnterLoadMenu();
-        }
-
-        public void Exit()
-        {
-            
-        }
-
-        private void EnterLoadMenu() => stateMachine.Enter<LoadMenuState>();
+        public void Exit() { }
     }
 }

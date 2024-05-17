@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Audio;
 using Infrastructure.StateMachines.Main.States;
-using Managers;
 using UI;
 
 namespace Infrastructure.StateMachines.Main
@@ -13,7 +12,7 @@ namespace Infrastructure.StateMachines.Main
         {
             States = new Dictionary<Type, IState>()
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
+                [typeof(BootstrapState)] = new BootstrapState(this),
                 [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController, audioManager),
                 [typeof(MenuState)] = new MenuState(this, audioManager),
                 [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController, audioManager),
