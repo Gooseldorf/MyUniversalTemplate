@@ -6,7 +6,6 @@ namespace Audio.Data
     public class AudioSettings : ScriptableObject
     {
         public float FadeTime;
-        public float MenuBackgroundFadeTime;
         public float GameBackgroundFadeTime;
         public float AmbientFadeTime;
     }

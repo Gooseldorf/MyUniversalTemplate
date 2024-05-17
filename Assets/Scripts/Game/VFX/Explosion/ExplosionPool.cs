@@ -9,7 +9,7 @@ namespace Game.VFX.Explosion
     {
         private CompositeDisposable disposes = new CompositeDisposable();
 
-        public ExplosionPool(GameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
+        public ExplosionPool(CachedGameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
         { }
         
         public void Dispose()

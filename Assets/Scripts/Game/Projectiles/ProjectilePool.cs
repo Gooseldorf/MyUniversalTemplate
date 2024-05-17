@@ -8,7 +8,7 @@ namespace Game.Projectiles
     {
         private readonly ProjectileReleaser releaser;
 
-        public ProjectilePool(GameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
+        public ProjectilePool(CachedGameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
         {
             
         }

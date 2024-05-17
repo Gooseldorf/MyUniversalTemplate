@@ -182,8 +182,13 @@ MonoBehaviour:
   gameSource: {fileID: 2065591564521438740}
   ambientSource: {fileID: 4955875830047372116}
   backgroundSource: {fileID: 2421095096325395304}
+  menuAudioSettings: {fileID: 11400000, guid: 22d653654054d4c47b4772c45a40579d, type: 2}
+  gameAudioSettings: {fileID: 11400000, guid: ea283b1e96bc5714ba4273b5138e6304, type: 2}
+  ambientAudioSettings: {fileID: 11400000, guid: e30bff602856e154da03a54fa21c18e0,
+    type: 2}
+  generalAudioSettings: {fileID: 11400000, guid: bfb2949ba6edf1747a879c6321a1aeb3,
+    type: 2}
   audioHolder: {fileID: 11400000, guid: 09e3a688e69e6d44192b059883f6a472, type: 2}
-  audioSettings: {fileID: 11400000, guid: bfb2949ba6edf1747a879c6321a1aeb3, type: 2}
 --- !u!1 &3594544809889175186
 GameObject:
   m_ObjectHideFlags: 0

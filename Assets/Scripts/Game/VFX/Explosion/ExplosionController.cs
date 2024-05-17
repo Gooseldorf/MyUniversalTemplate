@@ -1,6 +1,6 @@
-﻿using Enums;
+﻿using Audio;
+using Enums;
 using Interfaces;
-using Managers;
 using UnityEngine;
 
 namespace Game.VFX.Explosion
@@ -20,7 +20,7 @@ namespace Game.VFX.Explosion
         {
             ExplosionView explosion = explosionPool.Pool.Get();
             explosion.transform.position = position + new Vector3(0,0,-10);
-            audioManager.Play2DSound(AudioSources.Game, "Explosion");
+            audioManager.PlayGame2DSound(SoundKeys.Explosion);
         }
 
         public void Dispose()

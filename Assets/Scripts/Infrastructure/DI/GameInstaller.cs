@@ -7,7 +7,6 @@ using Game.Weapon;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 using Infrastructure.Services.Input;
-using Managers;
 using UI.Game;
 using UnityEngine;
 

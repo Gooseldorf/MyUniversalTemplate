@@ -1,37 +1,25 @@
 ﻿using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
-using UI;
+using Infrastructure.Factories;
 using UnityEngine;
 
-namespace Infrastructure.Factories
+namespace UI.LoadingScreen
 {
     public interface ILoadingScreenFactory
     {
-        UniTask WarmUpIfNeeded();
-        LoadingScreenController CreateLoadingScreen();
-        void Clear();
+        UniTask<LoadingScreenController> CreateLoadingScreenAsync();
     }
     
     public class LoadingScreenFactory : GameObjectFactoryBase, ILoadingScreenFactory
     {
-        private GameObject loadingScreenViewPrefab;
-        
-        public LoadingScreenFactory(IAssetProvider assetProvider) : base(assetProvider)
-        { }
+        public LoadingScreenFactory(IAssetProvider assetProvider) : base(assetProvider) { }
 
-        public override async UniTask WarmUpIfNeeded()
+        public async UniTask<LoadingScreenController> CreateLoadingScreenAsync()
         {
-            loadingScreenViewPrefab = await CachePrefab("LoadingScreen");
-        }
-
-        public LoadingScreenController CreateLoadingScreen()
-        {
-            GameObject loadingScreenObject = CreateGameObject(loadingScreenViewPrefab);
+            GameObject loadingScreenObject = await InstantiateAddressableAsync("LoadingScreen");
             loadingScreenObject.TryGetComponent(out LoadingScreenView loadingScreenView);
             LoadingScreenController loadingScreenController = new(loadingScreenView);
             return loadingScreenController;
         }
-
-        public override void Clear() => loadingScreenViewPrefab = null;
     }
 }

@@ -1,5 +1,5 @@
-﻿using Enums;
-using Managers;
+﻿using Audio;
+using Enums;
 using UnityEngine;
 
 namespace Game.Weapon.Laser
@@ -31,7 +31,7 @@ namespace Game.Weapon.Laser
                 projectileTransform.position = shotPoint.GetCenterPosition();
                 projectileTransform.rotation = shotPoint.GetRotation();
                 projectile.Fire(shotPoint.GetDirection(), isPlayerWeapon);
-                audioManager.Play2DSound(AudioSources.Game, "LaserGun");
+                audioManager.PlayGame2DSound(SoundKeys.LaserGun);
             }
         }
     }

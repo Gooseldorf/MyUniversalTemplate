@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.VFX.Explosion
 {
-    public class ExplosionFactory : GameObjectFactoryBase
+    public class ExplosionFactory : CachedGameObjectFactoryBase
     {
         private GameObject explosionPrefab;
         

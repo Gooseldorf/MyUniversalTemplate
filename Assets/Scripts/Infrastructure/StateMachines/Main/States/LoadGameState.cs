@@ -4,7 +4,6 @@ using Enums;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using Interfaces;
-using Managers;
 using UI;
 using UnityEngine;
 
@@ -43,8 +42,7 @@ namespace Infrastructure.StateMachines.Main.States
 
         public void Exit()
         {
-            audioManager.PlayBackground2DSound(AudioSources.Background, "GameBackground", 3, true);
-            audioManager.PlayBackground2DSound(AudioSources.Ambient, "Ambient", 3, true);
+            audioManager.PlayGameBackground();
             loadingScreenController.HideLoadingScreen(null);
             Resources.UnloadUnusedAssets();
         }

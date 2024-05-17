@@ -1,6 +1,7 @@
 using Audio;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
+using UI.LoadingScreen;
 
 namespace Infrastructure.DI
 {

@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16054d2e06364d738927bd1efd4e968f, type: 3}
-  m_Name: ProjectSettings
+  m_Script: {fileID: 11500000, guid: 1de1c68af2184d6f9c8a876eb87ae68c, type: 3}
+  m_Name: AmbientAudioSettings
   m_EditorClassIdentifier: 
-  IsLoadMainMenu: 1
+  BackgroundSoundName: Ambient
+  DelayBetweenBackgroundLoops: 5
+  IsFadeBackground: 1
+  BackgroundFadeTime: 5

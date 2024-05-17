@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Environment
 {
-    public class LevelFactory : GameObjectFactoryBase, ILevelFactory
+    public class LevelFactory : CachedGameObjectFactoryBase, ILevelFactory
     {
         private GameObject environmentPrefab;
         private GameObject cityPrefab;

@@ -1,12 +1,15 @@
 ﻿using Enums;
 
-namespace Managers
+namespace Audio
 {
     public interface IAudioManager
     {
-        void Play2DSound(AudioSources source, string soundName);
-        void SetVolume(AudioSources source, float value);
+        void PlayMenuBackground();
+        void PlayGameBackground();
+        void PlayMenu2DSound(string soundKey);
+        void PlayGame2DSound(string soundKey);
+        
+        void SetSourceVolume(AudioSources source, float value);
         void SetMasterVolume(float value);
-        void PlayBackground2DSound(AudioSources source, string soundName, float delayBetweenLoops, bool addFading);
     }
 }

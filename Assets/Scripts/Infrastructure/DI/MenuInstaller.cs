@@ -1,6 +1,4 @@
 ﻿using Infrastructure.AssetManagement;
-using Infrastructure.Factories;
-using UI;
 using UI.Menu;
 
 namespace Infrastructure.DI

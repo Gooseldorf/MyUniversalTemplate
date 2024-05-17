@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class EnemyFactory : GameObjectFactoryBase, IEnemyFactory
+    public class EnemyFactory : CachedGameObjectFactoryBase, IEnemyFactory
     {
         public EnemyData EnemyData { private get; set; }
         private GameObject enemyPrefab;

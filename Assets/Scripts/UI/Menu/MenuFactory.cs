@@ -1,26 +1,27 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Controllers;
+using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
+using Infrastructure.Factories;
+using Infrastructure.StateMachines.Main;
 using UnityEngine;
 
 namespace UI.Menu
 {
-    /// <summary>
-    /// Creates Menu UI Elements
-    /// </summary>
-    public class MenuFactory : IMenuFactory
+    public interface IMenuFactory
     {
-        private readonly IAssetProvider assetProvider;
+        UniTask<MenuController> CreateMenu(MainStateMachine mainStateMachine);
+    }
+    
+    public class MenuFactory : GameObjectFactoryBase, IMenuFactory
+    {
+        public MenuFactory(IAssetProvider assetProvider) : base(assetProvider) { }
 
-        public MenuFactory(IAssetProvider assets)
+        public async UniTask<MenuController> CreateMenu(MainStateMachine mainStateMachine)
         {
-            assetProvider = assets;
-        }
-
-        public async UniTask<MenuPanelView> CreateMenu()
-        {
-            GameObject menu =  await assetProvider.InstantiateAddressable("Menu");
+            GameObject menu =  await InstantiateAddressableAsync("Menu");
             menu.TryGetComponent(out MenuPanelView menuPanelView);
-            return menuPanelView;
+            MenuController menuController = new MenuController(mainStateMachine, menuPanelView);
+            return menuController;
         }
     }
 }

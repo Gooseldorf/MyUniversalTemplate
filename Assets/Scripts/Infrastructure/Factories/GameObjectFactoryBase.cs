@@ -13,12 +13,6 @@ namespace Infrastructure.Factories
             this.assetProvider = assetProvider;
         }
 
-        public abstract UniTask WarmUpIfNeeded();
-
-        public abstract void Clear();
-
-        protected async UniTask<GameObject> CachePrefab(string address) => await assetProvider.LoadAddressable<GameObject>(address);
-
-        protected GameObject CreateGameObject(GameObject prefab) => Object.Instantiate(prefab);
+        protected UniTask<GameObject> InstantiateAddressableAsync(string address) => assetProvider.InstantiateAddressable(address);
     }
 }

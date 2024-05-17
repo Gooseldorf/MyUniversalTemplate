@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16054d2e06364d738927bd1efd4e968f, type: 3}
-  m_Name: ProjectSettings
+  m_Script: {fileID: 11500000, guid: ff2e34a57e7040768fb0fc133e568173, type: 3}
+  m_Name: GameAudioSettings
   m_EditorClassIdentifier: 
-  IsLoadMainMenu: 1
+  BackgroundMusicName: GameBackground
+  DelayBetweenBackgroundLoops: 2
+  IsFadeBackground: 1
+  BackgroundFadeTime: 3

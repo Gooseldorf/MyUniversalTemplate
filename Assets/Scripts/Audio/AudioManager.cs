@@ -1,10 +1,8 @@
 using Audio.Data;
 using Cysharp.Threading.Tasks;
-using Data;
 using DG.Tweening;
 using Enums;
 using Infrastructure.AssetManagement;
-using Managers;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -12,8 +10,6 @@ using AudioSettings = Audio.Data.AudioSettings;
 
 namespace Audio
 {
-    
-    
     public class AudioManager : MonoBehaviour, IAudioManager
     {
         [Foldout("Mixer")][SerializeField] private AudioMixer mixer;
@@ -23,8 +19,13 @@ namespace Audio
         [Foldout("Audio Sources")][SerializeField] private AudioSource ambientSource;
         [Foldout("Audio Sources")][SerializeField] private AudioSource backgroundSource;
 
+        [Foldout("Settings")][SerializeField] private MenuAudioSettings menuAudioSettings;
+        [Foldout("Settings")] [SerializeField] private GameAudioSettings gameAudioSettings;
+        [Foldout("Settings")] [SerializeField] private AmbientAudioSettings ambientAudioSettings;
+
+        [Foldout("Settings")][SerializeField] private AudioSettings generalAudioSettings;
+
         [SerializeField] private AudioHolder audioHolder;
-        [SerializeField] private AudioSettings audioSettings;
         
         private IAssetProvider assetProvider;
         
@@ -38,48 +39,53 @@ namespace Audio
             DontDestroyOnLoad(this);
         }
 
-        public async UniTask WarmUpMenu() //TODO: Separate control and loading logic
+        public async UniTask<bool> WarmUpMenu() 
         {
-            gameSource.Stop();
-            gameSource.clip = null;
-            ambientSource.Stop();
-            ambientSource.clip = null;
+            StopAndClearGameSounds();
             await audioHolder.LoadMenuBackgroundMusic(assetProvider);
             await audioHolder.LoadMenuSounds(assetProvider);
+            return true;
         }
 
-        public async UniTask WarmUpGame() //TODO: Separate control and loading logic
+        public async UniTask WarmUpGame() 
         {
-            menuSource.Stop();
-            menuSource.clip = null;
+            StopAndClearMenuSounds();
             await audioHolder.LoadGameBackgroundMusic(assetProvider);
             await audioHolder.LoadGameSounds(assetProvider);
         }
 
-        //TODO: Make Play3DSound method with dynamic sound groups pooling
-        
-        public void Play2DSound(AudioSources source, string soundName)
+        public void PlayMenuBackground()
         {
-            if(TryGetAudioSource(source, out AudioSource targetSource) && audioHolder.TryGetSound(soundName, out AudioClip clip))
-                targetSource.PlayOneShot(clip);
+            PlayBackground2DSound(
+                AudioSources.Background, 
+                menuAudioSettings.BackgroundMusicName, 
+                menuAudioSettings.DelayBetweenBackgroundLoops, 
+                menuAudioSettings.IsFadeBackground,
+                menuAudioSettings.BackgroundFadeTime);
+        } //TODO: Move play logic to AudioPlayer.cs?
+        
+        public void PlayGameBackground()
+        {
+            PlayBackground2DSound(
+                AudioSources.Background, 
+                gameAudioSettings.BackgroundMusicName, 
+                gameAudioSettings.DelayBetweenBackgroundLoops, 
+                gameAudioSettings.IsFadeBackground,
+                gameAudioSettings.BackgroundFadeTime);
+            
+            PlayBackground2DSound(
+                AudioSources.Ambient,
+                ambientAudioSettings.BackgroundSoundName, 
+                ambientAudioSettings.DelayBetweenBackgroundLoops, 
+                ambientAudioSettings.IsFadeBackground,
+                ambientAudioSettings.BackgroundFadeTime);
         }
 
-        public void PlayBackground2DSound(AudioSources source, string soundName, float delayBetweenLoops, bool addFading) //TODO: Separate logic, add public methods to menu and ingame background
-        {
-            if (TryGetAudioSource(source, out AudioSource targetSource) && audioHolder.TryGetBackgroundSound(soundName, out AudioClip clip))
-            {
-                if (addFading)
-                    PlayLoopWithFading(targetSource, clip, delayBetweenLoops);
-                else
-                    PlayLoopWithoutFading(targetSource, clip, delayBetweenLoops);
-            }
-            else
-            {
-                Debug.LogError($"Can't play {soundName} on {targetSource} source!");
-            }
-        } 
+        public void PlayGame2DSound(string soundKey) => Play2DSound(AudioSources.Game, soundKey);
 
-        public void SetVolume(AudioSources source, float value)
+        public void PlayMenu2DSound(string soundKey) => Play2DSound(AudioSources.Menu, soundKey);
+
+        public void SetSourceVolume(AudioSources source, float value)
         {
             value = Mathf.Clamp(value, -80f, 20f);
             if(TryGetAudioSource(source, out AudioSource audioSource))
@@ -87,7 +93,7 @@ namespace Audio
                 audioSource.outputAudioMixerGroup.audioMixer.SetFloat("Volume", value);
             }
             Debug.LogError($"{source.ToString()} not found!");
-        }
+        } //TODO: Move volume logic to VolumeController.cs?
 
         public void SetMasterVolume(float value)
         {
@@ -95,7 +101,44 @@ namespace Audio
             mixer.SetFloat("MasterVolume", value);
         }
 
-        private void PlayLoopWithFading(AudioSource source, AudioClip clip, float delayBetweenLoops)
+        //TODO: Make Play3DSound method with dynamic sound groups pooling
+
+        private void Play2DSound(AudioSources source, string soundKey)
+        {
+            if(TryGetAudioSource(source, out AudioSource targetSource) && audioHolder.TryGetSound(soundKey, out AudioClip clip))
+                targetSource.PlayOneShot(clip);
+        }
+
+        private void PlayBackground2DSound(AudioSources source, string soundName, float delayBetweenLoops, bool addFading, float fadeTime)
+        {
+            if (TryGetAudioSource(source, out AudioSource targetSource) && audioHolder.TryGetBackgroundSound(soundName, out AudioClip clip))
+            {
+                if (addFading)
+                    PlayLoopWithFading(targetSource, clip, delayBetweenLoops, fadeTime);
+                else
+                    PlayLoopWithoutFading(targetSource, clip, delayBetweenLoops);
+            }
+            else
+            {
+                Debug.LogError($"Can't play {soundName} on {targetSource} source!");
+            }
+        }
+
+        private void StopAndClearMenuSounds()
+        {
+            menuSource.Stop();
+            menuSource.clip = null;
+        }
+
+        private void StopAndClearGameSounds()
+        {
+            gameSource.Stop();
+            gameSource.clip = null;
+            ambientSource.Stop();
+            ambientSource.clip = null;
+        }
+
+        private void PlayLoopWithFading(AudioSource source, AudioClip clip, float delayBetweenLoops, float fadeTime)
         {
             source.clip = clip;
             source.volume = 0;
@@ -103,9 +146,9 @@ namespace Audio
             Sequence loopSequence = DOTween.Sequence();
 
             loopSequence.AppendCallback(source.Play);
-            loopSequence.Insert(0,source.DOFade(1, audioSettings.FadeTime));
-            loopSequence.Insert(0, DOVirtual.DelayedCall(clip.length - audioSettings.FadeTime, () => source.DOFade(0, audioSettings.FadeTime)));
-            loopSequence.AppendInterval(audioSettings.FadeTime);
+            loopSequence.Insert(0,source.DOFade(1, fadeTime));
+            loopSequence.Insert(0, DOVirtual.DelayedCall(clip.length - fadeTime, () => source.DOFade(0, fadeTime)));
+            loopSequence.AppendInterval(fadeTime);
             loopSequence.AppendCallback(source.Stop);
             loopSequence.AppendInterval(delayBetweenLoops);
 

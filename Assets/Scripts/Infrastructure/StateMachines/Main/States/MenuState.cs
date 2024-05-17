@@ -1,6 +1,5 @@
 ﻿using Audio;
 using Controllers;
-using Managers;
 
 namespace Infrastructure.StateMachines.Main.States
 {

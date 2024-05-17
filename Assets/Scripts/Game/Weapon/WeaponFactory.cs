@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Weapon
 {
-    public class WeaponFactory : GameObjectFactoryBase, IWeaponFactory
+    public class WeaponFactory : CachedGameObjectFactoryBase, IWeaponFactory
     {
         private GameObject playerLaserWeaponPrefab;
         private GameObject enemyLaserWeaponPrefab;

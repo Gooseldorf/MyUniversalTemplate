@@ -10,7 +10,7 @@ namespace Game.Enemy
     public class EnemyPool : ComponentPoolBase<EnemyView>
     {
         private readonly HashSet<EnemyView> activeEnemies;
-        public EnemyPool(GameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
+        public EnemyPool(CachedGameObjectFactoryBase factory, int poolSize) : base(factory, poolSize)
         {
             activeEnemies = new(poolSize);
         }
