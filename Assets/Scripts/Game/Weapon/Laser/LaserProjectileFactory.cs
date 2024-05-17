@@ -18,6 +18,11 @@ namespace Game.Weapon.Laser
                 projectilePrefab = await CachePrefab("LaserProjectile");
         }
 
+        public override void Clear()
+        {
+            projectilePrefab = null;
+        }
+
         public LaserProjectileView CreateLaserProjectile()
         {
             GameObject projectile = CreateGameObject(projectilePrefab);

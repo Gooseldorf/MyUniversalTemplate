@@ -22,6 +22,12 @@ namespace Game.Environment
                 cityPrefab = await CachePrefab("City");
         }
 
+        public override void Clear()
+        {
+            environmentPrefab = null;
+            cityPrefab = null;
+        }
+
         public EnvironmentView CreateEnvironment()
         {
             GameObject environmentObject = CreateGameObject(environmentPrefab);

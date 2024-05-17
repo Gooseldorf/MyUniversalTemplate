@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Data
+namespace Audio.Data
 {
     [CreateAssetMenu(fileName = "AudioSettings", menuName = "ScriptableObjects/Audio/AudioSettings")]
     public class AudioSettings : ScriptableObject

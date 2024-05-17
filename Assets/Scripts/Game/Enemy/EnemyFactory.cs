@@ -23,6 +23,11 @@ namespace Game.Enemy
                 enemyPrefab =  await CachePrefab(EnemyData.Address);
         }
 
+        public override void Clear()
+        {
+            enemyPrefab = null;
+        }
+
         public EnemyView CreateEnemy()
         {
             GameObject enemyObject = CreateGameObject(enemyPrefab);

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
-using ModestTree;
 using UnityEngine;
 
-namespace Data
+namespace Audio.Data
 {
     [CreateAssetMenu(fileName = "AudioHolder", menuName = "ScriptableObjects/Audio/AudioHolder")]
     public class AudioHolder : ScriptableObject

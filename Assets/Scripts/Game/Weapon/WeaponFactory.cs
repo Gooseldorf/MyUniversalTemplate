@@ -20,6 +20,12 @@ namespace Game.Weapon
             enemyLaserWeaponPrefab = await CachePrefab("EnemyLaserWeapon");
         }
 
+        public override void Clear()
+        {
+            playerLaserWeaponPrefab = null;
+            enemyLaserWeaponPrefab = null;
+        }
+
         public LaserWeaponView CreatePlayerLaserWeapon(Transform parent)
         {
             GameObject laserWeapon =  CreateGameObject(playerLaserWeaponPrefab);

@@ -6,13 +6,16 @@ namespace Infrastructure.Pools
 {
     public abstract class ComponentPoolBase <T> where T : Component
     {
-        protected GameObjectFactoryBase Factory;
+        protected readonly GameObjectFactoryBase Factory;
+        protected readonly GameObject Container;
+
         public ObjectPool<T> Pool { get; private set; }
 
         protected ComponentPoolBase(GameObjectFactoryBase factory, int poolSize)
         {
             Factory = factory;
             Pool = new ObjectPool<T>(Create, Get, Release, Destroy, true, poolSize);
+            Container = new GameObject(GetType().Name + "Container");
         }
 
         protected abstract T Create();

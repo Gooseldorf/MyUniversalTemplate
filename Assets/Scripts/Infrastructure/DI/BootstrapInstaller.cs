@@ -1,3 +1,4 @@
+using Audio;
 using Infrastructure.AssetManagement;
 using Infrastructure.Factories;
 
@@ -8,7 +9,13 @@ namespace Infrastructure.DI
         public override void InstallBindings()
         {
             Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
-            Container.Bind<IBootstrapFactory>().To<BootstrapFactory>().AsSingle();
+            BindFactories();            
+        }
+
+        private void BindFactories()
+        {
+            Container.Bind<IAudioManagerFactory>().To<AudioManagerFactory>().AsSingle();
+            Container.Bind<ILoadingScreenFactory>().To<LoadingScreenFactory>().AsSingle();
         }
     }
 }

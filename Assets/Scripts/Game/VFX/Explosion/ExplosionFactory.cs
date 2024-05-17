@@ -18,7 +18,12 @@ namespace Game.VFX.Explosion
             if(explosionPrefab == null)
                 explosionPrefab = await CachePrefab("Explosion");
         }
-        
+
+        public override void Clear()
+        {
+            explosionPrefab = null;
+        }
+
         public ExplosionView CreateExplosion()
         {
             GameObject explosion = CreateGameObject(explosionPrefab);

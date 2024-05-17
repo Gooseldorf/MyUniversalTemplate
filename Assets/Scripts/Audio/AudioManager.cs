@@ -1,15 +1,19 @@
+using Audio.Data;
 using Cysharp.Threading.Tasks;
 using Data;
 using DG.Tweening;
 using Enums;
 using Infrastructure.AssetManagement;
+using Managers;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Audio;
-using AudioSettings = Data.AudioSettings;
+using AudioSettings = Audio.Data.AudioSettings;
 
-namespace Managers
+namespace Audio
 {
+    
+    
     public class AudioManager : MonoBehaviour, IAudioManager
     {
         [Foldout("Mixer")][SerializeField] private AudioMixer mixer;
