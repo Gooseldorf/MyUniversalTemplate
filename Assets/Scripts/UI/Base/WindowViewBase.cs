@@ -6,7 +6,7 @@ namespace UI.Base
 {
     public abstract class WindowViewBase: MonoBehaviour
     {
-        private const float FADE_DURATION = 0.5f; //TODO: UIAnimationDataHolder
+        private const float FADE_DURATION = 0.3f; //TODO: UIAnimationDataHolder
         
         [SerializeField] private protected GameObject Container;
         [SerializeField] private protected CanvasGroup CanvasGroup;

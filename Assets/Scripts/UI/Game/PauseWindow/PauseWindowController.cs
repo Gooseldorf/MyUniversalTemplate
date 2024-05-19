@@ -10,11 +10,11 @@ namespace UI.Game.PauseWindow
     public class PauseWindowController : WindowControllerBase
     {
         private readonly GameStateMachine gameStateMachine;
-        private readonly TimeController timeController;
+        private readonly ITimeController timeController;
         private readonly IInputService inputService;
         private readonly PauseWindowView pauseWindowView;
         
-        public PauseWindowController(GameStateMachine gameStateMachine, TimeController timeController, IInputService inputService, PauseWindowView pauseWindowView)
+        public PauseWindowController(PauseWindowView pauseWindowView, GameStateMachine gameStateMachine, ITimeController timeController, IInputService inputService)
         {
             this.gameStateMachine = gameStateMachine;
             this.timeController = timeController;
@@ -59,9 +59,9 @@ namespace UI.Game.PauseWindow
 
         private void SubscribeToClicks()
         {
-            pauseWindowView.ContinueButton.OnClickAsObservable.Subscribe(OnContinueClick).AddTo(disposables);
-            pauseWindowView.SettingsButton.OnClickAsObservable.Subscribe(OnSettingsClick).AddTo(disposables);
-            pauseWindowView.ExitButton.OnClickAsObservable.Subscribe(OnExitClick).AddTo(disposables);
+            pauseWindowView.ContinueButton.OnClickStream.Subscribe(OnContinueClick).AddTo(disposables);
+            pauseWindowView.SettingsButton.OnClickStream.Subscribe(OnSettingsClick).AddTo(disposables);
+            pauseWindowView.ExitButton.OnClickStream.Subscribe(OnExitClick).AddTo(disposables);
         }
 
         private void OnContinueClick(Unit unit) => Continue();

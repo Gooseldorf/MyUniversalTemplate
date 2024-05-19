@@ -1,12 +1,16 @@
-﻿using Controllers;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Audio;
+using Controllers;
 using Cysharp.Threading.Tasks;
 using Data;
+using Game.Environment;
 using Game.Player;
 using Infrastructure.AssetManagement;
 using Infrastructure.DI;
-using Infrastructure.Factories;
 using Infrastructure.Services.Input;
-using Infrastructure.StateMachines.Main;
+using Interfaces;
+using UI.Game;
 using UI.Game.HUD;
 using UI.Game.LoseWindow;
 using UI.Game.PauseWindow;
@@ -18,7 +22,8 @@ namespace Infrastructure.StateMachines.Game.States
     public class LoadLevelState : IStateWithArg<int>
     {
         private readonly GameStateMachine gameStateMachine;
-
+        private List<IDispose> disposes = new List<IDispose>();
+        
         public LoadLevelState(GameStateMachine gameStateMachine)
         {
             this.gameStateMachine = gameStateMachine;
@@ -27,52 +32,57 @@ namespace Infrastructure.StateMachines.Game.States
         public async void Enter(int levelIndex)
         {
             GameInstaller gameInstaller = Object.FindObjectOfType<GameInstaller>();
-            TimeController timeController = new TimeController();
-
-            //Load LevelData by index
+            
+            ITimeController timeController = gameInstaller.Resolve<ITimeController>();
+            IAudioManager audioManager = gameInstaller.Resolve<IAudioManager>();
             IAssetProvider assetProvider = gameInstaller.Resolve<IAssetProvider>();
-            LevelData levelData = await assetProvider.LoadAddressable<LevelData>($"Level_{levelIndex}");
+            Updater updater = await CreateUpdater(assetProvider);
             
-            
-            //CreateEnvironment
-            ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
-            GameObject environment = await levelFactory.CreateEnvironment(levelData);
-            
+            PlayerData playerData = await assetProvider.LoadAddressable<PlayerData>("PlayerData");
+            HUDData hudData = await assetProvider.LoadAddressable<HUDData>("HUDData");
             
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
             IPlayerFactory playerFactory = gameInstaller.Resolve<IPlayerFactory>();
-            PlayerView playerView = await playerFactory.CreatePlayer(levelData);
-            PlayerController playerController = new PlayerController(playerView, inputService);
+            PlayerController playerController = await playerFactory.CreatePlayerAsync(playerData, inputService);
             playerController.Init();
+            disposes.Add(playerController);
             
             //CreateGameUI
             IGameUIFactory gameUIFactory = gameInstaller.Resolve<IGameUIFactory>();
-            await CreateGameUI(gameUIFactory, timeController, inputService);
+            Canvas windowsCanvas = await gameUIFactory.CreateWindowsCanvasAsync();
+
+            HUDController hudController = await gameUIFactory.CreateHUDAsync(hudData);
+            hudController.Init();
+            disposes.Add(hudController);
+
+            PauseWindowController pauseWindowController = await gameUIFactory.CreatePauseWindowAsync(windowsCanvas, gameStateMachine, timeController, inputService);
+            pauseWindowController.Init();
+            disposes.Add(pauseWindowController);
+
+            WinWindowController winWindowController = await gameUIFactory.CreateWinWindowAsync(windowsCanvas, gameStateMachine);
+            winWindowController.Init();
+            disposes.Add(winWindowController);
+
+            LoseWindowController loseWindowController = await gameUIFactory.CreateLoseWindowAsync(windowsCanvas, gameStateMachine);
+            loseWindowController.Init();
+            disposes.Add(loseWindowController);
             
-            gameStateMachine.Enter<StartState>();
+            //Create GameController
+            GameController gameController = new GameController(gameStateMachine, winWindowController, loseWindowController, hudController,timeController);
+            gameController.Init(disposes);
+            gameInstaller.BindAsSingleFromInstance<IGameController, GameController>(gameController);
+            
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.CurrentLevelIndex);
         }
 
-        private async UniTask CreateGameUI(IGameUIFactory gameUIFactory, TimeController timeController, IInputService inputService)
+        private static async Task<Updater> CreateUpdater(IAssetProvider assetProvider)
         {
-            Canvas windowsCanvas = await gameUIFactory.CreateWindowsCanvas();
-            
-            HUDView hudView = await gameUIFactory.CreateHUD();
-            HUDController hudController = new HUDController(hudView);
-            
-            PauseWindowView pauseWindowView = await gameUIFactory.CreatePauseWindow(windowsCanvas);
-            PauseWindowController pauseWindowController = new PauseWindowController(gameStateMachine, timeController, inputService, pauseWindowView);
-            pauseWindowController.Init();
-            
-            WinWindowView winWindowView = await gameUIFactory.CreateWinWindow(windowsCanvas);
-            WinWindowController winWindowController = new WinWindowController(gameStateMachine, winWindowView);
-            winWindowController.Init();
-            
-            LoseWindowView loseWindowView = await gameUIFactory.CreateLoseWindow(windowsCanvas);
-            LoseWindowController loseWindowController = new LoseWindowController(gameStateMachine, loseWindowView);
-            loseWindowController.Init();
+            GameObject updaterObj = await assetProvider.InstantiateAddressableAsync("Updater");
+            Updater updater = updaterObj.GetComponent<Updater>();
+            return updater;
         }
-        
+
         public void Exit()
         {
             

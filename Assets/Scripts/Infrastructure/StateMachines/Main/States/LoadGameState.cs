@@ -1,20 +1,10 @@
 ﻿using System.Collections.Generic;
-using Controllers;
-using Enums;
-using Game.Player;
-using Infrastructure.DI;
-using Infrastructure.Factories;
-using Infrastructure.Services.Input;
+using Audio;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using Interfaces;
-using Managers;
 using UI;
-using UI.Game;
-using UI.Game.HUD;
-using UI.Game.LoseWindow;
-using UI.Game.PauseWindow;
-using UI.Game.WinWindow;
+using UI.LoadingScreen;
 using UnityEngine;
 
 namespace Infrastructure.StateMachines.Main.States
@@ -44,7 +34,7 @@ namespace Infrastructure.StateMachines.Main.States
 
         private async void OnLoad()
         {
-            await audioManager.WarmUpGame();
+            //await audioManager.WarmUpGame();
 
             GameStateMachine gameStateMachine = new GameStateMachine(stateMachine);
             gameStateMachine.Enter<LoadLevelState, int>(0); //TODO: Get level
@@ -52,8 +42,7 @@ namespace Infrastructure.StateMachines.Main.States
 
         public void Exit()
         {
-            audioManager.PlayBackground2DSound(AudioSources.Background, "GameBackground", 3, true);
-            audioManager.PlayBackground2DSound(AudioSources.Ambient, "Ambient", 3, true);
+            //audioManager.PlayGameBackground(); //Uncomment when have ambient and game background audio
             loadingScreenController.HideLoadingScreen(null);
             Resources.UnloadUnusedAssets();
         }

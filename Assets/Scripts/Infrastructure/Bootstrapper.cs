@@ -1,15 +1,32 @@
-﻿using Infrastructure.DI;
+﻿using Audio;
+using Cysharp.Threading.Tasks;
 using Infrastructure.Factories;
 using Infrastructure.StateMachines.Main.States;
-using Managers;
 using UI;
+using UI.LoadingScreen;
 using UnityEngine;
+using Zenject;
 
 namespace Infrastructure
 {
-    public class Bootstrapper: MonoBehaviour
+    /// <summary>
+    /// DonDestroyOnLoad class, that creates and stores Main instance
+    /// </summary>
+    public sealed class Bootstrapper: MonoBehaviour //TODO: Parallel asset loading
     {
+        [SerializeField] private ProjectSettings projectSettings;
+        
+        private ILoadingScreenFactory loadingScreenFactory;
+        private IAudioManagerFactory audioManagerFactory;
+        
         private Main main;
+
+        [Inject]
+        private void Construct(IAudioManagerFactory audioManagerFactory, ILoadingScreenFactory loadingScreenFactory)
+        {
+            this.loadingScreenFactory = loadingScreenFactory;
+            this.audioManagerFactory = audioManagerFactory;
+        }
         
         private void Awake()
         {
@@ -18,16 +35,12 @@ namespace Infrastructure
 
         private async void Start()
         {
-            BootstrapInstaller bootstrapInstaller = FindObjectOfType<BootstrapInstaller>();
-            IBootstrapFactory bootstrapFactory = bootstrapInstaller.Resolve<IBootstrapFactory>();
-
-            LoadingScreenView loadingScreenView = await bootstrapFactory.CreateLoadingScreen();
-            LoadingScreenController loadingScreenController = new LoadingScreenController(loadingScreenView);
-
-            AudioManager audioManager = await bootstrapFactory.CreateAudioManager();
+            AudioManager audioManager = await audioManagerFactory.CreateAudioManagerAsync();
+            LoadingScreenController loadingScreenController = await loadingScreenFactory.CreateLoadingScreenAsync();
+            SceneLoader sceneLoader = new SceneLoader();
             
-            main = new Main(loadingScreenController, audioManager);
-            main.StateMachine.Enter<BootstrapState>();
+            main = new Main(sceneLoader, loadingScreenController, audioManager);
+            main.StateMachine.Enter<BootstrapState, bool>(projectSettings.IsLoadMainMenu);
         }
     }
 }

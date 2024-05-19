@@ -2,8 +2,11 @@
 
 namespace Game.Player
 {
+    /// <summary>
+    /// Contains component links
+    /// </summary>
     public class PlayerView: MonoBehaviour
     {
-        public PlayerMove PlayerMove;
+        //Example: public MoveXYComponent MoveComponent;
     }
 }

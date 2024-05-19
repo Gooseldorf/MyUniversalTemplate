@@ -1,6 +1,7 @@
-﻿using Managers;
+﻿using Audio;
+using Infrastructure.StateMachines.Main;
 using UI;
-using MainStateMachine = Infrastructure.StateMachines.Main.MainStateMachine;
+using UI.LoadingScreen;
 
 namespace Infrastructure
 {
@@ -8,9 +9,9 @@ namespace Infrastructure
     {
         public readonly MainStateMachine StateMachine;
         
-        public Main(LoadingScreenController loadingScreenController, AudioManager audioManager)
+        public Main(SceneLoader sceneLoader, LoadingScreenController loadingScreenController, AudioManager audioManager)
         {
-            StateMachine = new MainStateMachine(new SceneLoader(), loadingScreenController, audioManager);
+            StateMachine = new MainStateMachine(sceneLoader, loadingScreenController, audioManager);
         }
     }
 }
