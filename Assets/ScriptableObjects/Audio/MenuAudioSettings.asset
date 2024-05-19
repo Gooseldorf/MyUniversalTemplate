@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e64df5c20e346f1b352b6eec8706fcc, type: 3}
   m_Name: MenuAudioSettings
   m_EditorClassIdentifier: 
-  BackgroundMusicName: 
+  BackgroundMusicName: MenuBackground
   DelayBetweenBackgroundLoops: 3
   IsFadeBackground: 1
   BackgroundFadeTime: 3

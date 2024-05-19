@@ -34,8 +34,8 @@ namespace Infrastructure.StateMachines.Main.States
         {
             MenuInstaller menuInstaller = Object.FindObjectOfType<MenuInstaller>();
             
-            UniTask<bool> warmAudioTask = audioManager.WarmUpMenu(); // Load sounds for menu
-            UniTask<MenuController> createMenuControllerTask = CreateMenuController(menuInstaller.Resolve<IMenuFactory>()); // create menu controller
+            UniTask<bool> warmAudioTask = audioManager.WarmUpMenu();
+            UniTask<MenuController> createMenuControllerTask = CreateMenuController(menuInstaller.Resolve<IMenuFactory>());
             
             var (audioManagerLoaded, menuController) = await UniTask.WhenAll(warmAudioTask, createMenuControllerTask); 
 

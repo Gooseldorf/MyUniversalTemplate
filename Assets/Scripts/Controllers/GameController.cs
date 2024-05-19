@@ -13,6 +13,11 @@ using UnityEngine;
 
 namespace Controllers
 {
+    public interface IGameController : IDispose
+    {
+        void Play(LevelData levelData);
+    }
+    
     public class GameController : IGameController
     {
         private readonly GameStateMachine gameStateMachine;

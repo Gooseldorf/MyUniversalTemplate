@@ -8,7 +8,7 @@ namespace Game.Environment
         [SerializeField] private RectTransform gameFieldRect;
         [SerializeField] private Canvas gameFieldCanvas;
 
-        public void SetUp()
+        public void Init()
         {
             gameFieldCanvas.worldCamera = Camera.main;
         }

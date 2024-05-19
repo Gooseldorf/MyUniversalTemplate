@@ -28,6 +28,7 @@ namespace Game.Weapon.Laser
         protected override LaserProjectileView Create()
         {
             LaserProjectileView projectile = ((LaserProjectileFactory)Factory).CreateLaserProjectile();
+            projectile.transform.SetParent(Container.transform);
             projectile.Init();
             projectile.CollisionStream.Subscribe(OnCollision).AddTo(disposes);
             projectile.gameObject.SetActive(false);

@@ -1,23 +1,24 @@
-﻿using Infrastructure.StateMachines.Game;
-using Infrastructure.StateMachines.Game.States;
+﻿using Controllers;
 
 namespace Infrastructure.StateMachines.Main.States
 {
-    public class GameState: IStateNoArg
+    public class GameState: IStateWithArg<IGameController>
     {
+        //private IGameController gameController;
+        
         public GameState()
         {
             
         }
 
-        public void Enter()
+        public void Enter(IGameController gameController)
         {
-            //TODO: Move to LoadGameState
+            //gameController.Init();
         }
 
         public void Exit()
         {
-            //TODO: Dispose GameStateMachine
+            //gameController.Dispose();
         }
     }
 }

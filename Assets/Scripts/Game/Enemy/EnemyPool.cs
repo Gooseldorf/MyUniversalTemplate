@@ -34,6 +34,7 @@ namespace Game.Enemy
         protected override EnemyView Create()
         {
             EnemyView obj = ((EnemyFactory)Factory).CreateEnemy();
+            obj.transform.SetParent(Container.transform);
             obj.gameObject.SetActive(false);
             return obj;
         }

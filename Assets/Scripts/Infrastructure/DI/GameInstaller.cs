@@ -5,10 +5,8 @@ using Game.Environment;
 using Game.Player;
 using Game.Weapon;
 using Infrastructure.AssetManagement;
-using Infrastructure.Factories;
 using Infrastructure.Services.Input;
 using UI.Game;
-using UnityEngine;
 
 namespace Infrastructure.DI
 {

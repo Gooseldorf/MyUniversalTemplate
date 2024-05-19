@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Audio;
-using Enums;
 using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using Interfaces;

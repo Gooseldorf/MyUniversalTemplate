@@ -39,7 +39,7 @@ namespace Game.Enemy
         public void Init()
         {
             SubscribeToViewCollisionStream();
-            enemyView.HitComponent.OnHit += OnHit;
+            enemyView.HitComponent.HitStream.Subscribe(OnHit).AddTo(disposes);
             isCanShoot = true;
         }
 
@@ -60,7 +60,6 @@ namespace Game.Enemy
         {
             disposes.Dispose();
             isCanShoot = false;
-            enemyView.HitComponent.OnHit -= OnHit;
         }
 
         private void SubscribeToViewCollisionStream()

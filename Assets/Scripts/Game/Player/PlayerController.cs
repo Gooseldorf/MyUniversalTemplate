@@ -10,18 +10,18 @@ namespace Game.Player
     public class PlayerController : IPlayerController
     {
         private readonly PlayerView playerView;
-        private readonly Bounds gameFieldBounds;
         private readonly IInputService inputService;
+        
+        private Bounds gameFieldBounds;
         private readonly CompositeDisposable disposes = new();
-        private readonly LaserWeaponController weaponController;
+        private LaserWeaponController weaponController;
 
         public event Action Dead;
+        public Transform ViewTransform => playerView.transform;
 
-        public PlayerController(PlayerView playerView, Bounds gameFieldBounds, LaserWeaponController weaponController, IInputService inputService)
+        public PlayerController(PlayerView playerView, IInputService inputService)
         {
             this.playerView = playerView;
-            this.gameFieldBounds = gameFieldBounds;
-            this.weaponController = weaponController;
             this.inputService = inputService;
         }
 
@@ -31,30 +31,40 @@ namespace Game.Player
             inputService.AttackStream.Subscribe(Shoot).AddTo(disposes);
             playerView.PlayerCollider.OnCollisionEnterAsObservable().
                 Where(collision => 
-                    collision.transform.parent != null &&
-                    ((collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && !laserProjectile.IsPlayerProjectile) || 
-                    collision.transform.parent.TryGetComponent(out EnemyView enemy)))
+                    collision.transform.parent != null 
+                    && (IsHitByEnemyProjectile(collision) || IsHitByEnemy(collision)))
                 .Subscribe(_ => OnHit(false))
                 .AddTo(disposes);
-            playerView.Hit.OnHit += OnHit;
+            playerView.Hit.HitStream.Subscribe(OnHit).AddTo(disposes);
         }
+
+        public void Dispose()
+        {
+            disposes.Dispose();
+        }
+
+        public void SetMovementBounds(Bounds bounds) => gameFieldBounds = bounds;
+
+        public void SetPosition(Vector3 position) => playerView.transform.position = position;
+
+        public void SetSpeed(float speed) => playerView.PlayerMove.SetSpeed(speed);
+
+        public void SetWeapon(LaserWeaponController laserWeaponController) => weaponController = laserWeaponController;
 
         public void Reset()
         {
             playerView.transform.position = new Vector3(0, -50, 0);
         }
 
+        private bool IsHitByEnemy(Collision collision) => collision.transform.parent.TryGetComponent(out EnemyView enemy);
+
+        private bool IsHitByEnemyProjectile(Collision collision) => (collision.transform.parent.TryGetComponent(out LaserProjectileView laserProjectile) && !laserProjectile.IsPlayerProjectile);
+
         private void OnHit(bool isPlayerProjectile)
         {
             if(isPlayerProjectile) return;
             Dead?.Invoke();
             Debug.Log("Dead");
-        }
-
-        public void Dispose()
-        {
-            playerView.Hit.OnHit -= OnHit;
-            disposes.Dispose();
         }
 
         private void Move(Vector2 moveVector)

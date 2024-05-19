@@ -19,21 +19,21 @@ namespace UI.Game
 
         public async UniTask<Canvas> CreateWindowsCanvas()
         {
-            GameObject canvas =  await assetProvider.InstantiateAddressable("WindowsCanvas");
+            GameObject canvas =  await assetProvider.InstantiateAddressableAsync("WindowsCanvas");
             canvas.TryGetComponent(out Canvas canvasComponent);
             return canvasComponent;
         }
 
         public async UniTask<HUDView> CreateHUD()
         {
-            GameObject hud = await assetProvider.InstantiateAddressable("HUD");
+            GameObject hud = await assetProvider.InstantiateAddressableAsync("HUD");
             hud.TryGetComponent(out HUDView hudView);
             return hudView;
         }
         
         public async UniTask<PauseWindowView> CreatePauseWindow(Canvas windowsCanvas)
         {
-            GameObject pauseWindow = await assetProvider.InstantiateAddressable("PauseWindow");
+            GameObject pauseWindow = await assetProvider.InstantiateAddressableAsync("PauseWindow");
             pauseWindow.transform.SetParent(windowsCanvas.transform, false);
             pauseWindow.TryGetComponent(out PauseWindowView pauseWindowView);
             pauseWindowView.Hide();
@@ -42,7 +42,7 @@ namespace UI.Game
         
         public async UniTask<WinWindowView> CreateWinWindow(Canvas windowsCanvas)
         {
-            GameObject winWindow = await assetProvider.InstantiateAddressable("WinWindow");
+            GameObject winWindow = await assetProvider.InstantiateAddressableAsync("WinWindow");
             winWindow.transform.SetParent(windowsCanvas.transform, false);
             winWindow.TryGetComponent(out WinWindowView winWindowView);
             winWindowView.Hide();
@@ -51,7 +51,7 @@ namespace UI.Game
         
         public async UniTask<LoseWindowView> CreateLoseWindow(Canvas windowsCanvas)
         {
-            GameObject loseWindow = await assetProvider.InstantiateAddressable("LoseWindow");
+            GameObject loseWindow = await assetProvider.InstantiateAddressableAsync("LoseWindow");
             loseWindow.transform.SetParent(windowsCanvas.transform, false);
             loseWindow.TryGetComponent(out LoseWindowView loseWindowView);
             loseWindowView.Hide();

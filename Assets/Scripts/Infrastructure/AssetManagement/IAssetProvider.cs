@@ -8,7 +8,7 @@ namespace Infrastructure.AssetManagement
     public interface IAssetProvider : IService
     {
         GameObject Instantiate(string path);
-        UniTask<GameObject> InstantiateAddressable(string address);
+        UniTask<GameObject> InstantiateAddressableAsync(string address);
         UniTask<List<T>> LoadAddressableLabel<T>(string labelName);
 #if UNITY_EDITOR
         UniTask<List<T>> LoadAddressableGroup<T>(string groupName);

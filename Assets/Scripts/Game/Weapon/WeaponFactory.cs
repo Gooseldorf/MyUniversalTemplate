@@ -6,6 +6,13 @@ using UnityEngine;
 
 namespace Game.Weapon
 {
+    public interface IWeaponFactory
+    {
+        UniTask WarmUpIfNeeded();
+        LaserWeaponView CreatePlayerLaserWeapon(Transform parent);
+        LaserWeaponView CreateEnemyLaserWeapon(Transform parent);
+    }
+    
     public class WeaponFactory : CachedGameObjectFactoryBase, IWeaponFactory
     {
         private GameObject playerLaserWeaponPrefab;
@@ -43,12 +50,5 @@ namespace Game.Weapon
             laserWeapon.TryGetComponent(out LaserWeaponView laserWeaponView);
             return laserWeaponView;
         }
-    }
-
-    public interface IWeaponFactory
-    {
-        UniTask WarmUpIfNeeded();
-        LaserWeaponView CreatePlayerLaserWeapon(Transform parent);
-        LaserWeaponView CreateEnemyLaserWeapon(Transform parent);
     }
 }

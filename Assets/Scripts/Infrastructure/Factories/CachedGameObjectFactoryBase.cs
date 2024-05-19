@@ -19,6 +19,6 @@ namespace Infrastructure.Factories
 
         protected async UniTask<GameObject> CachePrefab(string address) => await assetProvider.LoadAddressable<GameObject>(address);
 
-        protected GameObject CreateGameObject(GameObject prefab) => Object.Instantiate(prefab);
+        public GameObject CreateGameObject(GameObject prefab) => Object.Instantiate(prefab);
     }
 }

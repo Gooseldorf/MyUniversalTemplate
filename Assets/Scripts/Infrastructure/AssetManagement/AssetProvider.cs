@@ -26,7 +26,7 @@ namespace Infrastructure.AssetManagement
             return Object.Instantiate(prefab, position, Quaternion.identity);
         }
 
-        public async UniTask<GameObject> InstantiateAddressable(string address)
+        public async UniTask<GameObject> InstantiateAddressableAsync(string address)
         {
             var loadOp = Addressables.InstantiateAsync(address);
 

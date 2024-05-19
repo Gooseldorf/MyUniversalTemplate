@@ -13,6 +13,6 @@ namespace Infrastructure.Factories
             this.assetProvider = assetProvider;
         }
 
-        protected UniTask<GameObject> InstantiateAddressableAsync(string address) => assetProvider.InstantiateAddressable(address);
+        protected UniTask<GameObject> InstantiateAddressableAsync(string address) => assetProvider.InstantiateAddressableAsync(address);
     }
 }

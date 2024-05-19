@@ -14,7 +14,7 @@ namespace Infrastructure.StateMachines.Main
             {
                 [typeof(BootstrapState)] = new BootstrapState(this),
                 [typeof(LoadMenuState)] = new LoadMenuState(this, sceneLoader, loadingScreenController, audioManager),
-                [typeof(MenuState)] = new MenuState(this, audioManager),
+                [typeof(MenuState)] = new MenuState(),
                 [typeof(LoadGameState)] = new LoadGameState(this, sceneLoader, loadingScreenController, audioManager),
                 [typeof(GameState)] = new GameState(),
                 [typeof(QuitState)] = new QuitState()

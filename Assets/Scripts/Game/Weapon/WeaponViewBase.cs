@@ -1,8 +1,10 @@
-﻿namespace Game.Weapon.Laser
+﻿using UnityEngine;
+
+namespace Game.Weapon
 {
-    public class LaserWeaponView : WeaponViewBase
+    public class WeaponViewBase : MonoBehaviour
     {
-        /*[SerializeField] private ShotPoint[] shootPoints;
+        [SerializeField] private ShotPoint[] shootPoints;
         private int lastShootPointIndex;
 
         private void Awake()
@@ -26,6 +28,6 @@
             }
 
             return points;
-        }*/
+        }
     }
 }

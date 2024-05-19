@@ -20,9 +20,8 @@ namespace Audio
         [Foldout("Audio Sources")][SerializeField] private AudioSource backgroundSource;
 
         [Foldout("Settings")][SerializeField] private MenuAudioSettings menuAudioSettings;
-        [Foldout("Settings")] [SerializeField] private GameAudioSettings gameAudioSettings;
-        [Foldout("Settings")] [SerializeField] private AmbientAudioSettings ambientAudioSettings;
-
+        [Foldout("Settings")][SerializeField] private GameAudioSettings gameAudioSettings;
+        [Foldout("Settings")][SerializeField] private AmbientAudioSettings ambientAudioSettings;
         [Foldout("Settings")][SerializeField] private AudioSettings generalAudioSettings;
 
         [SerializeField] private AudioHolder audioHolder;

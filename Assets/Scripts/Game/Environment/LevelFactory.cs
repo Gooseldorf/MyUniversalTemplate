@@ -5,49 +5,31 @@ using UnityEngine;
 
 namespace Game.Environment
 {
-    public class LevelFactory : CachedGameObjectFactoryBase, ILevelFactory
+    public interface ILevelFactory
     {
-        private GameObject environmentPrefab;
-        private GameObject cityPrefab;
+        UniTask<EnvironmentView> CreateEnvironment();
+        UniTask<CityView> CreateCity();
+    }
+    
+    public class LevelFactory : GameObjectFactoryBase, ILevelFactory
+    {
         public LevelFactory(IAssetProvider assetProvider) : base(assetProvider)
         {
             this.assetProvider = assetProvider;
         }
 
-        public override async UniTask WarmUpIfNeeded()
+        public async UniTask<EnvironmentView> CreateEnvironment()
         {
-            if(environmentPrefab == null)
-                environmentPrefab = await CachePrefab("Environment");
-            if(cityPrefab == null)
-                cityPrefab = await CachePrefab("City");
-        }
-
-        public override void Clear()
-        {
-            environmentPrefab = null;
-            cityPrefab = null;
-        }
-
-        public EnvironmentView CreateEnvironment()
-        {
-            GameObject environmentObject = CreateGameObject(environmentPrefab);
+            GameObject environmentObject = await InstantiateAddressableAsync("Environment");
             environmentObject.TryGetComponent(out EnvironmentView environmentView);
             return environmentView;
         }
 
-        public CityView CreateCity()
+        public async UniTask<CityView> CreateCity()
         {
-            GameObject cityObject = CreateGameObject(cityPrefab);
+            GameObject cityObject = await InstantiateAddressableAsync("City");
             cityObject.TryGetComponent(out CityView cityView);
             return cityView;
         }
     } 
-
-    public interface ILevelFactory
-    {
-        EnvironmentView CreateEnvironment();
-        CityView CreateCity();
-
-        UniTask WarmUpIfNeeded();
-    }
 }
