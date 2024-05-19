@@ -1,14 +1,12 @@
-﻿using Game.Components;
-using Game.Weapon;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Player
 {
+    /// <summary>
+    /// Contains component links
+    /// </summary>
     public class PlayerView: MonoBehaviour
     {
-        public MoveXYComponent PlayerMove;
-        public ShootComponent PlayerShoot;
-        public Collider PlayerCollider;
-        public HitComponent Hit;
+        //Example: public MoveXYComponent MoveComponent;
     }
 }

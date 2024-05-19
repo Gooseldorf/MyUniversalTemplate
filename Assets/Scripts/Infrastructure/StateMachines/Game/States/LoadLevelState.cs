@@ -60,7 +60,7 @@ namespace Infrastructure.StateMachines.Game.States
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();
             IPlayerFactory playerFactory = gameInstaller.Resolve<IPlayerFactory>();
-            PlayerController playerController = await playerFactory.CreatePlayer(playerData, inputService);
+            PlayerController playerController = await playerFactory.CreatePlayerAsync(playerData, inputService);
             playerController.Init();
             playerController.SetMovementBounds(gameFieldBounds);
             

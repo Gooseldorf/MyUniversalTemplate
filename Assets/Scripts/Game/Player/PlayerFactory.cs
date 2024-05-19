@@ -9,20 +9,25 @@ namespace Game.Player
 {
     public interface IPlayerFactory
     {
-        UniTask<PlayerController> CreatePlayer(PlayerData playerData, IInputService inputService);
+        UniTask<PlayerController> CreatePlayerAsync(PlayerData playerData, IInputService inputService);
     }
     
     public class PlayerFactory : GameObjectFactoryBase, IPlayerFactory
     {
         public PlayerFactory(IAssetProvider assetProvider) : base(assetProvider) { }
         
-        public async UniTask<PlayerController> CreatePlayer(PlayerData playerData, IInputService inputService)
+        /// <summary>
+        /// Create player and SetInitialState
+        /// </summary>
+        public async UniTask<PlayerController> CreatePlayerAsync(PlayerData playerData, IInputService inputService)
         {
-            GameObject player =  await InstantiateAddressableAsync(playerData.PlayerAddress);
+            //Instantiate view
+            GameObject player = await InstantiateAddressableAsync(playerData.PlayerAddress);
             player.TryGetComponent(out PlayerView playerView);
+            
+            //Create controller
             PlayerController playerController = new PlayerController(playerView, inputService);
-            playerController.SetPosition(playerData.PlayerStartPosition);
-            playerController.SetSpeed(playerData.PlayerSpeed);
+            playerController.SetToInitialState(playerData);
             return playerController;
         }
     }

@@ -66,7 +66,7 @@ namespace Controllers
 
         public async void Play(LevelData levelData)
         {
-            playerController.Reset();
+            playerController.SetToInitialState();
             enemiesController.Reset();
             await enemiesController.SetupEnemies(levelData);
             hudController.Reset();

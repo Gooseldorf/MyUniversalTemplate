@@ -12,6 +12,8 @@ namespace Game.Components
         public IObservable<bool> HitStream => hitStreamSubject;
         
         private readonly Subject<bool> hitStreamSubject = new Subject<bool>();
+        
+        
 
         public void Hit(bool isPlayerProjectile) => hitStreamSubject.OnNext(isPlayerProjectile);
     }
