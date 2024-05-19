@@ -4,17 +4,11 @@ using UnityEngine;
 
 namespace Game.Components
 {
-    [RequireComponent(typeof(Collider))]
     public class HitComponent : MonoBehaviour
     {
-        [SerializeField] private Collider collider;
+        public IObservable<Unit> HitStream => hitStreamSubject;
+        private readonly Subject<Unit> hitStreamSubject = new Subject<Unit>();
         
-        public IObservable<bool> HitStream => hitStreamSubject;
-        
-        private readonly Subject<bool> hitStreamSubject = new Subject<bool>();
-        
-        
-
-        public void Hit(bool isPlayerProjectile) => hitStreamSubject.OnNext(isPlayerProjectile);
+        public void Hit() => hitStreamSubject.OnNext(new Unit());
     }
 }
