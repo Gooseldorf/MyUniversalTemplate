@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data;
+using Infrastructure.AssetManagement;
 using Infrastructure.StateMachines.Game.States;
 using Infrastructure.StateMachines.Main;
+using UI;
 
 namespace Infrastructure.StateMachines.Game
 {
     public class GameStateMachine : StateMachineBase
     {
-        public int CurrentLevelIndex { get; private set; }
-        public int NextLevelIndex { get; private set; }
-        
+        public int CurrentLevelIndex;
+        public int NextLevelIndex;
         public GameStateMachine(MainStateMachine mainStateMachine)
         {
+            CurrentLevelIndex = 0;
             States = new Dictionary<Type, IState>()
             {
                 [typeof(LoadLevelState)] = new LoadLevelState(this),

@@ -11,15 +11,19 @@ namespace Editor
     public static class LoadSceneOnPlay
     {
         private static int startingSceneIndex = 0;
+        private static bool enable = false;
 
         [InitializeOnLoadMethod]
         private static void InitializeOnLoad()
         {
-            EditorApplication.playModeStateChanged += OnPlayModeChange;
+            if(enable)
+                EditorApplication.playModeStateChanged += OnPlayModeChange;
         }
 
         private static void OnPlayModeChange(PlayModeStateChange state)
         {
+            if(!enable) return;
+            
             if (state == PlayModeStateChange.ExitingEditMode)
                 startingSceneIndex = SceneManager.GetActiveScene().buildIndex;
             

@@ -2,11 +2,18 @@
 
 namespace Controllers
 {
+    public interface ITimeController
+    {
+        bool IsPaused { get; }
+        void Pause();
+        void Unpause();
+    }
+    
     public class TimeController : ITimeController
     {
         public bool IsPaused => isPaused;
 
-        private bool isPaused = false;
+        private bool isPaused = true;
 
         public void Pause()
         {

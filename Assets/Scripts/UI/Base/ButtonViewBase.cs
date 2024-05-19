@@ -9,7 +9,7 @@ namespace UI.Base
     {
         [SerializeField] private protected Button Button;
         
-        public IObservable<Unit> OnClickObservable => onClickSubject;
+        public IObservable<Unit> OnClickStream => onClickSubject;
         
         private readonly Subject<Unit> onClickSubject = new Subject<Unit>();
 
@@ -20,5 +20,7 @@ namespace UI.Base
             else
                 Debug.LogError($"{GetType()} no button component!");
         }
+
+        public void Toggle(bool enable) => Button.interactable = enable;
     }
 }

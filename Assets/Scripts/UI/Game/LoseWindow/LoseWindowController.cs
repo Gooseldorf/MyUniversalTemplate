@@ -10,7 +10,7 @@ namespace UI.Game.LoseWindow
         private readonly GameStateMachine gameStateMachine;
         private readonly LoseWindowView loseWindowView;
         
-        public LoseWindowController(GameStateMachine gameStateMachine, LoseWindowView loseWindowView)
+        public LoseWindowController(LoseWindowView loseWindowView, GameStateMachine gameStateMachine)
         {
             this.gameStateMachine = gameStateMachine;
             this.loseWindowView = loseWindowView;
@@ -27,7 +27,8 @@ namespace UI.Game.LoseWindow
         
         private void Restart()
         {
-            gameStateMachine.Enter<LoadLevelState, int>(gameStateMachine.CurrentLevelIndex);
+            Hide();
+            gameStateMachine.Enter<StartState, int>(gameStateMachine.CurrentLevelIndex);
         }
 
         private void Exit()
@@ -37,8 +38,8 @@ namespace UI.Game.LoseWindow
 
         private void SubscribeToClicks()
         {
-            loseWindowView.RestartButton.OnClickAsObservable.Subscribe(OnRestartClick).AddTo(disposables);
-            loseWindowView.ExitButton.OnClickAsObservable.Subscribe(OnExitClick).AddTo(disposables);
+            loseWindowView.RestartButton.OnClickStream.Subscribe(OnRestartClick).AddTo(disposables);
+            loseWindowView.ExitButton.OnClickStream.Subscribe(OnExitClick).AddTo(disposables);
         }
 
         private void OnRestartClick(Unit unit) => Restart();

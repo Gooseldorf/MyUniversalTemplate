@@ -1,17 +1,12 @@
 ﻿using Controllers;
-using Managers;
 
 namespace Infrastructure.StateMachines.Main.States
 {
     public class MenuState : IStateWithArg<IMenuController>
     {
-        private readonly MainStateMachine stateMachine;
         private IMenuController menuController;
 
-        public MenuState(MainStateMachine mainStateMachine, AudioManager audioManager)
-        {
-            stateMachine = mainStateMachine;
-        }
+        public MenuState() { }
 
         public void Enter(IMenuController menuController)
         {

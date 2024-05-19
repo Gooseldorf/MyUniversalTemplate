@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.StateMachines.Game.States
+﻿using Controllers;
+
+namespace Infrastructure.StateMachines.Game.States
 {
     public class LoseState : IStateNoArg
     {

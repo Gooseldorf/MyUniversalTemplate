@@ -1,13 +1,11 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Data
 {
     [CreateAssetMenu(fileName = "LevelData", menuName = "ScriptableObjects/Level/LevelData")]
     public class LevelData : ScriptableObject
     {
+        public int Index;
         public string EnvironmentAddress;
-        public string PlayerAddress;
-        public float3 PlayerPosition;
     }
 }

@@ -1,12 +1,15 @@
 ﻿using Infrastructure;
 using Infrastructure.StateMachines.Main;
 using Infrastructure.StateMachines.Main.States;
+using Interfaces;
 using UI.Menu;
 using UniRx;
 using UnityEngine;
 
 namespace Controllers
 {
+    public interface IMenuController : IInit, IDispose { }
+    
     public class MenuController : IMenuController
     {
         private readonly MenuPanelView menuPanelView;
@@ -31,17 +34,14 @@ namespace Controllers
         
         private void SubscribeToClicks()
         {
-            menuPanelView.StartButton.OnClickAsObservable.Subscribe(OnStartClick).AddTo(disposables);
-            menuPanelView.SettingsButton.OnClickAsObservable.Subscribe(OnSettingsClick).AddTo(disposables);
-            menuPanelView.ExitButton.OnClickAsObservable.Subscribe(OnExitClick).AddTo(disposables);
+            menuPanelView.StartButton.OnClickStream.Subscribe(OnStartClick).AddTo(disposables);
+            menuPanelView.SettingsButton.OnClickStream.Subscribe(OnSettingsClick).AddTo(disposables);
+            menuPanelView.ExitButton.OnClickStream.Subscribe(OnExitClick).AddTo(disposables);
         }
 
         private void OnStartClick(Unit unit) => StartGame();
 
-        private void StartGame()
-        {
-            mainStateMachine.Enter<LoadGameState, string>(Constants.GAME_SCENE_NAME);
-        }
+        private void StartGame() => mainStateMachine.Enter<LoadGameState, string>(Constants.GAME_SCENE_NAME);
 
         private void OnSettingsClick(Unit unit) => OpenSettings();
 
@@ -52,9 +52,6 @@ namespace Controllers
 
         private void OnExitClick(Unit unit) => Exit();
 
-        private void Exit()
-        {
-            mainStateMachine.Enter<QuitState>();
-        }
+        private void Exit() => mainStateMachine.Enter<QuitState>();
     }
 }

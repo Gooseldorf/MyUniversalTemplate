@@ -1,9 +1,9 @@
-﻿using Controllers;
-using Enums;
+﻿using Audio;
+using Controllers;
+using Cysharp.Threading.Tasks;
 using Infrastructure.DI;
-using Infrastructure.Factories;
-using Managers;
 using UI;
+using UI.LoadingScreen;
 using UI.Menu;
 using UnityEngine;
 
@@ -16,7 +16,6 @@ namespace Infrastructure.StateMachines.Main.States
         private readonly LoadingScreenController loadingScreenController;
         private readonly AudioManager audioManager;
 
-
         public LoadMenuState(MainStateMachine stateMachine, SceneLoader sceneLoader, LoadingScreenController loadingScreenController, AudioManager audioManager)
         {
             this.sceneLoader = sceneLoader;
@@ -28,27 +27,32 @@ namespace Infrastructure.StateMachines.Main.States
         public void Enter()
         {
             loadingScreenController?.ShowLoadingScreen(null);
-            sceneLoader.Load(Constants.MENU_SCENE_NAME, OnLoad);
+            sceneLoader.Load(Constants.MENU_SCENE_NAME, OnMenuSceneLoaded);
         }
 
-        private async void OnLoad()
+        private async void OnMenuSceneLoaded()
         {
-            await audioManager.WarmUpMenu();
             MenuInstaller menuInstaller = Object.FindObjectOfType<MenuInstaller>();
             
-            IMenuFactory menuFactory = menuInstaller.Resolve<IMenuFactory>();
+            UniTask<bool> warmAudioTask = audioManager.WarmUpMenu(); 
+            UniTask<MenuController> createMenuControllerTask = CreateMenuController(menuInstaller.Resolve<IMenuFactory>());
             
-            MenuPanelView menuView = await menuFactory.CreateMenu();
-            MenuController controller = new MenuController(stateMachine, menuView);
-            
-            stateMachine.Enter<MenuState, IMenuController>(controller);
+            var (audioManagerLoaded, menuController) = await UniTask.WhenAll(warmAudioTask, createMenuControllerTask); 
+
+            stateMachine.Enter<MenuState, IMenuController>(menuController);
         }
 
         public void Exit()
         {
-            audioManager.PlayBackground2DSound(AudioSources.Background, "MenuBackground", 3, true);
-            loadingScreenController.HideLoadingScreen(null);
             Resources.UnloadUnusedAssets();
+            //audioManager.PlayMenuBackground(); //Uncomment when have menuBackgroundMusic
+            loadingScreenController.HideLoadingScreen(null);
+        }
+
+        private async UniTask<MenuController> CreateMenuController(IMenuFactory menuFactory)
+        {
+            MenuController menuController = await menuFactory.CreateMenu(stateMachine);
+            return menuController;
         }
     }
 }
