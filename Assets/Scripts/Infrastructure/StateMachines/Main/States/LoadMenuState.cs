@@ -34,7 +34,7 @@ namespace Infrastructure.StateMachines.Main.States
         {
             MenuInstaller menuInstaller = Object.FindObjectOfType<MenuInstaller>();
             
-            UniTask<bool> warmAudioTask = audioManager.WarmUpMenu();
+            UniTask<bool> warmAudioTask = audioManager.WarmUpMenu(); 
             UniTask<MenuController> createMenuControllerTask = CreateMenuController(menuInstaller.Resolve<IMenuFactory>());
             
             var (audioManagerLoaded, menuController) = await UniTask.WhenAll(warmAudioTask, createMenuControllerTask); 
@@ -45,7 +45,7 @@ namespace Infrastructure.StateMachines.Main.States
         public void Exit()
         {
             Resources.UnloadUnusedAssets();
-            audioManager.PlayMenuBackground();
+            //audioManager.PlayMenuBackground(); //Uncomment when have menuBackgroundMusic
             loadingScreenController.HideLoadingScreen(null);
         }
 

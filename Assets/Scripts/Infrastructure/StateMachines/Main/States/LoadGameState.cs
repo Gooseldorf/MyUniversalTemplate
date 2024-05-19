@@ -34,7 +34,7 @@ namespace Infrastructure.StateMachines.Main.States
 
         private async void OnLoad()
         {
-            await audioManager.WarmUpGame();
+            //await audioManager.WarmUpGame();
 
             GameStateMachine gameStateMachine = new GameStateMachine(stateMachine);
             gameStateMachine.Enter<LoadLevelState, int>(0); //TODO: Get level
@@ -42,7 +42,7 @@ namespace Infrastructure.StateMachines.Main.States
 
         public void Exit()
         {
-            audioManager.PlayGameBackground();
+            //audioManager.PlayGameBackground(); //Uncomment when have ambient and game background audio
             loadingScreenController.HideLoadingScreen(null);
             Resources.UnloadUnusedAssets();
         }

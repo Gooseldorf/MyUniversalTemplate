@@ -32,20 +32,14 @@ namespace Infrastructure.StateMachines.Game.States
         public async void Enter(int levelIndex)
         {
             GameInstaller gameInstaller = Object.FindObjectOfType<GameInstaller>();
+            
             ITimeController timeController = gameInstaller.Resolve<ITimeController>();
             IAudioManager audioManager = gameInstaller.Resolve<IAudioManager>();
             IAssetProvider assetProvider = gameInstaller.Resolve<IAssetProvider>();
             Updater updater = await CreateUpdater(assetProvider);
             
-            //Load LevelData by index
-            LevelData levelData = await assetProvider.LoadAddressable<LevelData>($"Level_{levelIndex}");
             PlayerData playerData = await assetProvider.LoadAddressable<PlayerData>("PlayerData");
             HUDData hudData = await assetProvider.LoadAddressable<HUDData>("HUDData");
-            
-            //CreateEnvironment
-            ILevelFactory levelFactory = gameInstaller.Resolve<ILevelFactory>();
-            EnvironmentView environmentView = await levelFactory.CreateEnvironment();
-            environmentView.Init();
             
             //CreatePlayer
             IInputService inputService = gameInstaller.Resolve<IInputService>();

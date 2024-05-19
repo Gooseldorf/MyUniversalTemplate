@@ -22,23 +22,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 95e84da95ddf74ee785e83c9afddb3e8
-    m_Address: LaserProjectile
+  - m_GUID: 52b832ae2b33c7946b2ae018b3860de7
+    m_Address: AudioManager
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8ce099ae07fad9c40b36d9a6def20a9b
-    m_Address: PlayerLaserWeapon
+  - m_GUID: 62bacb6d60c19d54bb03c059ac767d70
+    m_Address: Updater
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1706857134aeea44c80bc137871cceee
-    m_Address: EnemyLaserWeapon
+  - m_GUID: c0bf23bd8f89f3241b571d69b17ce11c
+    m_Address: HUDData
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b5a9bc2830a6d394cb8561bab46935f2
-    m_Address: Explosion
+  - m_GUID: 2565f40c3e378fc49aef588603c7747f
+    m_Address: Level_0
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
