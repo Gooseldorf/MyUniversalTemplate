@@ -7,11 +7,10 @@ namespace UI.Game.WinWindow
 {
     public class WinWindowController : WindowControllerBase
     {
-        private const int maxLevelIndex = 4;
         private readonly GameStateMachine gameStateMachine;
         private readonly WinWindowView winWindowView;
         
-        public WinWindowController(GameStateMachine gameStateMachine, WinWindowView winWindowView)
+        public WinWindowController(WinWindowView winWindowView, GameStateMachine gameStateMachine)
         {
             this.gameStateMachine = gameStateMachine;
             this.winWindowView = winWindowView;
@@ -22,12 +21,7 @@ namespace UI.Game.WinWindow
             SubscribeToClicks();
         }
 
-        public override void Show()
-        {
-            if(gameStateMachine.CurrentLevelIndex >= 4)
-                winWindowView.NextLevelButton.Toggle(false);
-            winWindowView.AnimateShow(null);
-        }
+        public override void Show() => winWindowView.AnimateShow(null);
 
         public override void Hide() => winWindowView.AnimateHide(null);
         
@@ -44,16 +38,13 @@ namespace UI.Game.WinWindow
             gameStateMachine.Enter<StartState, int>(gameStateMachine.CurrentLevelIndex);
         }
 
-        private void Exit()
-        {
-            gameStateMachine.Enter<QuitToMenuState>();
-        }
+        private void Exit() => gameStateMachine.Enter<QuitToMenuState>();
 
         private void SubscribeToClicks()
         {
-            winWindowView.NextLevelButton.OnClickAsObservable.Subscribe(OnNextLevelClick).AddTo(disposables);
-            winWindowView.ExitButton.OnClickAsObservable.Subscribe(OnExitClick).AddTo(disposables);
-            winWindowView.RestartButton.OnClickAsObservable.Subscribe(OnRestartClick).AddTo(disposables);
+            winWindowView.NextLevelButton.OnClickStream.Subscribe(OnNextLevelClick).AddTo(disposables);
+            winWindowView.ExitButton.OnClickStream.Subscribe(OnExitClick).AddTo(disposables);
+            winWindowView.RestartButton.OnClickStream.Subscribe(OnRestartClick).AddTo(disposables);
         }
 
         private void OnNextLevelClick(Unit unit) => NextLevel();

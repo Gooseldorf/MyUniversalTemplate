@@ -1,55 +1,38 @@
-﻿using Controllers;
-using Game.Enemy;
+﻿using Interfaces;
 using UniRx;
 
 namespace UI.Game.HUD
 {
+    public interface IHUDController : IInit, IDispose
+    {
+        
+    }
+    
     public class HUDController : IHUDController 
     {
         private readonly HUDView hudView;
-        private readonly EnemiesController enemiesController;
+        private HUDData initialHUDData;
+
+        private readonly CompositeDisposable disposes = new CompositeDisposable();
         
-        private int currentScore;
-        
-        private CompositeDisposable disposes = new CompositeDisposable();
-        public HUDController(HUDView hudView, EnemiesController enemiesController)
+        public HUDController(HUDView hudView, HUDData hudData)
         {
             this.hudView = hudView;
-            this.enemiesController = enemiesController;
+            initialHUDData = hudData;
         }
-
+        
         public void Init()
         {
-            enemiesController.EnemyKilledStream.Subscribe(OnEnemyKilled).AddTo(disposes);
-            currentScore = 0;
+            //Subscribe to streams here
         }
+        
+        public void Dispose() => disposes.Dispose();
+        
+        public void SetToInitialState(){}
 
-        private void OnEnemyKilled(Unit unit)
+        public void SetState(HUDData hudData)
         {
-            currentScore++;
-            hudView.SetScore(currentScore);
-        }
-
-        private void ResetScore()
-        {
-            currentScore = 0;
-            hudView.SetScore(currentScore);
-        }
-
-        public void Dispose()
-        {
-            disposes.Dispose();
-        }
-
-        public void Reset()
-        {
-            hudView.SetLevel(0);
-            ResetScore();
-        }
-
-        public void SetLevel(int levelDataIndex)
-        {
-            hudView.SetLevel(levelDataIndex);
+            initialHUDData = hudData;
         }
     }
 }

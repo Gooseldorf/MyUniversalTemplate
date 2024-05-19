@@ -7,10 +7,5 @@ namespace Data
     {
         public int Index;
         public string EnvironmentAddress;
-        
-        public string EnemyDataAddress;
-        public int NumberOfEnemies;
-        public float EnemySpeedMultiplier;
-        public float EnemySpawnDelay;
     }
 }

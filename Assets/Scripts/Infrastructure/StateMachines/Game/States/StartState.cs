@@ -30,9 +30,9 @@ namespace Infrastructure.StateMachines.Game.States
                 gameInstaller = Object.FindObjectOfType<GameInstaller>();
             IGameController gameController = gameInstaller.Resolve<IGameController>();
             LevelData levelData = await GetCurrentLevelData();
-            mainStateMachine.Enter<GameState, IGameController>(gameController);
+            mainStateMachine.Enter<GameState>();
             gameStateMachine.Enter<LevelState>();
-            gameController.Play(levelData);
+            gameController.Play();
             Debug.Log($"{levelIndex} level started");
         }
 

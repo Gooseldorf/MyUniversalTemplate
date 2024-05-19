@@ -27,7 +27,6 @@ namespace Game.Player
             
             //Create controller
             PlayerController playerController = new PlayerController(playerView, inputService);
-            playerController.SetToInitialState(playerData);
             return playerController;
         }
     }

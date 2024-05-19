@@ -7,6 +7,5 @@ namespace Data
     {
         public string PlayerAddress;
         public Vector3 PlayerStartPosition;
-        public float PlayerSpeed;
     }
 }

@@ -8,7 +8,8 @@ namespace Game.Player
 {
     public interface IPlayerController : IInit, IDispose
     {
-        void SetToInitialState(PlayerData playerData);
+        void SetToInitialState();        
+        void SetToState(PlayerData playerData);
         void SetPosition(Vector3 position);
     }
     
@@ -26,23 +27,17 @@ namespace Game.Player
             this.inputService = inputService;
         }
 
-        /// <summary>
-        /// Subscribe to playerView and inputService streams
-        /// </summary>
         public void Init()
         {
+            //Sub to streams here
             //Example: inputService.Move2DStream.Subscribe(Move).AddTo(disposes);
         }
 
-        /// <summary>
-        /// Unsub from playerView and inputService streams 
-        /// </summary>
         public void Dispose() => disposes.Dispose();
 
-        /// <summary>
-        /// Sets playerController to data state.
-        /// </summary>
-        public void SetToInitialState(PlayerData playerData)
+        public void SetToInitialState() { }
+
+        public void SetToState(PlayerData playerData)
         {
             initialPlayerData = playerData;
         }

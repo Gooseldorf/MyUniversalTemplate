@@ -1,9 +1,9 @@
 ﻿using Audio;
 using Controllers;
 using Cysharp.Threading.Tasks;
-using Enums;
 using Infrastructure.DI;
 using UI;
+using UI.LoadingScreen;
 using UI.Menu;
 using UnityEngine;
 

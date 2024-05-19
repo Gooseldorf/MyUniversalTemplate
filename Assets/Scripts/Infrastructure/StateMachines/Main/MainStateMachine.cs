@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using Audio;
 using Infrastructure.StateMachines.Main.States;
 using UI;
+using UI.LoadingScreen;
 
 namespace Infrastructure.StateMachines.Main
 {
+    /// <summary>
+    /// Application state machine
+    /// </summary>
     public class MainStateMachine : StateMachineBase
     {
         public MainStateMachine(SceneLoader sceneLoader, LoadingScreenController loadingScreenController, AudioManager audioManager)

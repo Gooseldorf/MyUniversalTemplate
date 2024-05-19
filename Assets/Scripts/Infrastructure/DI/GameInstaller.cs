@@ -1,9 +1,7 @@
 ﻿using Audio;
 using Controllers;
-using Game.Enemy;
 using Game.Environment;
 using Game.Player;
-using Game.Weapon;
 using Infrastructure.AssetManagement;
 using Infrastructure.Services.Input;
 using UI.Game;
@@ -24,15 +22,10 @@ namespace Infrastructure.DI
 
         private void BindFactories()
         {
+            Container.Bind<IAudioManagerFactory>().To<AudioManagerFactory>().AsSingle();
             Container.Bind<IGameUIFactory>().To<GameUIFactory>().AsSingle();
             Container.Bind<ILevelFactory>().To<LevelFactory>().AsSingle();
-            Container.Bind<IWeaponFactory>().To<WeaponFactory>().AsSingle();
             Container.Bind<IPlayerFactory>().To<PlayerFactory>().AsSingle();
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle();
         }
-
-        public void BindAsSingle<IT, T>() where T : IT => Container.Bind<IT>().To<T>().AsSingle();
-
-        public void BindAsSingleFromInstance<IT, T>(T instance) where T : IT => Container.Bind<IT>().To<T>().FromInstance(instance).AsSingle();
     }
 }

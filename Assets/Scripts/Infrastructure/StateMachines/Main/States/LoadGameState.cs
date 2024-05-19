@@ -4,6 +4,7 @@ using Infrastructure.StateMachines.Game;
 using Infrastructure.StateMachines.Game.States;
 using Interfaces;
 using UI;
+using UI.LoadingScreen;
 using UnityEngine;
 
 namespace Infrastructure.StateMachines.Main.States
